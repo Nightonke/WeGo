@@ -50,6 +50,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 if (position == lastTitlePosition) return;
                 YoYo.with(Techniques.FadeOutUp)
                         .duration(300)
+                        .withListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationCancel(Animator animation) {
+                                super.onAnimationCancel(animation);
+                                findView(titles[lastTitlePosition]).setVisibility(View.GONE);
+                            }
+                        })
                         .playOn(findViewById(titles[lastTitlePosition]));
                 YoYo.with(Techniques.BounceInUp)
                         .duration(700)

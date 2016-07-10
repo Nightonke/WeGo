@@ -41,7 +41,7 @@ public class ExerciseDetailActivity extends BaseActivity implements TitleLayout.
         titleLayout.setOnTitleActionListener(this);
         scrollView = findView(R.id.scroll_view);
         kenBurnsView = findView(R.id.image);
-        Picasso.with(mContext).load(exercise.getPicUrl()).into(kenBurnsView);
+        Picasso.with(mContext).load(exercise.getPic_store()).into(kenBurnsView);
         title = findView(R.id.title);
         title.setText(exercise.getName());
         time = findView(R.id.time);
