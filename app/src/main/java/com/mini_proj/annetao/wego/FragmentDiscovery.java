@@ -1,5 +1,6 @@
 package com.mini_proj.annetao.wego;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -27,6 +28,13 @@ public class FragmentDiscovery extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View messageLayout = inflater.inflate(R.layout.fragment_discovery, container, false);
+
+        messageLayout.findViewById(R.id.search).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), FilterActivity.class));
+            }
+        });
 
         tagGroup = (TagGroup) messageLayout.findViewById(R.id.tag_group);
         tagGroup.setTags(Tag.getAllTagName());

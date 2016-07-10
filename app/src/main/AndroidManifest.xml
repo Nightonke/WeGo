@@ -32,7 +32,9 @@
                 <data android:scheme="tencent1105456541" />
             </intent-filter>
         </activity>
-        <activity android:name=".ExerciseDetailActivity"></activity>
+        <activity android:name=".ExerciseDetailActivity" />
+        <activity android:name=".ExerciseSignUpActivity" />
+        <activity android:name=".FilterActivity"></activity>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.mini_proj.annetao.wego;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ScrollView;
@@ -71,7 +72,7 @@ public class ExerciseDetailActivity extends BaseActivity implements TitleLayout.
 
     @Override
     public void clickTitleEdit() {
-
+        startActivity(new Intent(mContext, ExerciseSignUpActivity.class));
     }
 
     private void openMap() {
