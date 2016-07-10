@@ -13,8 +13,7 @@
         app:layout_moreProgress="@layout/layout_more_progress"
         app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"
         app:recyclerClipToPadding="false"
-        app:recyclerPadding="16dp"
-        app:scrollbarStyle="insideInset"/>
+        app:scrollbarStyle="outsideOverlay"/>
 
     <TextView
         android:id="@+id/map_view"

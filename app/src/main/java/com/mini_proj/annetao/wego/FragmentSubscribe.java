@@ -20,4 +20,8 @@ public class FragmentSubscribe extends Fragment {
         return messageLayout;
     }
 
+    public void subscribe() {
+
+    }
+
 }

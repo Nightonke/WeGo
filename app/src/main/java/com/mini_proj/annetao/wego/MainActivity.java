@@ -18,9 +18,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ViewPager viewPager;
     private int[] titles = new int[]{R.id.home_title, R.id.discovery_title, R.id.subscribe_title, R.id.message_title, R.id.me_title};
     private int lastTitlePosition = 0;
+    private int[] buttons = new int[]{R.id.home_toggle_view, R.id.discovery_toggle_view, R.id.subscribe};
+    private int lastButtonPosition = 0;
 
     private SoftReference<FragmentHome> fragmentHomeSoftReference;
     private SoftReference<FragmentDiscovery> fragmentDiscoverySoftReference;
+    private SoftReference<FragmentSubscribe> fragmentSubscribeSoftReference;
+
+    private View homeToggleViewButton;
+    private View discoveryToggleViewButton;
+    private View subscribeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,24 +53,34 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             @Override
                             public void onAnimationStart(Animator animation) {
                                 super.onAnimationStart(animation);
-                                findViewById(titles[position]).setVisibility(View.VISIBLE);
+                                findView(titles[position]).setVisibility(View.VISIBLE);
                             }
                         })
                         .playOn(findViewById(titles[position]));
-                if (position == 0 || position == 1) {
-                    if (lastTitlePosition == 0 || lastTitlePosition == 1) return;
-                    findView(R.id.toggle_view).setEnabled(true);
-                    YoYo.with(Techniques.BounceInRight)
+
+                if (position < 3) {
+                    if (lastButtonPosition < 3) YoYo.with(Techniques.FadeOutRight).duration(300).playOn(findViewById(buttons[lastButtonPosition]));
+                    YoYo.with(Techniques.BounceInUp)
                             .duration(700)
-                            .playOn(findViewById(R.id.toggle_view));
+                            .withListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationStart(Animator animation) {
+                                    super.onAnimationStart(animation);
+                                    findView(buttons[position]).bringToFront();
+                                    findView(buttons[position]).setVisibility(View.VISIBLE);
+                                }
+
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    super.onAnimationEnd(animation);
+                                }
+                            })
+                            .playOn(findViewById(buttons[position]));
                 } else {
-                    if (lastTitlePosition != 0 && lastTitlePosition != 1) return;
-                    findView(R.id.toggle_view).setEnabled(false);
-                    YoYo.with(Techniques.FadeOutRight)
-                            .duration(700)
-                            .playOn(findViewById(R.id.toggle_view));
+                    if (lastButtonPosition < 3) YoYo.with(Techniques.FadeOutRight).duration(300).playOn(findViewById(buttons[lastButtonPosition]));
                 }
                 lastTitlePosition = position;
+                lastButtonPosition = position;
             }
 
             @Override
@@ -81,7 +98,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     case 1:
                         fragmentDiscoverySoftReference = new SoftReference<>(new FragmentDiscovery());
                         return fragmentDiscoverySoftReference.get();
-                    case 2: return new FragmentSubscribe();
+                    case 2:
+                        fragmentSubscribeSoftReference = new SoftReference<>(new FragmentSubscribe());
+                        return fragmentSubscribeSoftReference.get();
                     case 3: return new FragmentMessage();
                     case 4: return new FragmentMe();
                 }
@@ -99,7 +118,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findView(R.id.tab_subscribe).setOnClickListener(this);
         findView(R.id.tab_message).setOnClickListener(this);
         findView(R.id.tab_me).setOnClickListener(this);
-        findView(R.id.toggle_view).setOnClickListener(this);
+        homeToggleViewButton = findView(R.id.home_toggle_view);
+        homeToggleViewButton.setOnClickListener(this);
+        discoveryToggleViewButton = findView(R.id.discovery_toggle_view);
+        discoveryToggleViewButton.setOnClickListener(this);
+        subscribeButton = findView(R.id.subscribe);
+        subscribeButton.setOnClickListener(this);
     }
 
     @Override
@@ -120,8 +144,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.tab_me:
                 viewPager.setCurrentItem(4, true);
                 break;
-            case R.id.toggle_view:
+            case R.id.home_toggle_view:
                 toggleView();
+                break;
+            case R.id.discovery_toggle_view:
+                toggleView();
+                break;
+            case R.id.subscribe:
+                subScribe();
                 break;
         }
     }
@@ -129,5 +159,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void toggleView() {
         if (viewPager.getCurrentItem() == 0 && fragmentHomeSoftReference != null && fragmentHomeSoftReference.get() != null) fragmentHomeSoftReference.get().toggleView();
         if (viewPager.getCurrentItem() == 1 && fragmentDiscoverySoftReference != null && fragmentDiscoverySoftReference.get() != null) fragmentDiscoverySoftReference.get().toggleView();
+    }
+
+    private void subScribe() {
+        if (viewPager.getCurrentItem() == 2 && fragmentSubscribeSoftReference != null && fragmentSubscribeSoftReference.get() != null) fragmentSubscribeSoftReference.get().subscribe();
     }
 }
