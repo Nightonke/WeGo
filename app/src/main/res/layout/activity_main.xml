@@ -1,16 +1,302 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.mini_proj.annetao.wego.MainActivity">
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
-</RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/bottom_tab_background">
+
+        <TextView
+            android:id="@+id/home_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="首页"
+            android:textColor="@color/action_bar_text"
+            android:layout_centerInParent="true"
+            android:textSize="16sp"
+            />
+
+        <TextView
+            android:id="@+id/discovery_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发现"
+            android:textColor="@color/action_bar_text"
+            android:layout_centerInParent="true"
+            android:textSize="16sp"
+            android:visibility="invisible"
+            />
+
+        <TextView
+            android:id="@+id/subscribe_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发布"
+            android:textColor="@color/action_bar_text"
+            android:layout_centerInParent="true"
+            android:textSize="16sp"
+            android:visibility="invisible"
+            />
+
+        <TextView
+            android:id="@+id/message_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="消息"
+            android:textColor="@color/action_bar_text"
+            android:layout_centerInParent="true"
+            android:textSize="16sp"
+            android:visibility="invisible"
+            />
+
+        <TextView
+            android:id="@+id/me_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我的"
+            android:textColor="@color/action_bar_text"
+            android:layout_centerInParent="true"
+            android:textSize="16sp"
+            android:visibility="invisible"
+            />
+
+    </RelativeLayout>
+
+    <View style="@style/Divider"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <View style="@style/Divider"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:background="@color/bottom_tab_background">
+
+        <RelativeLayout
+            android:id="@+id/tab_home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/ripple_tab_bottom"
+            android:clickable="true"
+            android:layout_weight="1"
+            >
+
+            <ImageView
+                android:id="@+id/icon_home_unchecked"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/icon_home_unchecked"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/icon_home_text"
+                android:layout_marginBottom="3dp"
+                />
+
+            <ImageView
+                android:id="@+id/icon_home_checked"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/icon_home_checked"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/icon_home_text"
+                android:layout_marginBottom="3dp"
+                />
+
+            <TextView
+                android:id="@+id/icon_home_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="首页"
+                android:textColor="@color/bottom_tab_text"
+                android:layout_centerHorizontal="true"
+                android:textSize="10sp"
+                android:layout_marginBottom="5dp"
+                android:layout_alignParentBottom="true"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/tab_discovery"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/ripple_tab_bottom"
+            android:clickable="true"
+            android:layout_weight="1"
+            >
+
+            <ImageView
+                android:id="@+id/icon_discovery_unchecked"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/icon_home_unchecked"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/icon_discovery_text"
+                android:layout_marginBottom="3dp"
+                />
+
+            <ImageView
+                android:id="@+id/icon_discovery_checked"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/icon_home_checked"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/icon_discovery_text"
+                android:layout_marginBottom="3dp"
+                />
+
+            <TextView
+                android:id="@+id/icon_discovery_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发现"
+                android:textColor="@color/bottom_tab_text"
+                android:layout_centerHorizontal="true"
+                android:textSize="10sp"
+                android:layout_marginBottom="5dp"
+                android:layout_alignParentBottom="true"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/tab_subscribe"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/ripple_tab_bottom"
+            android:clickable="true"
+            android:layout_weight="1"
+            >
+
+            <ImageView
+                android:id="@+id/icon_subscribe_unchecked"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/icon_subscribe_unchecked"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/icon_subscribe_text"
+                android:layout_marginBottom="3dp"
+                />
+
+            <ImageView
+                android:id="@+id/icon_subscribe_checked"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/icon_subscribe_checked"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/icon_subscribe_text"
+                android:layout_marginBottom="3dp"
+                />
+
+            <TextView
+                android:id="@+id/icon_subscribe_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发布"
+                android:textColor="@color/bottom_tab_text"
+                android:layout_centerHorizontal="true"
+                android:textSize="10sp"
+                android:layout_marginBottom="5dp"
+                android:layout_alignParentBottom="true"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/tab_message"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/ripple_tab_bottom"
+            android:clickable="true"
+            android:layout_weight="1"
+            >
+
+            <ImageView
+                android:id="@+id/icon_message_unchecked"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/icon_message_unchecked"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/icon_message_text"
+                android:layout_marginBottom="3dp"
+                />
+
+            <ImageView
+                android:id="@+id/icon_message_checked"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/icon_message_checked"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/icon_message_text"
+                android:layout_marginBottom="3dp"
+                />
+
+            <TextView
+                android:id="@+id/icon_message_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="消息"
+                android:textColor="@color/bottom_tab_text"
+                android:layout_centerHorizontal="true"
+                android:textSize="10sp"
+                android:layout_marginBottom="5dp"
+                android:layout_alignParentBottom="true"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/tab_me"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/ripple_tab_bottom"
+            android:clickable="true"
+            android:layout_weight="1"
+            >
+
+            <ImageView
+                android:id="@+id/icon_me_unchecked"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/icon_me_unchecked"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/icon_me_text"
+                android:layout_marginBottom="3dp"
+                />
+
+            <ImageView
+                android:id="@+id/icon_me_checked"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/icon_me_checked"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@+id/icon_me_text"
+                android:layout_marginBottom="3dp"
+                />
+
+            <TextView
+                android:id="@+id/icon_me_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我的"
+                android:textColor="@color/bottom_tab_text"
+                android:layout_centerHorizontal="true"
+                android:textSize="10sp"
+                android:layout_marginBottom="5dp"
+                android:layout_alignParentBottom="true"
+                />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
