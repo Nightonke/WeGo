@@ -11,8 +11,10 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import com.github.johnpersano.supertoasts.SuperToast;
 import com.mini_proj.annetao.wego.MyApplication;
@@ -101,6 +103,24 @@ public class Utils {
         Point point = new Point();
         localDisplay.getSize(point);
         return point.x;
+    }
+
+    public static void showKeyboard(final View view, final android.app.Activity activity) {
+        if (activity.getCurrentFocus() != null) {
+            view.post(new Runnable() {
+                @Override
+                public void run() {
+                    view.requestFocus();
+                    InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+                }
+            });
+        }
+    }
+
+    public static void hideKeyboard(View view, android.app.Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     private static Utils ourInstance = new Utils();

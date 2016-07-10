@@ -131,6 +131,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+//        if (!User.getInstance().isLogin()) {
+//            // 跳到登录页
+//
+//        }
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tab_home:

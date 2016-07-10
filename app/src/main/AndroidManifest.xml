@@ -39,19 +39,21 @@
         </activity>
         <activity android:name=".ExerciseDetailActivity" />
         <activity android:name=".ExerciseSignUpActivity" />
-        <activity android:name=".FilterActivity"></activity>
+        <activity android:name=".FilterActivity" />
+
         <meta-data
             android:name="TencentMapSDK"
             android:value="SDJBZ-GENH5-GEQI7-QCLRF-JZC2S-DZBG3" />
 
-        <activity android:name=".util.map.SearchAddrForMapActivity"></activity>
-        <activity android:name=".ExerciseDetailActivity"></activity>
-        <activity android:name="me.iwf.photopicker.PhotoPickerActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            />
-
-        <activity android:name="me.iwf.photopicker.PhotoPagerActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity android:name=".util.map.SearchAddrForMapActivity" />
+        <activity android:name=".ExerciseDetailActivity" />
+        <activity
+            android:name="me.iwf.photopicker.PhotoPickerActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name="me.iwf.photopicker.PhotoPagerActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".LoginActivity"></activity>
     </application>
 
 </manifest>
