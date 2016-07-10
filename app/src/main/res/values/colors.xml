@@ -11,7 +11,13 @@
     <color name="bottom_tab_background">#f6f6f6</color>
     <color name="bottom_tab_text">#343434</color>
     <color name="action_bar_text">#0e0e0e</color>
+    <color name="search_background">#c1c1c1</color>
 
     <color name="press_gray">#D9D9D9</color>
+    <color name="button_subscribe">#5e73ff</color>
+    <color name="button_subscribe_press">#4e62aa</color>
+    <color name="button_subscribe_border">#3b4cef</color>
+
+    <color name="tag">#49C120</color>
 
 </resources>

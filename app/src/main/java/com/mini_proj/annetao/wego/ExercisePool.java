@@ -1,5 +1,6 @@
 package com.mini_proj.annetao.wego;
 
+import com.mini_proj.annetao.wego.util.Utils;
 import com.zhy.http.okhttp.callback.Callback;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class ExercisePool {
         ExerciseList.add(exercise);
     }
 
-    ExercisePool getTopicPool() {
+    public static ExercisePool getTopicPool() {
         if (exercisePool == null)
             return new ExercisePool();
         return exercisePool;
@@ -77,5 +78,13 @@ public class ExercisePool {
         map.put("time_upper_bound", "" + time_upper_bound);
         NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/query_userActiTime"
                 , map, callback);
+    }
+
+    public ArrayList<Exercise> getTestExercises() {
+        ArrayList<Exercise> exercises = new ArrayList<>();
+        exercises.add(new Exercise(0, 0, 0, "2016-07-07 20:00", "2016-07-08 06:00", "通宵三国杀", 0, "即将到来", "https://modao.cc/uploads2/images/409/4094481/raw_1467809037.png"));
+        exercises.add(new Exercise(0, 0, 0, "2016-07-09 20:00", "2016-07-10 06:00", "通宵狼人杀", 0, "即将到来", "http://ww3.sinaimg.cn/crop.0.0.690.387.1000.562/006tT5Uqjw1f5bqxf3cisj30j60bzaas.jpg"));
+        exercises.add(new Exercise(0, 0, 0, "2016-07-12 20:00", "2016-07-14 06:00", "通宵LOL", 0, "即将到来", "http://4.bp.blogspot.com/-F4e4ArhbKL0/UoC7b4qnraI/AAAAAAAAACA/WcMCqYcmF5g/w1200-h630-p-nu/tumblr_static_22924_league_of_legends.jpg"));
+        return exercises;
     }
 }

@@ -1,12 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe_refresh_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="DISCOVERY"/>
+        android:orientation="vertical">
 
-</LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/search_background">
+
+            <LinearLayout
+                android:id="@+id/search"
+                android:layout_width="match_parent"
+                android:layout_height="26dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:background="@drawable/button_search"
+                android:clickable="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center"
+                >
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/icon_search"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="搜索活动"
+                    android:textColor="@android:color/black"
+                    android:textSize="11sp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <me.gujun.android.taggroup.TagGroup
+            android:id="@+id/tag_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:atg_isAppendMode="false"
+            app:atg_backgroundColor="@android:color/transparent"
+            app:atg_checkedMarkerColor="@color/tag"
+            app:atg_checkedBorderColor="@color/tag"
+            app:atg_checkedTextColor="@color/white"
+            app:atg_checkedBackgroundColor="@android:color/transparent"
+            app:atg_pressedBackgroundColor="@android:color/transparent"
+            app:atg_borderColor="@color/tag"
+            app:atg_textColor="@color/tag"
+            app:atg_textSize="13sp"
+            app:atg_horizontalPadding="20dp"
+            app:atg_verticalPadding="2dp"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+</android.support.v4.widget.SwipeRefreshLayout>
