@@ -1,6 +1,7 @@
 package com.mini_proj.annetao.wego;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.zhy.http.okhttp.OkHttpUtils;
 
@@ -13,6 +14,9 @@ import okhttp3.OkHttpClient;
  */
 public class MyApplication extends Application
 {
+
+    private static Context mContext;
+
     @Override
     public void onCreate()
     {
@@ -27,5 +31,10 @@ public class MyApplication extends Application
 
         OkHttpUtils.initClient(okHttpClient);
 
+        mContext = getApplicationContext();
+    }
+
+    public static Context getAppContext() {
+        return MyApplication.mContext;
     }
 }

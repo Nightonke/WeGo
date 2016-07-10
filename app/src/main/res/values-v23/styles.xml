@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+            <!-- Customize your theme here. -->
+            <item name="colorPrimary">@color/colorPrimary</item>
+            <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+            <item name="colorAccent">@color/colorAccent</item>
+            <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="TitleLayout" parent="Theme.AppCompat">
+    </style>
+
+    <style name="WhiteRippleBackgroundStyle" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">@drawable/ripple</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+</resources>
