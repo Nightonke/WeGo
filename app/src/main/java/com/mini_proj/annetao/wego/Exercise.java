@@ -1,5 +1,6 @@
 package com.mini_proj.annetao.wego;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,9 +18,11 @@ public class Exercise {
     private String name;
     private float longitude;
     private String status;
+    private String picUrl;
+    private ArrayList<Attendency> attendencyList;
 
     public Exercise(int id_, float latitude_, int sponsor_id_, String start_time_,
-                    String end_time_, String name_, float longitude_) {
+                    String end_time_, String name_, float longitude_, String status_, String picUrl_) {
         id = id_;
         latitude = latitude_;
         sponsor_id = sponsor_id_;
@@ -27,6 +30,9 @@ public class Exercise {
         end_time = end_time_;
         name = name_;
         longitude = longitude_;
+        status = status_;
+        picUrl = picUrl_;
+        attendencyList = new ArrayList<>();
     }
 
     public void upload(Callback callback) {
@@ -100,7 +106,7 @@ public class Exercise {
     public void updateStatus(Callback callback) {
         Map<String, String> map = new HashMap<>();
         map.put("id", "" + id);
-        map.put("status", "" + status);
+        map.put("status", "" + getStatus());
         NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/chgstate"
                 , map, callback);
     }
@@ -160,5 +166,33 @@ public class Exercise {
 
     public void setLongitude(float longitude) {
         this.longitude = longitude;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void addAttendency(Attendency attendency) {
+        attendencyList.add(attendency);
+    }
+
+    public ArrayList<Attendency> getAttendencyList() {
+        return attendencyList;
+    }
+
+    public void setAttendencyList(ArrayList<Attendency> attendencyList) {
+        this.attendencyList = attendencyList;
+    }
+
+    public String getPicUrl() {
+        return picUrl;
+    }
+
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
     }
 }
