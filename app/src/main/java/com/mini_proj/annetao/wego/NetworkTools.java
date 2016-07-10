@@ -2,16 +2,12 @@ package com.mini_proj.annetao.wego;
 
 
 import android.os.Handler;
-import android.util.ArrayMap;
 import android.util.Log;
 
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.PostFormBuilder;
 import com.zhy.http.okhttp.callback.Callback;
 import com.zhy.http.okhttp.callback.StringCallback;
-import com.zhy.http.okhttp.cookie.store.PersistentCookieStore;
-
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +27,7 @@ public class NetworkTools {
     public static String URL_ATTENDENCY = "/attendency";
     public static String URL_EXERCISE_COMMENT = "/activity_comment";
     public static String URL_NOTICE = "/notice";
+    public static Map<String, String> paramsMap;
     private static NetworkTools networkTools = null;
     private static String UserName = "";
     private Handler mHandler;
@@ -43,6 +40,7 @@ public class NetworkTools {
 
     public static void setUserName(String name) {
         UserName = name;
+        paramsMap.put("user_id", UserName);
     }
 
     public static NetworkTools getNetworkTools() {
@@ -61,48 +59,56 @@ public class NetworkTools {
 
     public void doLogin(String user, String pass, Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.put(user, pass);
+        map.putAll(paramsMap);
+
+        map.put("password", pass);
         doRequest(URL_USER + "/login", map, callback);
     }
 
     //Tag
     public void addUserTag(String tagid, Callback callback) {
         Map<String, String> map = new HashMap<>();
+        map.putAll(paramsMap);
         map.put("tag_id", tagid);
-        map.put("user_id", UserName);
+
         doRequest(URL_USER_TAG + "/add_user_tag", map, callback);
     }
 
     public void addUserNewTag(String tagname, Callback callback) {
         Map<String, String> map = new HashMap<>();
+        map.putAll(paramsMap);
         map.put("name", tagname);
-        map.put("user_id", UserName);
+
         doRequest(URL_USER_TAG + "/add_user_new_tag", map, callback);
     }
 
     public void queryAllTag(Callback callback) {
         Map<String, String> map = new HashMap<>();
+        map.putAll(paramsMap);
         doRequest(URL_TAG + "/query_all_tag", null, callback);
     }
     //Tag
 
     public void deleteUserTag(String tagid, Callback callback) {
         Map<String, String> map = new HashMap<>();
+        map.putAll(paramsMap);
         map.put("tag_id", tagid);
-        map.put("user_id", UserName);
+
         doRequest(URL_USER_TAG + "/del_usr_tag", map, callback);
     }
 
     public void queryUserTag(String tagname, Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.put("user_id", UserName);
+        map.putAll(paramsMap);
+
         doRequest(URL_USER_TAG + "/query_usr_tag", map, callback);
     }
 
     //attend
     public void addUserAttend(String tagname, String exercise_id, String created_day, Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.put("user_id", UserName);
+        map.putAll(paramsMap);
+
         map.put("activity_id", exercise_id);
         map.put("created_day", created_day);
         doRequest(URL_ATTENDENCY + "/addusrActi", map, callback);
@@ -110,34 +116,39 @@ public class NetworkTools {
 
     public void deleteUserAttend(String tagname, String exercise_id, Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.put("user_id", UserName);
+        map.putAll(paramsMap);
+
         map.put("activity_id", exercise_id);
         doRequest(URL_ATTENDENCY + "/delusrActi", map, callback);
     }
 
     public void queryWhoAttend(String exercise_id, Callback callback) {
         Map<String, String> map = new HashMap<>();
+        map.putAll(paramsMap);
         map.put("activity_id", exercise_id);
         doRequest(URL_ATTENDENCY + "/query_usrforActi", map, callback);
     }
 
     public void queryIsAttend(String exercise_id, Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.put("user_id", UserName);
+        map.putAll(paramsMap);
+
         map.put("activity_id", exercise_id);
         doRequest(URL_ATTENDENCY + "/query_actiforusr", map, callback);
     }
 
     public void queryAllMyAttend(Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.put("user_id", UserName);
+        map.putAll(paramsMap);
+
         map.put("type", "all");
         doRequest(URL_ATTENDENCY + "/query_allforusr", map, callback);
     }
 
     public void queryAllMyAttendWithTime(String time_lower_bound, String time_upper_bound, Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.put("user_id", UserName);
+        map.putAll(paramsMap);
+
         map.put("time_lower_bound", time_lower_bound);
         map.put("time_upper_bound", time_upper_bound);
         doRequest(URL_ATTENDENCY + "/query_actibytime", map, callback);
@@ -145,7 +156,8 @@ public class NetworkTools {
 
     public void queryMyAttendWithNoFinish(Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.put("user_id", UserName);
+        map.putAll(paramsMap);
+
         map.put("type", "waiting");
         doRequest(URL_ATTENDENCY + "/query_actibeforeend", map, callback);
     }
@@ -154,7 +166,8 @@ public class NetworkTools {
     //exercise_comment
     public void addComment(String exercise_id, String comment, String grade, String time, Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.put("user_id", UserName);
+        map.putAll(paramsMap);
+
         map.put("activity_id", exercise_id);
         map.put("comment", comment);
         map.put("grade", grade);
@@ -164,6 +177,7 @@ public class NetworkTools {
 
     public void queryComment(String exercise_id, Callback callback) {
         Map<String, String> map = new HashMap<>();
+        map.putAll(paramsMap);
         map.put("activity_id", exercise_id);
         doRequest(URL_ATTENDENCY + "/query_comment", map, callback);
     }
@@ -172,7 +186,8 @@ public class NetworkTools {
     //notice
     public void queryMyNotice(Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.put("user_id", UserName);
+        map.putAll(paramsMap);
+
         doRequest(URL_NOTICE + "/query_notice", map, callback);
     }
 

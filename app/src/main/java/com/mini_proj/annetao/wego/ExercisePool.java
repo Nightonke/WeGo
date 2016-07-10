@@ -40,6 +40,7 @@ public class ExercisePool {
                                 float longitude_lower_bound, float longitude_upper_bound,
                                 Callback callback) {
         Map<String, String> map = new HashMap<>();
+        map.putAll(NetworkTools.paramsMap);
         map.put("latitude_lower_bound", "" + latitude_lower_bound);
         map.put("latitude_upper_bound", "" + latitude_upper_bound);
         map.put("longitude_lower_bound", "" + longitude_lower_bound);
@@ -52,6 +53,7 @@ public class ExercisePool {
                                        float longitude_lower_bound, float longitude_upper_bound, String tag,
                                        Callback callback) {
         Map<String, String> map = new HashMap<>();
+        map.putAll(NetworkTools.paramsMap);
         map.put("latitude_lower_bound", "" + latitude_lower_bound);
         map.put("latitude_upper_bound", "" + latitude_upper_bound);
         map.put("longitude_lower_bound", "" + longitude_lower_bound);
@@ -64,6 +66,7 @@ public class ExercisePool {
     public void queryTopicWithSponsor(int sponsor_id,
                                       Callback callback) {
         Map<String, String> map = new HashMap<>();
+        map.putAll(NetworkTools.paramsMap);
         map.put("sponsor_id", "" + sponsor_id);
         NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/userActi"
                 , map, callback);
@@ -72,6 +75,7 @@ public class ExercisePool {
     public void queryTopicWithSponsorAndTime(int sponsor_id, String time_lower_bound, String time_upper_bound,
                                              Callback callback) {
         Map<String, String> map = new HashMap<>();
+        map.putAll(NetworkTools.paramsMap);
         map.put("sponsor_id", "" + sponsor_id);
         map.put("time_lower_bound", "" + time_lower_bound);
         map.put("time_upper_bound", "" + time_upper_bound);

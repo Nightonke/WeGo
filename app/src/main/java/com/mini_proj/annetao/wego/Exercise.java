@@ -1,10 +1,10 @@
 package com.mini_proj.annetao.wego;
 
+import com.zhy.http.okhttp.callback.Callback;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.zhy.http.okhttp.callback.Callback;
 
 /**
  * Created by bran on 2016/7/9.
@@ -37,6 +37,7 @@ public class Exercise {
 
     public void upload(Callback callback) {
         Map<String, String> map = new HashMap<>();
+        map.putAll(NetworkTools.paramsMap);
         map.put("latitude", "" + latitude);
         map.put("longitude", "" + longitude);
         map.put("sponsor_id", "" + sponsor_id);
@@ -49,6 +50,7 @@ public class Exercise {
 
     public void addExercise_tag(String tagname, Callback callback) {
         Map<String, String> map = new HashMap<>();
+        map.putAll(NetworkTools.paramsMap);
         map.put("name", "" + tagname);
         map.put("exercise_id", "" + id);
         NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/add_exer_new_tag"
@@ -57,6 +59,7 @@ public class Exercise {
 
     public void deleteExercise_tag(int tag_id, Callback callback) {
         Map<String, String> map = new HashMap<>();
+        map.putAll(NetworkTools.paramsMap);
         map.put("tag_id", "" + tag_id);
         map.put("exercise_id", "" + id);
         NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/del_tag"
@@ -65,6 +68,7 @@ public class Exercise {
 
     public void queryExercise_tag(Callback callback) {
         Map<String, String> map = new HashMap<>();
+        map.putAll(NetworkTools.paramsMap);
         map.put("exercise_id", "" + id);
         NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/query_exer_tag"
                 , map, callback);
@@ -72,6 +76,7 @@ public class Exercise {
 
     public void updateStartTime(Callback callback) {
         Map<String, String> map = new HashMap<>();
+        map.putAll(NetworkTools.paramsMap);
         map.put("id", "" + id);
         map.put("start_time", "" + start_time);
         NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/chgbegintime"
@@ -80,6 +85,7 @@ public class Exercise {
 
     public void updateEndTime(Callback callback) {
         Map<String, String> map = new HashMap<>();
+        map.putAll(NetworkTools.paramsMap);
         map.put("id", "" + id);
         map.put("end_time", "" + end_time);
         NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/chgendtime"
@@ -88,6 +94,7 @@ public class Exercise {
 
     public void updateName(Callback callback) {
         Map<String, String> map = new HashMap<>();
+        map.putAll(NetworkTools.paramsMap);
         map.put("id", "" + id);
         map.put("name", "" + name);
         NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/chgactname"
@@ -96,6 +103,7 @@ public class Exercise {
 
     public void updatePlace(Callback callback) {
         Map<String, String> map = new HashMap<>();
+        map.putAll(NetworkTools.paramsMap);
         map.put("id", "" + id);
         map.put("latitude", "" + latitude);
         map.put("longitude", "" + longitude);
@@ -105,6 +113,7 @@ public class Exercise {
 
     public void updateStatus(Callback callback) {
         Map<String, String> map = new HashMap<>();
+        map.putAll(NetworkTools.paramsMap);
         map.put("id", "" + id);
         map.put("status", "" + getStatus());
         NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/chgstate"
