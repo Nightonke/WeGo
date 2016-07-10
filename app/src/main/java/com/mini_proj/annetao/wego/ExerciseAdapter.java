@@ -43,13 +43,17 @@ public class ExerciseAdapter
         });
         holder.name.setText(e.getName());
         holder.people.setText("200人参与");
-        Picasso.with(context).load(e.getPicUrl()).into(holder.image);
+        Picasso.with(context).load(e.getPic_store()).into(holder.image);
         holder.tagGroup.setTags("标签一", "标签二");
     }
 
     @Override
     public int getItemCount() {
         return ExercisePool.getTopicPool().getTestExercises().size();
+    }
+
+    public interface OnExerciseSelectListener {
+        void onSelect(int p);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -67,9 +71,5 @@ public class ExerciseAdapter
             image = (ImageView) v.findViewById(R.id.image);
             tagGroup = (TagGroup) v.findViewById(R.id.tag_group);
         }
-    }
-
-    public interface OnExerciseSelectListener {
-        void onSelect(int p);
     }
 }

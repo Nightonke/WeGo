@@ -28,11 +28,11 @@ public class NetworkTools {
     public static String URL_EXERCISE_COMMENT = "/activity_comment";
     public static String URL_NOTICE = "/notice";
     public static Map<String, String> paramsMap;
+    public static Handler mHandler;
     private static NetworkTools networkTools = null;
     private static String UserName = "";
-    private Handler mHandler;
 
-    public NetworkTools(String serveraddr, Handler handler) {
+    private NetworkTools(String serveraddr, Handler handler) {
         setServerAddr(serveraddr);
         mHandler = handler;
         networkTools = this;
@@ -57,69 +57,19 @@ public class NetworkTools {
         NetworkTools.ServerAddr = mServerAddr;
     }
 
-    public void doLogin(String user, String pass, Callback callback) {
-        Map<String, String> map = new HashMap<>();
-        map.putAll(paramsMap);
-
-        map.put("password", pass);
-        doRequest(URL_USER + "/login", map, callback);
+    public static void doRequest(String url, Map<String, String> paramsmap, Callback callback) {
+        PostFormBuilder builder = OkHttpUtils.post().url(url);
+        for (Map.Entry<String, String> param : paramsmap.entrySet()) {
+            builder = builder.addParams(param.getKey(), param.getValue());
+        }
+        builder.build().execute(callback);
     }
 
     //Tag
-    public void addUserTag(String tagid, Callback callback) {
-        Map<String, String> map = new HashMap<>();
-        map.putAll(paramsMap);
-        map.put("tag_id", tagid);
-
-        doRequest(URL_USER_TAG + "/add_user_tag", map, callback);
-    }
-
-    public void addUserNewTag(String tagname, Callback callback) {
-        Map<String, String> map = new HashMap<>();
-        map.putAll(paramsMap);
-        map.put("name", tagname);
-
-        doRequest(URL_USER_TAG + "/add_user_new_tag", map, callback);
-    }
-
     public void queryAllTag(Callback callback) {
         Map<String, String> map = new HashMap<>();
         map.putAll(paramsMap);
         doRequest(URL_TAG + "/query_all_tag", null, callback);
-    }
-    //Tag
-
-    public void deleteUserTag(String tagid, Callback callback) {
-        Map<String, String> map = new HashMap<>();
-        map.putAll(paramsMap);
-        map.put("tag_id", tagid);
-
-        doRequest(URL_USER_TAG + "/del_usr_tag", map, callback);
-    }
-
-    public void queryUserTag(String tagname, Callback callback) {
-        Map<String, String> map = new HashMap<>();
-        map.putAll(paramsMap);
-
-        doRequest(URL_USER_TAG + "/query_usr_tag", map, callback);
-    }
-
-    //attend
-    public void addUserAttend(String tagname, String exercise_id, String created_day, Callback callback) {
-        Map<String, String> map = new HashMap<>();
-        map.putAll(paramsMap);
-
-        map.put("activity_id", exercise_id);
-        map.put("created_day", created_day);
-        doRequest(URL_ATTENDENCY + "/addusrActi", map, callback);
-    }
-
-    public void deleteUserAttend(String tagname, String exercise_id, Callback callback) {
-        Map<String, String> map = new HashMap<>();
-        map.putAll(paramsMap);
-
-        map.put("activity_id", exercise_id);
-        doRequest(URL_ATTENDENCY + "/delusrActi", map, callback);
     }
 
     public void queryWhoAttend(String exercise_id, Callback callback) {
@@ -129,75 +79,12 @@ public class NetworkTools {
         doRequest(URL_ATTENDENCY + "/query_usrforActi", map, callback);
     }
 
-    public void queryIsAttend(String exercise_id, Callback callback) {
-        Map<String, String> map = new HashMap<>();
-        map.putAll(paramsMap);
-
-        map.put("activity_id", exercise_id);
-        doRequest(URL_ATTENDENCY + "/query_actiforusr", map, callback);
-    }
-
-    public void queryAllMyAttend(Callback callback) {
-        Map<String, String> map = new HashMap<>();
-        map.putAll(paramsMap);
-
-        map.put("type", "all");
-        doRequest(URL_ATTENDENCY + "/query_allforusr", map, callback);
-    }
-
-    public void queryAllMyAttendWithTime(String time_lower_bound, String time_upper_bound, Callback callback) {
-        Map<String, String> map = new HashMap<>();
-        map.putAll(paramsMap);
-
-        map.put("time_lower_bound", time_lower_bound);
-        map.put("time_upper_bound", time_upper_bound);
-        doRequest(URL_ATTENDENCY + "/query_actibytime", map, callback);
-    }
-
-    public void queryMyAttendWithNoFinish(Callback callback) {
-        Map<String, String> map = new HashMap<>();
-        map.putAll(paramsMap);
-
-        map.put("type", "waiting");
-        doRequest(URL_ATTENDENCY + "/query_actibeforeend", map, callback);
-    }
-    //attend
-
-    //exercise_comment
-    public void addComment(String exercise_id, String comment, String grade, String time, Callback callback) {
-        Map<String, String> map = new HashMap<>();
-        map.putAll(paramsMap);
-
-        map.put("activity_id", exercise_id);
-        map.put("comment", comment);
-        map.put("grade", grade);
-        map.put("time", time);
-        doRequest(URL_EXERCISE_COMMENT + "/addcomment", map, callback);
-    }
-
-    public void queryComment(String exercise_id, Callback callback) {
-        Map<String, String> map = new HashMap<>();
-        map.putAll(paramsMap);
-        map.put("activity_id", exercise_id);
-        doRequest(URL_ATTENDENCY + "/query_comment", map, callback);
-    }
-    //exercise_comment
-
     //notice
     public void queryMyNotice(Callback callback) {
         Map<String, String> map = new HashMap<>();
         map.putAll(paramsMap);
 
         doRequest(URL_NOTICE + "/query_notice", map, callback);
-    }
-
-
-    public void doRequest(String url, Map<String, String> paramsmap, Callback callback) {
-        PostFormBuilder builder = OkHttpUtils.post().url(url);
-        for (Map.Entry<String, String> param : paramsmap.entrySet()) {
-            builder = builder.addParams(param.getKey(), param.getValue());
-        }
-        builder.build().execute(callback);
     }
 
     public void doRequest(String url, Map<String, String> paramsmap, final Runnable success, final Runnable fail) {
