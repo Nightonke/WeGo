@@ -11,11 +11,16 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 
+import java.lang.ref.SoftReference;
+
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private ViewPager viewPager;
     private int[] titles = new int[]{R.id.home_title, R.id.discovery_title, R.id.subscribe_title, R.id.message_title, R.id.me_title};
     private int lastTitlePosition = 0;
+
+    private SoftReference<FragmentHome> fragmentHomeSoftReference;
+    private SoftReference<FragmentDiscovery> fragmentDiscoverySoftReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             }
                         })
                         .playOn(findViewById(titles[position]));
+                if (position == 0 || position == 1) {
+                    if (lastTitlePosition == 0 || lastTitlePosition == 1) return;
+                    findView(R.id.toggle_view).setEnabled(true);
+                    YoYo.with(Techniques.BounceInRight)
+                            .duration(700)
+                            .playOn(findViewById(R.id.toggle_view));
+                } else {
+                    if (lastTitlePosition != 0 && lastTitlePosition != 1) return;
+                    findView(R.id.toggle_view).setEnabled(false);
+                    YoYo.with(Techniques.FadeOutRight)
+                            .duration(700)
+                            .playOn(findViewById(R.id.toggle_view));
+                }
                 lastTitlePosition = position;
             }
 
@@ -57,8 +75,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public Fragment getItem(int position) {
                 switch (position) {
-                    case 0: return new FragmentHome();
-                    case 1: return new FragmentDiscovery();
+                    case 0:
+                        fragmentHomeSoftReference = new SoftReference<>(new FragmentHome());
+                        return fragmentHomeSoftReference.get();
+                    case 1:
+                        fragmentDiscoverySoftReference = new SoftReference<>(new FragmentDiscovery());
+                        return fragmentDiscoverySoftReference.get();
                     case 2: return new FragmentSubscribe();
                     case 3: return new FragmentMessage();
                     case 4: return new FragmentMe();
@@ -77,6 +99,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findView(R.id.tab_subscribe).setOnClickListener(this);
         findView(R.id.tab_message).setOnClickListener(this);
         findView(R.id.tab_me).setOnClickListener(this);
+        findView(R.id.toggle_view).setOnClickListener(this);
     }
 
     @Override
@@ -97,6 +120,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.tab_me:
                 viewPager.setCurrentItem(4, true);
                 break;
+            case R.id.toggle_view:
+                toggleView();
+                break;
         }
+    }
+
+    private void toggleView() {
+        if (viewPager.getCurrentItem() == 0 && fragmentHomeSoftReference != null && fragmentHomeSoftReference.get() != null) fragmentHomeSoftReference.get().toggleView();
+        if (viewPager.getCurrentItem() == 1 && fragmentDiscoverySoftReference != null && fragmentDiscoverySoftReference.get() != null) fragmentDiscoverySoftReference.get().toggleView();
     }
 }
