@@ -11,6 +11,8 @@ import android.view.ViewGroup;
  */
 public class FragmentDiscovery extends Fragment {
 
+    private boolean shownMapView = false;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View messageLayout = inflater.inflate(R.layout.fragment_discovery, container, false);
@@ -18,6 +20,10 @@ public class FragmentDiscovery extends Fragment {
 
 
         return messageLayout;
+    }
+
+    public void toggleView() {
+        shownMapView = !shownMapView;
     }
 
 }
