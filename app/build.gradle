@@ -17,6 +17,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    useLibrary 'org.apache.http.legacy'
 }
 
 dependencies {
@@ -26,7 +27,6 @@ dependencies {
     compile 'com.zhy:okhttputils:2.6.2'
     compile files('src/main/libs/mta-sdk-1.6.2.jar')
     compile files('src/main/libs/open_sdk_r5756.jar')
-
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.daimajia.easing:library:1.0.1@aar'
     compile 'com.daimajia.androidanimations:library:1.1.3@aar'
@@ -35,4 +35,7 @@ dependencies {
     compile 'com.github.johnpersano:supertoasts:1.3.4@aar'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.flaviofaria:kenburnsview:1.0.7'
+    compile files('src/main/libs/TencentMapSDK_Vector_v3.0.3.jar')
+    compile files('src/main/libs/TencentLocationSDK_v4.8.4.jar')
+    compile files('src/main/libs/TencentSearch1.1.2.16095.jar')
 }
