@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">WeGo</string>
+    <string name="map_view_search_guide">搜索</string>
 </resources>

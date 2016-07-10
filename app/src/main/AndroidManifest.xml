@@ -4,6 +4,11 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".MyApplication"
@@ -35,6 +40,12 @@
         <activity android:name=".ExerciseDetailActivity" />
         <activity android:name=".ExerciseSignUpActivity" />
         <activity android:name=".FilterActivity"></activity>
+        <meta-data
+            android:name="TencentMapSDK"
+            android:value="SDJBZ-GENH5-GEQI7-QCLRF-JZC2S-DZBG3" />
+
+        <activity android:name=".util.map.SearchAddrForMapActivity"></activity>
+        <activity android:name=".ExerciseDetailActivity"></activity>
     </application>
 
 </manifest>
