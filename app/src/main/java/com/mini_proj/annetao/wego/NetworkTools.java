@@ -6,7 +6,6 @@ import android.util.ArrayMap;
 import android.util.Log;
 
 import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.builder.GetBuilder;
 import com.zhy.http.okhttp.builder.PostFormBuilder;
 import com.zhy.http.okhttp.callback.Callback;
 import com.zhy.http.okhttp.callback.StringCallback;
