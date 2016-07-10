@@ -3,10 +3,12 @@ package com.mini_proj.annetao.wego;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.zhy.http.okhttp.callback.Callback;
+
 /**
  * Created by bran on 2016/7/9.
  */
-public class Topic {
+public class Exercise {
     private int id;
     private float latitude;
     private int sponsor_id;
@@ -16,8 +18,8 @@ public class Topic {
     private float longitude;
     private String status;
 
-    public Topic(int id_, float latitude_, int sponsor_id_, String start_time_,
-                 String end_time_, String name_, float longitude_) {
+    public Exercise(int id_, float latitude_, int sponsor_id_, String start_time_,
+                    String end_time_, String name_, float longitude_) {
         id = id_;
         latitude = latitude_;
         sponsor_id = sponsor_id_;
@@ -27,7 +29,7 @@ public class Topic {
         longitude = longitude_;
     }
 
-    public void upload(Runnable success, Runnable failed) {
+    public void upload(Callback callback) {
         Map<String, String> map = new HashMap<>();
         map.put("latitude", "" + latitude);
         map.put("longitude", "" + longitude);
@@ -35,72 +37,72 @@ public class Topic {
         map.put("start_time", start_time);
         map.put("end_time", end_time);
         map.put("name", name);
-        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_ACTIVITY + "/addactivity"
-                , map, success, failed);
+        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/addactivity"
+                , map, callback);
     }
 
-    public void addActivity_tag(String tagname, Runnable success, Runnable failed) {
+    public void addExercise_tag(String tagname, Callback callback) {
         Map<String, String> map = new HashMap<>();
         map.put("name", "" + tagname);
-        map.put("activity_id", "" + id);
-        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_ACTIVITY + "/addActiTag"
-                , map, success, failed);
+        map.put("exercise_id", "" + id);
+        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/add_exer_new_tag"
+                , map, callback);
     }
 
-    public void deleteActivity_tag(int tag_id, Runnable success, Runnable failed) {
+    public void deleteExercise_tag(int tag_id, Callback callback) {
         Map<String, String> map = new HashMap<>();
         map.put("tag_id", "" + tag_id);
-        map.put("activity_id", "" + id);
-        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_ACTIVITY + "/delTag"
-                , map, success, failed);
+        map.put("exercise_id", "" + id);
+        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/del_tag"
+                , map, callback);
     }
 
-    public void queryActivity_tag(Runnable success, Runnable failed) {
+    public void queryExercise_tag(Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.put("activity_id", "" + id);
-        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_ACTIVITY + "/query_ActiTag"
-                , map, success, failed);
+        map.put("exercise_id", "" + id);
+        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/query_exer_tag"
+                , map, callback);
     }
 
-    public void updateStartTime(Runnable success, Runnable failed) {
+    public void updateStartTime(Callback callback) {
         Map<String, String> map = new HashMap<>();
         map.put("id", "" + id);
         map.put("start_time", "" + start_time);
-        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_ACTIVITY + "/chgbegintime"
-                , map, success, failed);
+        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/chgbegintime"
+                , map, callback);
     }
 
-    public void updateEndTime(Runnable success, Runnable failed) {
+    public void updateEndTime(Callback callback) {
         Map<String, String> map = new HashMap<>();
         map.put("id", "" + id);
         map.put("end_time", "" + end_time);
-        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_ACTIVITY + "/chgendtime"
-                , map, success, failed);
+        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/chgendtime"
+                , map, callback);
     }
 
-    public void updateName(Runnable success, Runnable failed) {
+    public void updateName(Callback callback) {
         Map<String, String> map = new HashMap<>();
         map.put("id", "" + id);
         map.put("name", "" + name);
-        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_ACTIVITY + "/chgactname"
-                , map, success, failed);
+        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/chgactname"
+                , map, callback);
     }
 
-    public void updatePlace(Runnable success, Runnable failed) {
+    public void updatePlace(Callback callback) {
         Map<String, String> map = new HashMap<>();
         map.put("id", "" + id);
         map.put("latitude", "" + latitude);
         map.put("longitude", "" + longitude);
-        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_ACTIVITY + "/chgloc"
-                , map, success, failed);
+        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/chgloc"
+                , map, callback);
     }
 
-    public void updateStatus(Runnable success, Runnable failed) {
+    public void updateStatus(Callback callback) {
         Map<String, String> map = new HashMap<>();
         map.put("id", "" + id);
         map.put("status", "" + status);
-        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_ACTIVITY + "/chgstate"
-                , map, success, failed);
+        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/chgstate"
+                , map, callback);
     }
 
 
