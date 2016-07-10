@@ -2,6 +2,7 @@ package com.mini_proj.annetao.wego;
 
 import com.zhy.http.okhttp.callback.Callback;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,12 +10,24 @@ import java.util.Map;
  * Created by bran on 2016/7/9.
  */
 public class ExercisePool {
-    private static HashMap<String, String> topicMap;
+    private static ArrayList<Exercise> ExerciseList;
     private static ExercisePool exercisePool = null;
 
     public ExercisePool() {
-        topicMap = new HashMap<>();
+        setExerciseList(new ArrayList<Exercise>());
         exercisePool = this;
+    }
+
+    public static ArrayList<Exercise> getExerciseList() {
+        return ExerciseList;
+    }
+
+    public static void setExerciseList(ArrayList<Exercise> exerciseList) {
+        ExerciseList = exerciseList;
+    }
+
+    public void addExerciseToList(Exercise exercise) {
+        ExerciseList.add(exercise);
     }
 
     ExercisePool getTopicPool() {
