@@ -7,6 +7,7 @@
     android:background="@android:color/white">
 
     <com.mini_proj.annetao.wego.TitleLayout
+        android:id="@+id/title_layout_top"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         app:nbTitleText="详情"
@@ -145,7 +146,7 @@
                     android:freezesText="true"/>
 
                 <TextView
-                    android:id="@+id/home_toggle_view"
+                    android:id="@+id/map_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="　地图　"
@@ -326,7 +327,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"/>
 
-                <ExpandableListView
+                <com.mini_proj.annetao.wego.ExpandedListView
                     android:id="@+id/comment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
