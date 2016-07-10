@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/base"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@android:color/white">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Title Here"
+            android:textColor="@android:color/black"
+            android:gravity="center_vertical"
+            android:textSize="15sp"
+            android:paddingLeft="10dp"
+            android:paddingStart="10dp"/>
+
+        <TextView
+            android:id="@+id/people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="200人参与"
+            android:textColor="@android:color/black"
+            android:gravity="center_vertical"
+            android:background="@drawable/button_people"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_centerVertical="true"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textSize="11sp"
+            android:clickable="true"
+            />
+
+    </RelativeLayout>
+
+    <View style="@style/Divider"/>
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        />
+
+    <View style="@style/Divider"/>
+
+    <me.gujun.android.taggroup.TagGroup
+        android:id="@+id/tag_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@android:color/white"
+        app:atg_isAppendMode="false"
+        app:atg_backgroundColor="@android:color/transparent"
+        app:atg_checkedMarkerColor="@color/tag"
+        app:atg_checkedBorderColor="@color/tag"
+        app:atg_checkedTextColor="@color/white"
+        app:atg_checkedBackgroundColor="@android:color/transparent"
+        app:atg_pressedBackgroundColor="@android:color/transparent"
+        app:atg_borderColor="@color/tag"
+        app:atg_textColor="@color/tag"
+        app:atg_textSize="13sp"
+        app:atg_horizontalPadding="20dp"
+        app:atg_verticalPadding="2dp"
+        />
+
+    <View style="@style/Divider"/>
+
+</LinearLayout>
