@@ -5,10 +5,14 @@ package com.mini_proj.annetao.wego.util;
  */
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Window;
+import android.view.WindowManager;
 
 import com.github.johnpersano.supertoasts.SuperToast;
 import com.mini_proj.annetao.wego.MyApplication;
@@ -88,6 +92,15 @@ public class Utils {
         DisplayMetrics metrics = resources.getDisplayMetrics();
         float px = dp * (metrics.densityDpi / 160f);
         return (int)px;
+    }
+
+    public static int getScreenWidth() {
+        Display localDisplay
+                = ((WindowManager)MyApplication.getAppContext().getSystemService(Context.WINDOW_SERVICE))
+                .getDefaultDisplay();
+        Point point = new Point();
+        localDisplay.getSize(point);
+        return point.x;
     }
 
     private static Utils ourInstance = new Utils();

@@ -1,5 +1,6 @@
 package com.mini_proj.annetao.wego;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -12,6 +13,9 @@ import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 
 import java.lang.ref.SoftReference;
+import java.util.ArrayList;
+
+import me.iwf.photopicker.PhotoPicker;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
@@ -156,6 +160,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && requestCode == PhotoPicker.REQUEST_CODE) {
+            if (data != null) {
+                ArrayList<String> photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
+                setPhoto(photos);
+            }
+        }
+    }
+
     private void toggleView() {
         if (viewPager.getCurrentItem() == 0 && fragmentHomeSoftReference != null && fragmentHomeSoftReference.get() != null) fragmentHomeSoftReference.get().toggleView();
         if (viewPager.getCurrentItem() == 1 && fragmentDiscoverySoftReference != null && fragmentDiscoverySoftReference.get() != null) fragmentDiscoverySoftReference.get().toggleView();
@@ -163,5 +179,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private void subScribe() {
         if (viewPager.getCurrentItem() == 2 && fragmentSubscribeSoftReference != null && fragmentSubscribeSoftReference.get() != null) fragmentSubscribeSoftReference.get().subscribe();
+    }
+
+    private void setPhoto(ArrayList<String> paths) {
+        if (viewPager.getCurrentItem() == 2 && fragmentSubscribeSoftReference != null && fragmentSubscribeSoftReference.get() != null) fragmentSubscribeSoftReference.get().setPhoto(paths);
     }
 }
