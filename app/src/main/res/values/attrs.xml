@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="TitleLayout">
+
+        <attr name="nbBackText" format="string|reference"/>
+        <attr name="nbTitleText" format="string|reference"/>
+        <attr name="nbEditText" format="string|reference"/>
+        <attr name="nbHasBackText" format="boolean|reference"/>
+        <attr name="nbHasTitleText" format="boolean|reference"/>
+        <attr name="nbHasEditText" format="boolean|reference"/>
+
+    </declare-styleable>
+
+</resources>

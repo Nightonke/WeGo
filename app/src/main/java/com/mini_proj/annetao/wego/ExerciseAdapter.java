@@ -32,13 +32,13 @@ public class ExerciseAdapter
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         final Exercise e = ExercisePool.getTopicPool().getTestExercises().get(position);
 
         holder.base.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onExerciseSelectListener != null) onExerciseSelectListener.onSelect(e);
+                if (onExerciseSelectListener != null) onExerciseSelectListener.onSelect(holder.getAdapterPosition());
             }
         });
         holder.name.setText(e.getName());
@@ -70,6 +70,6 @@ public class ExerciseAdapter
     }
 
     public interface OnExerciseSelectListener {
-        void onSelect(Exercise e);
+        void onSelect(int p);
     }
 }

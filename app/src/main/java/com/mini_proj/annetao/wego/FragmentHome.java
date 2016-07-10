@@ -1,5 +1,6 @@
 package com.mini_proj.annetao.wego;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,8 +41,10 @@ public class FragmentHome extends Fragment implements ExerciseAdapter.OnExercise
     }
 
     @Override
-    public void onSelect(Exercise e) {
-
+    public void onSelect(int p) {
+        Intent intent = new Intent(getContext(), ExerciseDetailActivity.class);
+        intent.putExtra("position", p);
+        startActivity(intent);
     }
 
     public void toggleView() {
