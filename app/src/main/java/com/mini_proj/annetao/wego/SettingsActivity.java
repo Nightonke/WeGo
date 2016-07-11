@@ -30,7 +30,7 @@ public class SettingsActivity extends BaseActivity
 
     @Override
     public void clickTitleEdit() {
-
+        // save to server
     }
 
     @Override
