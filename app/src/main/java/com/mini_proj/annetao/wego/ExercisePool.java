@@ -1,9 +1,7 @@
 package com.mini_proj.annetao.wego;
 
-import com.mini_proj.annetao.wego.util.Utils;
 import com.zhy.http.okhttp.callback.Callback;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;

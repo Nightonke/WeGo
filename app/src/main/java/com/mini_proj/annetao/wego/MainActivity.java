@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.mini_proj.annetao.wego.util.Utils;
+import com.mini_proj.annetao.wego.util.login.QQLoginListener;
 import com.mini_proj.annetao.wego.util.map.QQMapSupporter;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
@@ -226,10 +227,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onResume() {
         super.onResume();
 
-//        if (!User.getInstance().isLogin()) {
-//            // 跳到登录页
-//
-//        }
+        if (!User.getInstance().isLogin()) {
+            Intent intent = new Intent(this,LoginActivity.class);
+            startActivity(intent);// 跳到登录页
+
+        }
     }
 
     @Override
@@ -297,4 +299,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void setAddress(String wegolocationStr) {
         if (viewPager.getCurrentItem() == 2 && fragmentSubscribeSoftReference != null && fragmentSubscribeSoftReference.get() != null) fragmentSubscribeSoftReference.get().setAddress(wegolocationStr);
     }
+
+
 }
