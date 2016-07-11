@@ -43,7 +43,7 @@ public class ExerciseAdapter
         });
         holder.name.setText(e.getName());
         holder.people.setText("200人参与");
-        Picasso.with(context).load(e.getPicUrl()).into(holder.image);
+        Picasso.with(context).load(e.getPic_store()).into(holder.image);
         holder.tagGroup.setTags("标签一", "标签二");
     }
 

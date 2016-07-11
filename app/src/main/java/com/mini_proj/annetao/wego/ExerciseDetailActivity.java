@@ -1,5 +1,6 @@
 package com.mini_proj.annetao.wego;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ScrollView;
@@ -40,7 +41,7 @@ public class ExerciseDetailActivity extends BaseActivity implements TitleLayout.
         titleLayout.setOnTitleActionListener(this);
         scrollView = findView(R.id.scroll_view);
         kenBurnsView = findView(R.id.image);
-        Picasso.with(mContext).load(exercise.getPicUrl()).into(kenBurnsView);
+        Picasso.with(mContext).load(exercise.getPic_store()).into(kenBurnsView);
         title = findView(R.id.title);
         title.setText(exercise.getName());
         time = findView(R.id.time);
@@ -71,7 +72,7 @@ public class ExerciseDetailActivity extends BaseActivity implements TitleLayout.
 
     @Override
     public void clickTitleEdit() {
-
+        startActivity(new Intent(mContext, ExerciseSignUpActivity.class));
     }
 
     private void openMap() {

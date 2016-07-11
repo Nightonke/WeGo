@@ -5,10 +5,16 @@ package com.mini_proj.annetao.wego.util;
  */
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import com.github.johnpersano.supertoasts.SuperToast;
 import com.mini_proj.annetao.wego.MyApplication;
@@ -88,6 +94,42 @@ public class Utils {
         DisplayMetrics metrics = resources.getDisplayMetrics();
         float px = dp * (metrics.densityDpi / 160f);
         return (int)px;
+    }
+
+    public static int getScreenWidth() {
+        Display localDisplay
+                = ((WindowManager)MyApplication.getAppContext().getSystemService(Context.WINDOW_SERVICE))
+                .getDefaultDisplay();
+        Point point = new Point();
+        localDisplay.getSize(point);
+        return point.x;
+    }
+
+    public static void showKeyboard(final View view, final android.app.Activity activity) {
+        if (activity.getCurrentFocus() != null) {
+            view.post(new Runnable() {
+                @Override
+                public void run() {
+                    view.requestFocus();
+                    InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+                }
+            });
+        }
+    }
+
+    public static void hideKeyboard(View view, android.app.Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    public static int changingColor(int fC, int tC, float offset) {
+        return Color.argb(
+                Color.alpha(fC) + (int)((Color.alpha(tC) - Color.alpha(fC)) * offset),
+                Color.red(fC) + (int)((Color.red(tC) - Color.red(fC)) * offset),
+                Color.green(fC) + (int)((Color.green(tC) - Color.green(fC)) * offset),
+                Color.blue(fC) + (int)((Color.blue(tC) - Color.blue(fC)) * offset)
+        );
     }
 
     private static Utils ourInstance = new Utils();

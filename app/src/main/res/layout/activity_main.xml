@@ -146,8 +146,8 @@
 
             <ImageView
                 android:id="@+id/icon_home_unchecked"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/icon_home_unchecked"
                 android:layout_centerHorizontal="true"
                 android:layout_above="@+id/icon_home_text"
@@ -156,8 +156,8 @@
 
             <ImageView
                 android:id="@+id/icon_home_checked"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/icon_home_checked"
                 android:layout_centerHorizontal="true"
                 android:layout_above="@+id/icon_home_text"
@@ -189,9 +189,9 @@
 
             <ImageView
                 android:id="@+id/icon_discovery_unchecked"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/icon_home_unchecked"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/icon_discovery_unchecked"
                 android:layout_centerHorizontal="true"
                 android:layout_above="@+id/icon_discovery_text"
                 android:layout_marginBottom="3dp"
@@ -199,9 +199,9 @@
 
             <ImageView
                 android:id="@+id/icon_discovery_checked"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/icon_home_checked"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/icon_discovery_checked"
                 android:layout_centerHorizontal="true"
                 android:layout_above="@+id/icon_discovery_text"
                 android:layout_marginBottom="3dp"
@@ -232,8 +232,8 @@
 
             <ImageView
                 android:id="@+id/icon_subscribe_unchecked"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/icon_subscribe_unchecked"
                 android:layout_centerHorizontal="true"
                 android:layout_above="@+id/icon_subscribe_text"
@@ -242,8 +242,8 @@
 
             <ImageView
                 android:id="@+id/icon_subscribe_checked"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/icon_subscribe_checked"
                 android:layout_centerHorizontal="true"
                 android:layout_above="@+id/icon_subscribe_text"
@@ -275,8 +275,8 @@
 
             <ImageView
                 android:id="@+id/icon_message_unchecked"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/icon_message_unchecked"
                 android:layout_centerHorizontal="true"
                 android:layout_above="@+id/icon_message_text"
@@ -285,8 +285,8 @@
 
             <ImageView
                 android:id="@+id/icon_message_checked"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/icon_message_checked"
                 android:layout_centerHorizontal="true"
                 android:layout_above="@+id/icon_message_text"
@@ -318,8 +318,8 @@
 
             <ImageView
                 android:id="@+id/icon_me_unchecked"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/icon_me_unchecked"
                 android:layout_centerHorizontal="true"
                 android:layout_above="@+id/icon_me_text"
@@ -328,8 +328,8 @@
 
             <ImageView
                 android:id="@+id/icon_me_checked"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/icon_me_checked"
                 android:layout_centerHorizontal="true"
                 android:layout_above="@+id/icon_me_text"
