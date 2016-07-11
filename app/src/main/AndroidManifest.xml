@@ -54,7 +54,8 @@
             android:name="me.iwf.photopicker.PhotoPagerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".UserInformationActivity"></activity>
+        <activity android:name=".UserInformationActivity" />
+        <activity android:name=".SettingsActivity"></activity>
     </application>
 
 </manifest>
