@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.flaviofaria.kenburnsview.KenBurnsView;
+import com.google.gson.Gson;
 import com.mini_proj.annetao.wego.util.Utils;
 import com.mini_proj.annetao.wego.util.map.QQMapSupporter;
 import com.mini_proj.annetao.wego.util.map.WeGoLocation;
@@ -23,15 +25,19 @@ import com.squareup.picasso.Picasso;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import me.gujun.android.taggroup.TagGroup;
 import me.iwf.photopicker.PhotoPicker;
+import okhttp3.Call;
 
 /**
  * Created by huangweiping on 16/7/10.
@@ -349,7 +355,39 @@ public class FragmentSubscribe extends Fragment
     }
 
     public void subscribe() {
+        String titleStr=title.getText().toString();
+        String[] timeStr=time.getText().toString().split("~");
+        String startTime=timeStr[0];
+        String endTime=timeStr[1];
+        String placeStr=place.getText().toString();
+        String minPeopleStr=minPeople.getText().toString();
+        String maxPeopleStr=maxPeople.getText().toString();
+        String creitStr=credit.getText().toString();
+        String averageStr=average.getText().toString();
+        String detailStr=detail.getText().toString();
+        String latitude="";
+        String longitude="";
+        Map<String,String> map=new HashMap<>();
+        Exercise.upload(Float.valueOf(latitude), User.getInstance().getId(), startTime, endTime, titleStr
+                , Float.valueOf(longitude), detailStr, Float.valueOf(averageStr), "", map, new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("WeGo", "新建活动失败");
+                        Toast.makeText(getActivity(),"发布活动失败！",Toast.LENGTH_LONG).show();
+                    }
 
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Gson gson = new Gson();
+                        Exercise exercise = gson.fromJson(response, Exercise.class);
+                        UserInf.getUserInf().addExerciseMyList(exercise);
+                        Map<String, String> tagList = exercise.getTagList();
+                        for (Map.Entry<String, String> entry : tagList.entrySet()) {
+                            ExercisePool.getTopicPool().addExerciseToMap(entry.getValue(), exercise);
+                        }
+                        Toast.makeText(getActivity(),"发布活动成功！",Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 
 

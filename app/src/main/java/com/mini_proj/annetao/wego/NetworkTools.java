@@ -26,7 +26,7 @@ public class NetworkTools {
     public static String URL_USER_TAG = "/user_tag";
     public static String URL_ATTENDENCY = "/attendency";
     public static String URL_EXERCISE_COMMENT = "/activity_comment";
-    public static String URL_NOTICE = "/notice";
+    public static String URL_NOTICE = "/user_notice";
     public static Map<String, String> paramsMap;
     public static Handler mHandler;
     private static NetworkTools networkTools = null;
@@ -77,14 +77,6 @@ public class NetworkTools {
         map.putAll(paramsMap);
         map.put("activity_id", exercise_id);
         doRequest(URL_ATTENDENCY + "/query_usrforActi", map, callback);
-    }
-
-    //notice
-    public void queryMyNotice(Callback callback) {
-        Map<String, String> map = new HashMap<>();
-        map.putAll(paramsMap);
-
-        doRequest(URL_NOTICE + "/query_notice", map, callback);
     }
 
     public void doRequest(String url, Map<String, String> paramsmap, final Runnable success, final Runnable fail) {

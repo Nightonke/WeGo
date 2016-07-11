@@ -43,7 +43,7 @@ public enum Tag {
             case "游泳": return SWIMMING;
             case "跑步": return RUNNING;
             case "健身": return BODY_BUILDING;
-            case "桌球": return BOARD_GAME;
+            case "桌游": return BOARD_GAME;
             case "摄影": return PHOTOGRAPHY;
             case "旅游": return TRAVEL;
             case "公益": return COMMONWEAL;
