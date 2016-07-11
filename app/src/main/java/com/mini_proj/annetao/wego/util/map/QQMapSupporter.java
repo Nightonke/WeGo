@@ -231,7 +231,8 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
                 icon(BitmapDescriptorFactory.defaultMarker()).
                 title(weGoLocation.title).
                 snippet(weGoLocation.disc));
-        nowMarker.showInfoWindow();
+        if(nowMarker!=null)
+            nowMarker.showInfoWindow();
         //TODO 处理用户点击太快的问题
 
     }

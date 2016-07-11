@@ -37,6 +37,9 @@
                 <data android:scheme="tencent1105456541" />
             </intent-filter>
         </activity>
+        <activity android:name="com.tencent.connect.common.AssistActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity android:name=".ExerciseDetailActivity" />
         <activity android:name=".TencentMapActivity" />
         <activity android:name=".ExerciseSignUpActivity" />
