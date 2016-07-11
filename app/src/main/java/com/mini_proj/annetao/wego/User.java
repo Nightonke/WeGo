@@ -12,6 +12,8 @@ public class User {
 
     private boolean login = false;
     private int id = -1;
+    private String openId = "";
+    private String token ="";
     private String name = "";
     private String password = "";
     private int year;
@@ -59,6 +61,32 @@ public class User {
                 .putString("NAME", name)
                 .commit();
         this.name = name;
+    }
+
+    public String getOpenId() {
+        openId = getSharedPreferences().getString("OPENID", "");
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        MyApplication.getAppContext()
+                .getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE).edit()
+                .putString("OPENID", openId)
+                .commit();
+        this.openId = openId;
+    }
+
+    public String getToken() {
+        token = getSharedPreferences().getString("TOKEN", "");
+        return token;
+    }
+
+    public void setToken(String token) {
+        MyApplication.getAppContext()
+                .getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE).edit()
+                .putString("TOKEN", token)
+                .commit();
+        this.token = token;
     }
 
     public String getPassword() {

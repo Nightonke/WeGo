@@ -57,7 +57,7 @@ public class Exercise {
     public static void upload(float latitude_, int sponsor_id_, String start_time_,
                               String end_time_, String name_, float longitude_, String description_,
                               float avgCost_, String deadline_,
-                              Map<String, String> tagList_, final Runnable runnable) {
+                              Map<String, String> tagList_, Callback callback) {
         Map<String, String> map = new HashMap<>();
         map.putAll(NetworkTools.paramsMap);
         map.put("latitude", "" + latitude_);
@@ -73,24 +73,7 @@ public class Exercise {
             map.put(entry.getKey(), entry.getValue());
         }
         NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/addactivity"
-                , map, new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        Log.e("WeGo", "新建活动失败");
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        Gson gson = new Gson();
-                        Exercise exercise = gson.fromJson(response, Exercise.class);
-                        UserInf.getUserInf().addExerciseMyList(exercise);
-                        Map<String, String> tagList = exercise.getTagList();
-                        for (Map.Entry<String, String> entry : tagList.entrySet()) {
-                            ExercisePool.getTopicPool().addExerciseToMap(entry.getValue(), exercise);
-                        }
-                        NetworkTools.getNetworkTools().mHandler.post(runnable);
-                    }
-                });
+                , map, callback);
     }
 
     public void addExercise_tag(String tagname, Callback callback) {
