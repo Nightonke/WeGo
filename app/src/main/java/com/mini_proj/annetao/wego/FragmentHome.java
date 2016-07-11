@@ -11,8 +11,10 @@ import android.view.ViewGroup;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
+import com.mini_proj.annetao.wego.util.map.QQMapSupporter;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
+import com.tencent.tencentmap.mapsdk.maps.MapView;
 
 /**
  * Created by huangweiping on 16/7/10.
@@ -21,9 +23,10 @@ public class FragmentHome extends Fragment implements ExerciseAdapter.OnExercise
 
     private boolean shownMapView = false;
 
-    private View mapView;
+    private MapView mapView;
     private SuperRecyclerView listView;
     private ExerciseAdapter adapter;
+    private QQMapSupporter qqMapSupporter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,9 +38,41 @@ public class FragmentHome extends Fragment implements ExerciseAdapter.OnExercise
         adapter = new ExerciseAdapter(this);
         listView.setAdapter(adapter);
 
-        mapView = messageLayout.findViewById(R.id.map_view);
+        mapView = (MapView) messageLayout.findViewById(R.id.map_view);
+        qqMapSupporter = new QQMapSupporter(getActivity(),mapView,QQMapSupporter.QQ_MAP_TYPE_EXERCISES);
+        qqMapSupporter.initialMapView();
 
         return messageLayout;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
     }
 
     @Override
@@ -66,6 +101,8 @@ public class FragmentHome extends Fragment implements ExerciseAdapter.OnExercise
                         }
                     })
                     .duration(300).playOn(listView);
+            if(qqMapSupporter.isMapLoaded) qqMapSupporter.updateExerciseMarker();
+
         } else {
             YoYo.with(Techniques.BounceInUp).duration(700).playOn(listView);
             YoYo.with(Techniques.FadeOutUp)
