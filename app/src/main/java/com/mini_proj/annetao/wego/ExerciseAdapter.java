@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.squareup.picasso.Picasso;
 
 import me.gujun.android.taggroup.TagGroup;
@@ -56,7 +57,7 @@ public class ExerciseAdapter
         public View base;
         public TextView name;
         public TextView people;
-        public ImageView image;
+        public KenBurnsView image;
         public TagGroup tagGroup;
 
         public ViewHolder(View v) {
@@ -64,7 +65,7 @@ public class ExerciseAdapter
             base = v.findViewById(R.id.base);
             name = (TextView) v.findViewById(R.id.name);
             people = (TextView) v.findViewById(R.id.people);
-            image = (ImageView) v.findViewById(R.id.image);
+            image = (KenBurnsView) v.findViewById(R.id.image);
             tagGroup = (TagGroup) v.findViewById(R.id.tag_group);
         }
     }

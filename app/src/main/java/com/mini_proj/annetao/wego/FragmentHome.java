@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
+import com.mini_proj.annetao.wego.util.Utils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 
@@ -30,6 +31,7 @@ public class FragmentHome extends Fragment implements ExerciseAdapter.OnExercise
         View messageLayout = inflater.inflate(R.layout.fragment_home, container, false);
 
         listView = (SuperRecyclerView) messageLayout.findViewById(R.id.list_view);
+        listView.addItemDecoration(new PhoneOrderDecoration(Utils.dp2px(10)));
         LinearLayoutManager mManager = new LinearLayoutManager(getContext());
         listView.setLayoutManager(mManager);
         adapter = new ExerciseAdapter(this);

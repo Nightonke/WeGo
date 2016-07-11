@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_above="@+id/next"
+        android:layout_marginBottom="90dp"
+        >
+
+        <View style="@style/Divider"/>
+
+        <LinearLayout
+            android:id="@+id/name_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@drawable/button_toggle_view"
+            android:clickable="true"
+            android:layout_marginLeft="60dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginTop="60dp"
+            >
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:hint="用户名"
+                android:textSize="15sp"
+                android:background="@android:color/transparent"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
+                android:textCursorDrawable="@null"
+                android:textColor="@color/black"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:singleLine="true"
+                />
+
+            <ImageView
+                android:id="@+id/clear_name"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/icon_clear"
+                android:layout_gravity="center_vertical|end"
+                android:padding="7dp"
+                android:background="?android:attr/actionBarItemBackground"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/birthday_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@drawable/button_toggle_view"
+            android:clickable="true"
+            android:layout_marginLeft="60dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginTop="10dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="生日"
+                android:gravity="center"
+                android:paddingLeft="5dp"/>
+
+            <TextView
+                android:id="@+id/birthday"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:text="生日"
+                android:textColor="@android:color/black"
+                android:gravity="end|center_vertical"
+                android:paddingEnd="5dp"
+                android:paddingRight="5dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@drawable/button_toggle_view"
+            android:layout_marginLeft="60dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="60dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="性别"
+                android:gravity="center"
+                android:paddingLeft="5dp"/>
+
+
+            <RadioGroup
+                android:id="@+id/sex"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:paddingEnd="5dp"
+                android:paddingRight="5dp">
+
+                <RadioButton
+                    android:id="@+id/male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="男"/>
+
+                <RadioButton
+                    android:id="@+id/female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="女"/>
+
+                <RadioButton
+                    android:id="@+id/unknown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="不明"/>
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <View style="@style/Divider"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/next"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="下一步"
+        android:textColor="@android:color/white"
+        android:background="@drawable/button_subscribe"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:gravity="center"
+        android:layout_marginBottom="100dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        />
+
+</RelativeLayout>
