@@ -11,7 +11,8 @@ import com.mini_proj.annetao.wego.util.map.QQMapSupporter;
 import com.mini_proj.annetao.wego.util.map.SearchAddrForMapActivity;
 import com.mini_proj.annetao.wego.util.map.WeGoLocation;
 
-public class TencentMapActivity extends AppCompatActivity {
+public class TencentMapActivity extends BaseActivity implements TitleLayout.OnTitleActionListener{
+    private TitleLayout titleLayout;
     private QQMapSupporter qqMapSupporter;
     private MapView qqMapView;
     private String mapType;
@@ -22,13 +23,20 @@ public class TencentMapActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tencent_map);
+        titleLayout = findView(R.id.title_layout_top);
+        titleLayout.setOnTitleActionListener(this);
+        mapType = getIntent().getStringExtra("map_type");
+        if(mapType.equals(QQMapSupporter.QQ_MAP_TYPE_LOCATION)) {
+            titleLayout.setEdit("确认");
+            titleLayout.setTitle("地图选址");
+        }
+        if(null==mapType) {finish();return;}
         initView();
 
     }
 
 
     void initView() {
-        mapType = QQMapSupporter.QQ_MAP_TYPE_EXERCISES;
         final String city = "深圳";
         qqMapView = new MapView(this);
         qqMapSupporter = new QQMapSupporter(this,qqMapView,mapType);
@@ -37,7 +45,7 @@ public class TencentMapActivity extends AppCompatActivity {
         qqMapSupporter.initialMapView();
 
         LinearLayout searchGuideLayout = (LinearLayout) findViewById(R.id.map_search_guide_layout);
-        if(QQMapSupporter.QQ_MAP_TYPE_LOCATION == mapType){
+        if(mapType.equals(QQMapSupporter.QQ_MAP_TYPE_LOCATION)){
             searchGuideLayout.setVisibility(View.VISIBLE);
             searchGuideLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -59,10 +67,11 @@ public class TencentMapActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (resultCode) {
             case RESULT_OK:
+
                 String str=data.getStringExtra("wego_location_str");
                 weGoLocation = new WeGoLocation(str);
                 qqMapSupporter.addMarkerFromSearch(weGoLocation);
-
+                qqMapSupporter.wegoLocationStr = str;
                 break;
             default:
                 break;
@@ -109,5 +118,23 @@ public class TencentMapActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void clickTitleBack() {
+        finish();
+    }
 
+    @Override
+    public void doubleClickTitle() {
+
+    }
+
+    @Override
+    public void clickTitleEdit() {
+        if(mapType.equals(QQMapSupporter.QQ_MAP_TYPE_LOCATION)&&qqMapSupporter.wegoLocationStr!=null) {
+            Intent intent = new Intent();
+            intent.putExtra("wego_location_str", qqMapSupporter.wegoLocationStr);
+            setResult(RESULT_OK, intent);
+        }
+        finish();
+    }
 }

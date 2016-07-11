@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.mini_proj.annetao.wego.util.Utils;
 import com.mini_proj.annetao.wego.util.map.QQMapSupporter;
 import com.nineoldandroids.animation.Animator;
@@ -102,7 +101,7 @@ public class FragmentDiscovery extends Fragment {
                         }
                     })
                     .duration(300).playOn(listView);
-            if(qqMapSupporter.isMapLoaded) qqMapSupporter.updateExerciseMarker();
+            if(qqMapSupporter.isMapLoaded) qqMapSupporter.updateExerciseMarkers();
 
         } else {
             YoYo.with(Techniques.BounceInUp).duration(700).playOn(listView);

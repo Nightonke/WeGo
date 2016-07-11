@@ -103,7 +103,7 @@ public class FragmentHome extends Fragment implements ExerciseAdapter.OnExercise
                         }
                     })
                     .duration(300).playOn(listView);
-            if(qqMapSupporter.isMapLoaded) qqMapSupporter.updateExerciseMarker();
+            if(qqMapSupporter.isMapLoaded) qqMapSupporter.updateExerciseMarkers();
 
         } else {
             YoYo.with(Techniques.BounceInUp).duration(700).playOn(listView);

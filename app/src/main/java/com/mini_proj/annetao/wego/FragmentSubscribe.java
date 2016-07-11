@@ -1,6 +1,7 @@
 package com.mini_proj.annetao.wego;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,6 +19,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.google.gson.Gson;
 import com.mini_proj.annetao.wego.util.Utils;
+import com.mini_proj.annetao.wego.util.map.QQMapSupporter;
+import com.mini_proj.annetao.wego.util.map.WeGoLocation;
 import com.squareup.picasso.Picasso;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
@@ -77,6 +80,7 @@ public class FragmentSubscribe extends Fragment
         average = (TextView) messageLayout.findViewById(R.id.average);
         detail = (TextView) messageLayout.findViewById(R.id.detail);
         tagGroup = (TagGroup) messageLayout.findViewById(R.id.tag_group);
+        place = (TextView) messageLayout.findViewById(R.id.map);
 
         imageTip = messageLayout.findViewById(R.id.image_tip);
         imageTip.setOnClickListener(this);
@@ -136,7 +140,7 @@ public class FragmentSubscribe extends Fragment
                 setTimeStep = 0;
                 break;
             case R.id.map_button:
-
+                openMap();
                 break;
             case R.id.place_layout:
 
@@ -263,8 +267,11 @@ public class FragmentSubscribe extends Fragment
                         .positiveText("确定")
                         .show();
                 break;
+
         }
     }
+
+
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
@@ -336,6 +343,16 @@ public class FragmentSubscribe extends Fragment
             imageTip.setVisibility(View.VISIBLE);
         }
     }
+    public void setAddress(String wegolocationStr) {
+        WeGoLocation wegoLoc = new WeGoLocation(wegolocationStr);
+        place.setText(wegoLoc.title);
+        //TODO
+    }
+    private void openMap() {
+        Intent intent = new Intent(this.getActivity(), TencentMapActivity.class);
+        intent.putExtra("map_type", QQMapSupporter.QQ_MAP_TYPE_LOCATION);
+        getActivity().startActivityForResult(intent,QQMapSupporter.SUBSCRIBE_ADDRESS_REQUEST_CODE);
+    }
 
     public void subscribe() {
         String titleStr=title.getText().toString();
@@ -372,4 +389,6 @@ public class FragmentSubscribe extends Fragment
                     }
                 });
     }
+
+
 }
