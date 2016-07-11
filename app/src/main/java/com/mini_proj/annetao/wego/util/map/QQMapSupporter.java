@@ -53,6 +53,7 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
     private TencentMap tencentMap;
     private Activity activity;
     private DemoLocationSource locationSource;
+    public boolean isMapLoaded=false;
     Handler componentEnabledHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -108,12 +109,21 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
         setMarker();
         moveCameraByMarkers();
     }
+
+    /**
+     * 更新活动marker
+     */
+    public void updateExerciseMarker(){
+        setMarker();
+        moveCameraByMarkers();
+    }
     public void initialOneExerciseMap(){
 
     }
 
     @Override
     public void onMapLoaded() {
+        isMapLoaded = true;
         Message msg = new Message();
         msg.what = QQMapSupporter.COMPONENT_ID_MY_LOCATION_BUTTON;
         componentEnabledHandler.sendMessage(msg);
@@ -161,7 +171,7 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
         LatLngBounds bounds = new LatLngBounds.Builder().include(new LatLng(maxLatitude,minLongitude))
                 .include(new LatLng(minLatitude,maxLongitude)).build();
 
-        tencentMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,200));
+        tencentMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,300));
     }
 
 

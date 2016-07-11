@@ -15,12 +15,11 @@
         app:recyclerClipToPadding="false"
         app:scrollbarStyle="outsideOverlay"/>
 
-    <TextView
+    <com.tencent.tencentmap.mapsdk.maps.MapView
         android:id="@+id/map_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="invisible"
-        android:gravity="center"
-        android:text="MAP"/>
+        android:gravity="center"/>
 
 </RelativeLayout>
