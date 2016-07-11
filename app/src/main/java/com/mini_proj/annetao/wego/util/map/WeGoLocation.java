@@ -1,8 +1,12 @@
 package com.mini_proj.annetao.wego.util.map;
 
+import com.mini_proj.annetao.wego.Exercise;
 import com.tencent.lbssearch.object.Location;
 import com.tencent.lbssearch.object.result.SuggestionResultObject;
 import com.tencent.tencentmap.mapsdk.maps.model.LatLng;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 16/7/10.
@@ -15,9 +19,26 @@ public class WeGoLocation {
     public String district;
     public int type;
     public Location location;
-    public String address;
+    public String disc;
 
     public WeGoLocation() {
+    }
+
+    public WeGoLocation(Exercise e) {
+        location = new Location();
+        location.lat(e.getLatitude());
+        location.lng(e.getLongitude());
+        title = e.getName();
+        //TODO
+//        List<String> tagNameList = (ArrayList)e.getTagList().values();
+//        String tagStr = "";
+//        for(String tagName:tagNameList){
+//            tagStr+=tagName+" ";
+//        }
+ //       disc = tagStr;
+        disc = "标签一 标签二";
+
+
     }
 
     public WeGoLocation(SuggestionResultObject.SuggestionData sd) {
@@ -28,7 +49,7 @@ public class WeGoLocation {
         this.district = sd.district;
         this.type = sd.type;
         this.location = sd.location;
-        this.address = sd.address;
+        this.disc = sd.address;
     }
     public WeGoLocation(LatLng latlng) {
 
@@ -53,7 +74,7 @@ public class WeGoLocation {
         this.location = new Location();
         location.lat(Float.parseFloat(strs[6]));
         location.lng(Float.parseFloat(strs[7]));
-        this.address = strs[8];
+        this.disc = strs[8];
     }
 
     @Override
@@ -67,7 +88,7 @@ public class WeGoLocation {
         str+=type+",";
         str+=location.lat+",";
         str+=location.lng+",";
-        str+=address;
+        str+= disc;
         return str;
     }
 }
