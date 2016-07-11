@@ -1,10 +1,13 @@
 package com.mini_proj.annetao.wego;
 
 import com.zhy.http.okhttp.callback.Callback;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import okhttp3.Call;
 
 /**
  * Created by bran on 2016/7/10.
@@ -13,10 +16,12 @@ public class UserInf {
     private static UserInf userinf;
     private ArrayList<Exercise> exerciseAttendList;
     private ArrayList<Exercise> exerciseMyList;
+    private ArrayList<UserNotice> noticeArrayList;
 
     private UserInf() {
         exerciseMyList = new ArrayList<>();
         exerciseAttendList = new ArrayList<>();
+        noticeArrayList = new ArrayList<>();
         userinf = this;
     }
 
@@ -32,6 +37,20 @@ public class UserInf {
         map.put("id", user);
         //map.put("password", pass);
         NetworkTools.doRequest(NetworkTools.URL_USER + "/login", map, callback);
+    }
+
+    //notice
+    public void queryMyNotice(Callback callback) {
+        Map<String, String> map = new HashMap<>();
+        map.putAll(NetworkTools.paramsMap);
+        NetworkTools.doRequest(NetworkTools.URL_NOTICE + "/query_notice", map, callback);
+    }
+
+    public void readMyNotice(String id,Callback callback) {
+        Map<String, String> map = new HashMap<>();
+        map.putAll(NetworkTools.paramsMap);
+        map.put("notice_id",id);
+        NetworkTools.doRequest(NetworkTools.URL_NOTICE + "/read_notice", map, callback);
     }
 
     //Tag
@@ -130,6 +149,14 @@ public class UserInf {
 
     public void setExerciseAttendList(ArrayList<Exercise> exerciseAttendList) {
         this.exerciseAttendList = exerciseAttendList;
+    }
+
+    public ArrayList<UserNotice> getNoticeArrayList() {
+        return noticeArrayList;
+    }
+
+    public void setNoticeArrayList(ArrayList<UserNotice> noticeArrayList) {
+        this.noticeArrayList = noticeArrayList;
     }
     //attend
 }
