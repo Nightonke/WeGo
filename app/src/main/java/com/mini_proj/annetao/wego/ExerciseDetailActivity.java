@@ -7,7 +7,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.flaviofaria.kenburnsview.KenBurnsView;
+import com.mini_proj.annetao.wego.util.map.QQMapSupporter;
 import com.squareup.picasso.Picasso;
+import com.tencent.tauth.Tencent;
+import com.tencent.tencentmap.mapsdk.maps.TencentMap;
 
 public class ExerciseDetailActivity extends BaseActivity implements TitleLayout.OnTitleActionListener {
 
@@ -76,6 +79,10 @@ public class ExerciseDetailActivity extends BaseActivity implements TitleLayout.
     }
 
     private void openMap() {
+        Intent intent = new Intent(this, TencentMapActivity.class);
+        intent.putExtra("map_type", QQMapSupporter.QQ_MAP_TYPE_ONE_EXERCISE);
+        intent.putExtra("position",position);
+        startActivity(intent);
 
     }
 }
