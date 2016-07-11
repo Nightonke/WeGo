@@ -123,6 +123,15 @@ public class Utils {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+    public static int changingColor(int fC, int tC, float offset) {
+        return Color.argb(
+                Color.alpha(fC) + (int)((Color.alpha(tC) - Color.alpha(fC)) * offset),
+                Color.red(fC) + (int)((Color.red(tC) - Color.red(fC)) * offset),
+                Color.green(fC) + (int)((Color.green(tC) - Color.green(fC)) * offset),
+                Color.blue(fC) + (int)((Color.blue(tC) - Color.blue(fC)) * offset)
+        );
+    }
+
     private static Utils ourInstance = new Utils();
 
     public static Utils getInstance() {

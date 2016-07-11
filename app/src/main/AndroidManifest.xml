@@ -46,7 +46,6 @@
             android:value="SDJBZ-GENH5-GEQI7-QCLRF-JZC2S-DZBG3" />
 
         <activity android:name=".util.map.SearchAddrForMapActivity" />
-        <activity android:name=".ExerciseDetailActivity" />
         <activity
             android:name="me.iwf.photopicker.PhotoPickerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
