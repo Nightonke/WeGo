@@ -1,6 +1,5 @@
 package com.mini_proj.annetao.wego;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -272,7 +271,6 @@ public class FragmentSubscribe extends Fragment
     }
 
 
-
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         if (setTimeStep == 0) {
@@ -333,7 +331,7 @@ public class FragmentSubscribe extends Fragment
     public void setPhoto(ArrayList<String> paths) {
         String imageString = paths.get(0);
         File imgFile = new File(imageString);
-        if(imgFile.exists()) {
+        if (imgFile.exists()) {
             Picasso.with(getActivity())
                     .load(imgFile)
                     .resize(Utils.getScreenWidth(), Utils.dp2px(200))
@@ -343,41 +341,51 @@ public class FragmentSubscribe extends Fragment
             imageTip.setVisibility(View.VISIBLE);
         }
     }
+
     public void setAddress(String wegolocationStr) {
         WeGoLocation wegoLoc = new WeGoLocation(wegolocationStr);
         place.setText(wegoLoc.title);
         //TODO
     }
+
     private void openMap() {
         Intent intent = new Intent(this.getActivity(), TencentMapActivity.class);
         intent.putExtra("map_type", QQMapSupporter.QQ_MAP_TYPE_LOCATION);
-        getActivity().startActivityForResult(intent,QQMapSupporter.SUBSCRIBE_ADDRESS_REQUEST_CODE);
+        getActivity().startActivityForResult(intent, QQMapSupporter.SUBSCRIBE_ADDRESS_REQUEST_CODE);
     }
 
     public void subscribe() {
-        String titleStr=title.getText().toString();
-        String[] timeStr=time.getText().toString().split("~");
-        String startTime=timeStr[0];
-        String endTime=timeStr[1];
-        String placeStr=place.getText().toString();
-        String minPeopleStr=minPeople.getText().toString();
-        String maxPeopleStr=maxPeople.getText().toString();
-        String creitStr=credit.getText().toString();
-        String averageStr=average.getText().toString();
-        String detailStr=detail.getText().toString();
-        String latitude="";
-        String longitude="";
-        Map<String,String> map=new HashMap<>();
+        String titleStr = title.getText().toString();
+        String[] timeStr = time.getText().toString().split("~");
+        String startTime;
+        String endTime;
+        try {
+            startTime = timeStr[0];
+            endTime = timeStr[1];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            Toast.makeText(getActivity(), "请填写时间！", Toast.LENGTH_LONG).show();
+            return;
+        }
+        String placeStr = place.getText().toString();
+        String minPeopleStr = minPeople.getText().toString();
+        String maxPeopleStr = maxPeople.getText().toString();
+        String creitStr = credit.getText().toString();
+        String averageStr = average.getText().toString();
+        String detailStr = detail.getText().toString();
+        String latitude = "1";
+        String longitude = "1";
+        Map<String, String> map = new HashMap<>();
         Exercise.upload(Float.valueOf(latitude), User.getInstance().getId(), startTime, endTime, titleStr
                 , Float.valueOf(longitude), detailStr, Float.valueOf(averageStr), "", map, new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("WeGo", "新建活动失败");
-                        Toast.makeText(getActivity(),"发布活动失败！",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "发布活动失败！", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
+                        Log.d("Wego", response);
                         Gson gson = new Gson();
                         Exercise exercise = gson.fromJson(response, Exercise.class);
                         UserInf.getUserInf().addExerciseMyList(exercise);
@@ -385,10 +393,10 @@ public class FragmentSubscribe extends Fragment
                         for (Map.Entry<String, String> entry : tagList.entrySet()) {
                             ExercisePool.getTopicPool().addExerciseToMap(entry.getValue(), exercise);
                         }
-                        Toast.makeText(getActivity(),"发布活动成功！",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "发布活动成功！", Toast.LENGTH_LONG).show();
                     }
                 });
     }
 
-
 }
+
