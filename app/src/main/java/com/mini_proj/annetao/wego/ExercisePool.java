@@ -74,7 +74,7 @@ public class ExercisePool {
         Map<String, String> map = new HashMap<>();
         map.putAll(NetworkTools.paramsMap);
         map.put("sponsor_id", "" + sponsor_id);
-        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/userActi"
+        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/query_user_exercise"
                 , map, callback);
     }
 

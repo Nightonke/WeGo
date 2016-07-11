@@ -18,7 +18,7 @@ import okhttp3.Call;
  * Created by bran on 2016/7/7.
  */
 public class NetworkTools {
-    public static String ServerAddr="http://127.0.0.1";
+    public static String ServerAddr="http://119.29.235.26:33000";
     public static String URL_USER = "/user";
     public static String URL_EXERCISE = "/exercise";
     public static String URL_TAG = "/tag";
@@ -59,6 +59,7 @@ public class NetworkTools {
 
     public static void doRequest(String url, Map<String, String> paramsmap, Callback callback) {
         PostFormBuilder builder = OkHttpUtils.post().url(getServerAddr()+url);
+        Log.d("Wego",  "URL: " + getServerAddr()+url);
         for (Map.Entry<String, String> param : paramsmap.entrySet()) {
             builder = builder.addParams(param.getKey(), param.getValue());
         }

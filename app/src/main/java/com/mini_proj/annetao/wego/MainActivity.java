@@ -224,9 +224,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     @Override
+    public void onBackPressed() {
+
+    }
+    @Override
     protected void onResume() {
         super.onResume();
-
         if (!User.getInstance().isLogin()) {
             Intent intent = new Intent(this,LoginActivity.class);
             startActivity(intent);// 跳到登录页
