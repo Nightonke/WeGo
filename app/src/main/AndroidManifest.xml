@@ -38,6 +38,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ExerciseDetailActivity" />
+        <activity android:name=".TencentMapActivity" />
         <activity android:name=".ExerciseSignUpActivity" />
         <activity android:name=".FilterActivity" />
 

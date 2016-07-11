@@ -2,12 +2,16 @@ package com.mini_proj.annetao.wego.util.map;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.mini_proj.annetao.wego.Exercise;
+import com.mini_proj.annetao.wego.ExerciseDetailActivity;
+import com.mini_proj.annetao.wego.ExercisePool;
 import com.tencent.lbssearch.TencentSearch;
 import com.tencent.lbssearch.httpresponse.BaseObject;
 import com.tencent.lbssearch.httpresponse.HttpResponseListener;
@@ -44,6 +48,7 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
     public static final String QQ_MAP_TYPE_LOCATION = "qq.map.type.location";
     public static final String QQ_MAP_TYPE_EXERCISES = "qq.map.type.execises";
     public static final String QQ_MAP_TYPE_ONE_EXERCISE = "qq.map.type.one.execise";
+    public static final float QQ_MAP_DEFAULT_ZOOM_LEVEL = 18;
     public static final int COMPONENT_ID_MY_LOCATION_BUTTON = 1;
     private List<Marker> markerList;
     private Marker nowMarker;
@@ -65,13 +70,14 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
             }
 
             super.handleMessage(msg);
-            if(QQ_MAP_TYPE_LOCATION == mapType) {
+            if(mapType.equals(QQ_MAP_TYPE_LOCATION)) {
                 initialLocationMap();
             }
-            else if(QQ_MAP_TYPE_EXERCISES == mapType){
+            else if(mapType.equals(QQ_MAP_TYPE_EXERCISES)){
                 initialExercisesMap();
             }
-            else if(QQ_MAP_TYPE_ONE_EXERCISE == mapType){
+            else if(mapType.equals(QQ_MAP_TYPE_ONE_EXERCISE)){
+
                 initialOneExerciseMap();
             }
         }
@@ -92,7 +98,6 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
         mapUiSettings.setCompassEnabled(false);
 
         tencentMap.setOnMapLoadedCallback(this);
-        tencentMap.setOnMapClickListener(this);
 
         locationSource = new DemoLocationSource(activity);
         mapView.getMap().setMyLocationEnabled(true);
@@ -103,23 +108,37 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
 
     }
     public void initialLocationMap(){
+        tencentMap.setOnMapClickListener(this);
         moveCameraToNow();
     }
     public void initialExercisesMap(){
-        setMarker();
+        setMarkers();
         moveCameraByMarkers();
+        tencentMap.setOnInfoWindowClickListener(new TencentMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Intent intent = new Intent(activity, ExerciseDetailActivity.class);
+                intent.putExtra("position", markerList.indexOf(marker));
+                activity.startActivity(intent);
+            }
+        });
     }
 
-    /**
-     * 更新活动marker
-     */
-    public void updateExerciseMarker(){
-        setMarker();
-        moveCameraByMarkers();
-    }
+
     public void initialOneExerciseMap(){
+        int position = activity.getIntent().getIntExtra("position",-1);
+        if(-1 == position){
+            activity.finish();
+            return;
+        }
+        //TODO 改为getAllExercises()
+        Exercise e = ExercisePool.getTopicPool().getTestExercises().get(position);
+        addExerciseMarker(e);
+
 
     }
+
+
 
     @Override
     public void onMapLoaded() {
@@ -130,29 +149,41 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
 
 
     }
+    /**
+     * 更新活动marker
+     */
 
-    public void setMarker(){
-        final Marker beiJingMarker = tencentMap.addMarker(new MarkerOptions().
-                position(new LatLng(39.906901,116.397972)).//先纬度后经度
-                icon(BitmapDescriptorFactory.defaultMarker()).
-                title("北京").
-                snippet("DefaultMarker"));
-        final Marker shangHaiMarker = tencentMap.addMarker(new MarkerOptions().
-                position(new LatLng(31.247241,121.492696)).
-                icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).
-                title("上海").
-                snippet("Click infowindow to change icon"));
-        final Marker jiNanMarker = tencentMap.addMarker(new MarkerOptions().
-                position(new LatLng(36.666574,117.028908)).
-                icon(BitmapDescriptorFactory.defaultMarker()).
-                title("济南").
-                snippet("icon from assets").
-                anchor(0.5f, 1f));
-        markerList.add(beiJingMarker);
-        markerList.add(shangHaiMarker);
-        markerList.add(jiNanMarker);
+    public void updateExerciseMarkers(){
+        removeAllMarkers();
+        setMarkers();
+        moveCameraByMarkers();
+    }
+
+    public void removeAllMarkers(){
+        for(Marker marker:markerList)
+            marker.remove();
+        markerList.clear();
+    }
+    /**
+     * 添加活动list的markers
+     */
+    public void setMarkers(){
+
+        for(Exercise e:ExercisePool.getTopicPool().getTestExercises()) {
+            WeGoLocation weGoLocation = new WeGoLocation(e);
+            Marker marker = tencentMap.addMarker(new MarkerOptions().
+                    position(weGoLocation.getLatLng()).//先纬度后经度
+                    icon(BitmapDescriptorFactory.defaultMarker()).
+                    title(weGoLocation.title).
+                    snippet(weGoLocation.disc));
+            markerList.add(marker);
+        }
 
     }
+
+    /**
+     * 根据活动list的markers调整camera
+     */
     public void moveCameraByMarkers(){
 
         double minLongitude = markerList.get(0).getPosition().longitude;
@@ -176,14 +207,11 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
 
 
 
-
-
-
-    public void moveCameraTo(LatLng latLng) {
+    public void moveCameraTo(LatLng latLng, float zoomLevel) {
         CameraUpdate cameraSigma =
                 CameraUpdateFactory.newCameraPosition(new CameraPosition(
                         latLng, //新的中心点坐标
-                        tencentMap.getCameraPosition().zoom,  //新的缩放级别
+                        zoomLevel,  //新的缩放级别
                         0f, //俯仰角 0~45° (垂直地图时为0)
                         0f)); //偏航角 0~360° (正北方为0)
 //移动地图
@@ -200,14 +228,30 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
                 position(latLng).//先纬度后经度
                 icon(BitmapDescriptorFactory.defaultMarker()).
                 title(weGoLocation.title).
-                snippet(weGoLocation.address));
+                snippet(weGoLocation.disc));
         nowMarker.showInfoWindow();
 
     }
 
     public void addMarkerFromSearch(WeGoLocation weGoLocation) {
         refreshNowMarker(weGoLocation);
-        moveCameraTo(weGoLocation.getLatLng());
+        moveCameraTo(weGoLocation.getLatLng(),tencentMap.getCameraPosition().zoom);
+
+    }
+
+    public void addExerciseMarker(Exercise e){
+        WeGoLocation weGoLocation = new WeGoLocation(e);
+        refreshNowMarker(weGoLocation);
+        LatLng latLng = weGoLocation.getLatLng();
+        moveCameraTo(latLng,QQ_MAP_DEFAULT_ZOOM_LEVEL);
+        tencentMap.setOnInfoWindowClickListener(new TencentMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                activity.finish();
+
+            }
+        });
+
 
     }
 
@@ -227,7 +271,7 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
         if (TencentLocation.ERROR_OK == i) {
             Toast.makeText(activity,"success", Toast.LENGTH_SHORT).show();
             LatLng latLng = new LatLng(tencentLocation.getLatitude(),tencentLocation.getLongitude());
-            moveCameraTo(latLng);
+            moveCameraTo(latLng,tencentMap.getCameraPosition().zoom);
             TencentLocationManager locationManager =
                     TencentLocationManager.getInstance(activity);
             locationManager.removeUpdates(this);// 定位成功
@@ -261,7 +305,7 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
                 }
                 Geo2AddressResultObject obj = (Geo2AddressResultObject)arg2;
                 WeGoLocation weGoLocation = new WeGoLocation(nowMarkerLatLng);
-                weGoLocation.address = obj.result.address;
+                weGoLocation.disc = obj.result.address;
                 if(obj.result.pois!=null&&obj.result.pois.size()>0) {
                     weGoLocation.title = obj.result.pois.get(0).title;
                 }

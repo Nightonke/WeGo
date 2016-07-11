@@ -11,7 +11,8 @@ import com.mini_proj.annetao.wego.util.map.QQMapSupporter;
 import com.mini_proj.annetao.wego.util.map.SearchAddrForMapActivity;
 import com.mini_proj.annetao.wego.util.map.WeGoLocation;
 
-public class TencentMapActivity extends AppCompatActivity {
+public class TencentMapActivity extends BaseActivity implements TitleLayout.OnTitleActionListener{
+    private TitleLayout titleLayout;
     private QQMapSupporter qqMapSupporter;
     private MapView qqMapView;
     private String mapType;
@@ -22,13 +23,16 @@ public class TencentMapActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tencent_map);
+        titleLayout = findView(R.id.title_layout_top);
+        titleLayout.setOnTitleActionListener(this);
+        mapType = getIntent().getStringExtra("map_type");
+        if(null==mapType) {finish();return;}
         initView();
 
     }
 
 
     void initView() {
-        mapType = QQMapSupporter.QQ_MAP_TYPE_EXERCISES;
         final String city = "深圳";
         qqMapView = new MapView(this);
         qqMapSupporter = new QQMapSupporter(this,qqMapView,mapType);
@@ -109,5 +113,18 @@ public class TencentMapActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void clickTitleBack() {
+        finish();
+    }
 
+    @Override
+    public void doubleClickTitle() {
+
+    }
+
+    @Override
+    public void clickTitleEdit() {
+        finish();
+    }
 }
