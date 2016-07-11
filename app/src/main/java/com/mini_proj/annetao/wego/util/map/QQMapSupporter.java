@@ -50,8 +50,10 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
     public static final String QQ_MAP_TYPE_ONE_EXERCISE = "qq.map.type.one.execise";
     public static final float QQ_MAP_DEFAULT_ZOOM_LEVEL = 18;
     public static final int COMPONENT_ID_MY_LOCATION_BUTTON = 1;
+    public static final int SUBSCRIBE_ADDRESS_REQUEST_CODE = 21;
     private List<Marker> markerList;
     private Marker nowMarker;
+    public String wegoLocationStr;
     private LatLng nowMarkerLatLng;
     private String mapType;
     private MapView mapView;
@@ -230,6 +232,7 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
                 title(weGoLocation.title).
                 snippet(weGoLocation.disc));
         nowMarker.showInfoWindow();
+        //TODO 处理用户点击太快的问题
 
     }
 
@@ -269,7 +272,6 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
     @Override
     public void onLocationChanged(TencentLocation tencentLocation, int i, String s) {
         if (TencentLocation.ERROR_OK == i) {
-            Toast.makeText(activity,"success", Toast.LENGTH_SHORT).show();
             LatLng latLng = new LatLng(tencentLocation.getLatitude(),tencentLocation.getLongitude());
             moveCameraTo(latLng,tencentMap.getCameraPosition().zoom);
             TencentLocationManager locationManager =
@@ -310,6 +312,7 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
                     weGoLocation.title = obj.result.pois.get(0).title;
                 }
                 refreshNowMarker(weGoLocation);
+                wegoLocationStr = weGoLocation.toString();
 
 
 //                StringBuilder sb = new StringBuilder();

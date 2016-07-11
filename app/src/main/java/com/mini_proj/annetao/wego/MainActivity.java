@@ -10,10 +10,12 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.mini_proj.annetao.wego.util.Utils;
+import com.mini_proj.annetao.wego.util.map.QQMapSupporter;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 
@@ -270,6 +272,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 setPhoto(photos);
             }
         }
+
+        if (resultCode == RESULT_OK && requestCode == QQMapSupporter.SUBSCRIBE_ADDRESS_REQUEST_CODE) {
+            if (data != null) {
+                String wegoLocStr = data.getStringExtra("wego_location_str");
+                if(wegoLocStr != null)
+                    setAddress(wegoLocStr);
+            }
+        }
     }
 
     private void toggleView() {
@@ -283,5 +293,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private void setPhoto(ArrayList<String> paths) {
         if (viewPager.getCurrentItem() == 2 && fragmentSubscribeSoftReference != null && fragmentSubscribeSoftReference.get() != null) fragmentSubscribeSoftReference.get().setPhoto(paths);
+    }
+    private void setAddress(String wegolocationStr) {
+        if (viewPager.getCurrentItem() == 2 && fragmentSubscribeSoftReference != null && fragmentSubscribeSoftReference.get() != null) fragmentSubscribeSoftReference.get().setAddress(wegolocationStr);
     }
 }

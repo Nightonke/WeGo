@@ -26,6 +26,10 @@ public class TencentMapActivity extends BaseActivity implements TitleLayout.OnTi
         titleLayout = findView(R.id.title_layout_top);
         titleLayout.setOnTitleActionListener(this);
         mapType = getIntent().getStringExtra("map_type");
+        if(mapType.equals(QQMapSupporter.QQ_MAP_TYPE_LOCATION)) {
+            titleLayout.setEdit("确认");
+            titleLayout.setTitle("地图选址");
+        }
         if(null==mapType) {finish();return;}
         initView();
 
@@ -41,7 +45,7 @@ public class TencentMapActivity extends BaseActivity implements TitleLayout.OnTi
         qqMapSupporter.initialMapView();
 
         LinearLayout searchGuideLayout = (LinearLayout) findViewById(R.id.map_search_guide_layout);
-        if(QQMapSupporter.QQ_MAP_TYPE_LOCATION == mapType){
+        if(mapType.equals(QQMapSupporter.QQ_MAP_TYPE_LOCATION)){
             searchGuideLayout.setVisibility(View.VISIBLE);
             searchGuideLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -63,10 +67,11 @@ public class TencentMapActivity extends BaseActivity implements TitleLayout.OnTi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (resultCode) {
             case RESULT_OK:
+
                 String str=data.getStringExtra("wego_location_str");
                 weGoLocation = new WeGoLocation(str);
                 qqMapSupporter.addMarkerFromSearch(weGoLocation);
-
+                qqMapSupporter.wegoLocationStr = str;
                 break;
             default:
                 break;
@@ -125,6 +130,11 @@ public class TencentMapActivity extends BaseActivity implements TitleLayout.OnTi
 
     @Override
     public void clickTitleEdit() {
+        if(mapType.equals(QQMapSupporter.QQ_MAP_TYPE_LOCATION)&&qqMapSupporter.wegoLocationStr!=null) {
+            Intent intent = new Intent();
+            intent.putExtra("wego_location_str", qqMapSupporter.wegoLocationStr);
+            setResult(RESULT_OK, intent);
+        }
         finish();
     }
 }
