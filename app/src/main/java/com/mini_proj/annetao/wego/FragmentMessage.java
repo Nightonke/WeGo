@@ -23,7 +23,19 @@ public class FragmentMessage extends Fragment {
         UserInf.getUserInf().queryMyNotice(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
+                Log.d("Wego", e.toString() + " " + id);
+            }
 
+            @Override
+            public void onResponse(String response, int id) {
+                Log.d("Wego", response + " " + id);
+            }
+        });
+
+        ExercisePool.getTopicPool().queryTopicWithSponsor(1,new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                Log.d("Wego", e.toString() + " " + id);
             }
 
             @Override

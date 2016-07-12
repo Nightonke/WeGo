@@ -3,10 +3,13 @@ package com.mini_proj.annetao.wego;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -24,6 +27,7 @@ public class FragmentHome extends Fragment implements ExerciseAdapter.OnExercise
 
     private boolean shownMapView = false;
 
+    private WegoRelativeLayout wegoRelativeLayout;
     private MapView mapView;
     private SuperRecyclerView listView;
     private ExerciseAdapter adapter;
@@ -33,6 +37,7 @@ public class FragmentHome extends Fragment implements ExerciseAdapter.OnExercise
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View messageLayout = inflater.inflate(R.layout.fragment_home, container, false);
 
+        wegoRelativeLayout = (WegoRelativeLayout) messageLayout.findViewById(R.id.base);
         listView = (SuperRecyclerView) messageLayout.findViewById(R.id.list_view);
         listView.addItemDecoration(new PhoneOrderDecoration(Utils.dp2px(10)));
         LinearLayoutManager mManager = new LinearLayoutManager(getContext());
@@ -86,6 +91,7 @@ public class FragmentHome extends Fragment implements ExerciseAdapter.OnExercise
 
     public void toggleView() {
         shownMapView = !shownMapView;
+        wegoRelativeLayout.setShowingMap(shownMapView);
         if (shownMapView) {
             YoYo.with(Techniques.BounceInUp).duration(700).playOn(mapView);
             YoYo.with(Techniques.FadeOutUp)
@@ -123,5 +129,9 @@ public class FragmentHome extends Fragment implements ExerciseAdapter.OnExercise
                     })
                     .duration(300).playOn(mapView);
         }
+    }
+
+    public void setViewPager(ViewPager viewPager) {
+        wegoRelativeLayout.setViewPager(viewPager);
     }
 }

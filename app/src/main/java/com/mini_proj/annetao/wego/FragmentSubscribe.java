@@ -356,6 +356,11 @@ public class FragmentSubscribe extends Fragment
 
     public void subscribe() {
         String titleStr = title.getText().toString();
+        if(titleStr.equals(""))
+        {
+            Toast.makeText(getActivity(), "请填写活动标题！", Toast.LENGTH_LONG).show();
+            return;
+        }
         String[] timeStr = time.getText().toString().split("~");
         String startTime;
         String endTime;
@@ -367,9 +372,29 @@ public class FragmentSubscribe extends Fragment
             return;
         }
         String placeStr = place.getText().toString();
+        if(placeStr.equals(""))
+        {
+            Toast.makeText(getActivity(), "请选择活动地点！", Toast.LENGTH_LONG).show();
+            return;
+        }
         String minPeopleStr = minPeople.getText().toString();
+        if(placeStr.equals(""))
+        {
+            Toast.makeText(getActivity(), "请填写最少参与人数！", Toast.LENGTH_LONG).show();
+            return;
+        }
         String maxPeopleStr = maxPeople.getText().toString();
+        if(placeStr.equals(""))
+        {
+            Toast.makeText(getActivity(), "请填写最多参与人数！", Toast.LENGTH_LONG).show();
+            return;
+        }
         String creitStr = credit.getText().toString();
+        if(creitStr.equals(""))
+        {
+            Toast.makeText(getActivity(), "请填写最少参与人数！", Toast.LENGTH_LONG).show();
+            return;
+        }
         String averageStr = average.getText().toString();
         String detailStr = detail.getText().toString();
         String latitude = "1";
