@@ -42,30 +42,24 @@ public class ExercisePool {
         exerciseMap.get(tag).add(exercise);
     }
 
-    public void queryPlaceTopic(float latitude_lower_bound, float latitude_upper_bound,
-                                float longitude_lower_bound, float longitude_upper_bound,
+    public void queryPlaceTopic(float latitude, float longitude,
                                 Callback callback) {
         Map<String, String> map = new HashMap<>();
         map.putAll(NetworkTools.paramsMap);
-        map.put("latitude_lower_bound", "" + latitude_lower_bound);
-        map.put("latitude_upper_bound", "" + latitude_upper_bound);
-        map.put("longitude_lower_bound", "" + longitude_lower_bound);
-        map.put("longitude_upper_bound", "" + longitude_upper_bound);
-        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/query_acti"
+        map.put("latitude", "" + latitude);
+        map.put("longitude", "" + longitude);
+        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/query_nearby_exercise"
                 , map, callback);
     }
 
-    public void queryPlaceTopicWithTag(float latitude_lower_bound, float latitude_upper_bound,
-                                       float longitude_lower_bound, float longitude_upper_bound, String tag,
+    public void queryPlaceTopicWithTag(float latitude, float longitude, String tag,
                                        Callback callback) {
         Map<String, String> map = new HashMap<>();
         map.putAll(NetworkTools.paramsMap);
-        map.put("latitude_lower_bound", "" + latitude_lower_bound);
-        map.put("latitude_upper_bound", "" + latitude_upper_bound);
-        map.put("longitude_lower_bound", "" + longitude_lower_bound);
-        map.put("longitude_upper_bound", "" + longitude_upper_bound);
+        map.put("latitude", "" + latitude);
+        map.put("longitude", "" + longitude);
         map.put("tag", "" + tag);
-        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/query_tagActi"
+        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/query_nearby_tag_exercise"
                 , map, callback);
     }
 
@@ -85,7 +79,7 @@ public class ExercisePool {
         map.put("sponsor_id", "" + sponsor_id);
         map.put("time_lower_bound", "" + time_lower_bound);
         map.put("time_upper_bound", "" + time_upper_bound);
-        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/query_userActiTime"
+        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/query_user_current_exercise"
                 , map, callback);
     }
 

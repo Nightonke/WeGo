@@ -8,6 +8,7 @@ import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.builder.PostFormBuilder;
 import com.zhy.http.okhttp.callback.Callback;
 import com.zhy.http.okhttp.callback.StringCallback;
+import com.zhy.http.okhttp.request.RequestCall;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,7 +64,9 @@ public class NetworkTools {
         for (Map.Entry<String, String> param : paramsmap.entrySet()) {
             builder = builder.addParams(param.getKey(), param.getValue());
         }
-        builder.build().execute(callback);
+        RequestCall build = builder.build();
+        //Log.d("WeGo",build.getRequest().toString());
+        build.execute(callback);
     }
 
     //Tag
