@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,6 +29,8 @@ import me.gujun.android.taggroup.TagGroup;
  */
 public class FragmentDiscovery extends Fragment {
 
+    private WegoRelativeLayout wegoRelativeLayout;
+
     private TagGroup tagGroup;
     private RecyclerView recyclerView;
     private boolean shownMapView = false;
@@ -46,6 +49,7 @@ public class FragmentDiscovery extends Fragment {
             }
         });
 
+        wegoRelativeLayout = (WegoRelativeLayout) messageLayout.findViewById(R.id.base);
         tagGroup = (TagGroup) messageLayout.findViewById(R.id.tag_group);
         tagGroup.setTags(Tag.getAllTagName());
         tagGroup.setOnTagClickListener(new TagGroup.OnTagClickListener() {
@@ -84,6 +88,7 @@ public class FragmentDiscovery extends Fragment {
 
     public void toggleView() {
         shownMapView = !shownMapView;
+        wegoRelativeLayout.setShowingMap(shownMapView);
         if (shownMapView) {
             YoYo.with(Techniques.BounceInUp).duration(700).playOn(mapView);
             YoYo.with(Techniques.FadeOutUp)
@@ -160,5 +165,7 @@ public class FragmentDiscovery extends Fragment {
         mapView.onDestroy();
     }
 
-
+    public void setViewPager(ViewPager viewPager) {
+        wegoRelativeLayout.setViewPager(viewPager);
+    }
 }

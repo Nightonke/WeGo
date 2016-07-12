@@ -1,6 +1,5 @@
 package com.mini_proj.annetao.wego;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -22,7 +21,6 @@ public class LoginActivity extends BaseActivity
         implements View.OnClickListener,QQLoginListener {
 
     private EditText name;
-    private EditText password;
     private QQLoginSupporter qs;
     private BaseUiListener loginListener;
     public static String QQ_LOGIN_APP_ID = "1105456541";
@@ -36,13 +34,6 @@ public class LoginActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         qs = new QQLoginSupporter(this);
-        findView(R.id.name_layout).setOnClickListener(this);
-        name = findView(R.id.name);
-        findView(R.id.clear_name).setOnClickListener(this);
-        findView(R.id.password_layout).setOnClickListener(this);
-        password = findView(R.id.password);
-        findView(R.id.clear_password).setOnClickListener(this);
-        findView(R.id.login).setOnClickListener(this);
         findView(R.id.qq).setOnClickListener(this);
     }
 
@@ -60,21 +51,6 @@ public class LoginActivity extends BaseActivity
             case R.id.clear_name:
                 name.setText("");
                 onClick(findView(R.id.name_layout));
-                break;
-            case R.id.password_layout:
-                password.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Utils.showKeyboard(password, LoginActivity.this);
-                    }
-                });
-                break;
-            case R.id.clear_password:
-                password.setText("");
-                onClick(findView(R.id.password_layout));
-                break;
-            case R.id.login:
-
                 break;
             case R.id.qq:
                 qqLogin();
