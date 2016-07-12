@@ -1,7 +1,9 @@
 package com.mini_proj.annetao.wego;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -21,7 +23,7 @@ public class UserInformationActivity extends BaseActivity
         View.OnClickListener,
         com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener {
 
-    private EditText name;
+    private TextView name;
     private TextView birthday;
     private TextView tagsText;
     private RadioGroup sex;
@@ -38,6 +40,7 @@ public class UserInformationActivity extends BaseActivity
         setContentView(R.layout.activity_user_information);
 
         name = findView(R.id.name);
+        name.setSelected(true);
         birthday = findView(R.id.birthday);
         tagsText = findView(R.id.tags);
         tagsText.setSelected(true);
@@ -54,12 +57,25 @@ public class UserInformationActivity extends BaseActivity
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.name_layout:
-                name.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Utils.showKeyboard(name, UserInformationActivity.this);
-                    }
-                });
+                new MaterialDialog.Builder(mContext)
+                        .title("昵称")
+                        .content("")
+                        .inputType(InputType.TYPE_CLASS_TEXT)
+                        .positiveText("确认")
+                        .negativeText("取消")
+                        .inputRange(1, 20, Color.RED)
+                        .onAny(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                name.setText(dialog.getInputEditText().getText().toString());
+                            }
+                        })
+                        .input("活动标题", name.getText().toString(), new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(MaterialDialog dialog, CharSequence input) {
+
+                            }
+                        }).show();
                 break;
             case R.id.clear_name:
                 name.setText("");
@@ -106,9 +122,9 @@ public class UserInformationActivity extends BaseActivity
                                     String tags = "";
                                     boolean isFirst = true;
                                     for (Integer id : selectedId) {
-                                        if (isFirst) tags += ", ";
+                                        if (!isFirst) tags += ", ";
                                         isFirst = false;
-                                        tags += selectedId;
+                                        tags += Tag.getAllTagName().get(id);
                                     }
                                     tagsText.setText(tags);
                                 }
@@ -119,6 +135,15 @@ public class UserInformationActivity extends BaseActivity
                 break;
             case R.id.next:
                 // 调用网络接口将数据写入服务器，如果成功，再写入本地
+                if ("".equals(name.getText().toString())) {
+                    Utils.toastImmediately("昵称不能为空");
+                } else if ("生日".equals(birthday.getText().toString())) {
+                    Utils.toastImmediately("生日不能为空");
+                } else if (selectedId.size() == 0) {
+                    Utils.toastImmediately("兴趣标签不能为空");
+                } else {
+
+                }
                 break;
         }
     }
@@ -128,6 +153,6 @@ public class UserInformationActivity extends BaseActivity
         this.year = year;
         this.month = monthOfYear + 1;
         this.day = dayOfMonth;
-        birthday.setText(this.year + "-" + String.format(Locale.getDefault(), "%02d", month) + String.format(Locale.getDefault(), "%02d", day));
+        birthday.setText(this.year + "-" + String.format(Locale.getDefault(), "%02d", month) + "-" + String.format(Locale.getDefault(), "%02d", day));
     }
 }
