@@ -247,6 +247,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             Intent intent = new Intent(this,LoginActivity.class);
             startActivity(intent);// 跳到登录页
 
+
         }
     }
 

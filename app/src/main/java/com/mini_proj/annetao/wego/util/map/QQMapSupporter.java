@@ -9,6 +9,7 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.mini_proj.annetao.wego.Exercise;
 import com.mini_proj.annetao.wego.ExerciseDetailActivity;
 import com.mini_proj.annetao.wego.ExercisePool;
