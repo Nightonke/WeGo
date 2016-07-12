@@ -65,6 +65,9 @@ public class User {
                 year = Integer.parseInt(bds[0]);
                 month = Integer.parseInt(bds[1]);
                 day = Integer.parseInt(bds[2]);
+                setYear(year);
+                setMonth(month);
+                setDay(day);
             }
             setGender(jsonObject.getInt("gender"));
             setCredit((float)jsonObject.getDouble("credit"));
@@ -84,9 +87,6 @@ public class User {
         }
 
     }
-
-
-
 
     public int getId() {
         id = getSharedPreferences().getInt("ID", -1);

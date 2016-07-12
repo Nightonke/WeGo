@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -137,6 +138,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             @Override
                             public void onAnimationCancel(Animator animation) {
                                 super.onAnimationCancel(animation);
+                                Log.d("Wego", "Cancel");
                                 findView(titles[lastTitlePosition]).setVisibility(View.GONE);
                             }
                         })
