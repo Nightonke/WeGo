@@ -18,7 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LoginActivity extends BaseActivity
-        implements View.OnClickListener,QQLoginListener {
+        implements View.OnClickListener {
 
     private EditText name;
     private QQLoginSupporter qs;
@@ -70,7 +70,6 @@ public class LoginActivity extends BaseActivity
 
     }
 
-    @Override
     public void onQQLoginResult(String result, Object response) {
         if(result.equals(QQLoginSupporter.QQ_LOGIN_RESULT_COMPLETE)) {
             //TODO 存储登录数据
@@ -82,7 +81,6 @@ public class LoginActivity extends BaseActivity
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            LoginActivity.this.finish();
         }
         else{
             Toast.makeText(this,"登录失败",Toast.LENGTH_SHORT);
