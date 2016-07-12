@@ -1,7 +1,6 @@
 package com.mini_proj.annetao.wego;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -10,12 +9,10 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.mini_proj.annetao.wego.util.Utils;
-import com.mini_proj.annetao.wego.util.login.QQLoginListener;
 import com.mini_proj.annetao.wego.util.map.QQMapSupporter;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
@@ -178,6 +175,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
                 lastTitlePosition = position;
                 lastButtonPosition = position;
+
+                if (viewPager.getCurrentItem() == 0 && fragmentHomeSoftReference != null && fragmentHomeSoftReference.get() != null) fragmentHomeSoftReference.get().setViewPager(viewPager);
+                if (viewPager.getCurrentItem() == 1 && fragmentDiscoverySoftReference != null && fragmentDiscoverySoftReference.get() != null) fragmentDiscoverySoftReference.get().setViewPager(viewPager);
+
             }
 
             @Override
@@ -191,9 +192,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 switch (position) {
                     case 0:
                         fragmentHomeSoftReference = new SoftReference<>(new FragmentHome());
+                        viewPager.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                fragmentHomeSoftReference.get().setViewPager(viewPager);
+                            }
+                        });
                         return fragmentHomeSoftReference.get();
                     case 1:
                         fragmentDiscoverySoftReference = new SoftReference<>(new FragmentDiscovery());
+                        viewPager.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                fragmentDiscoverySoftReference.get().setViewPager(viewPager);
+                            }
+                        });
                         return fragmentDiscoverySoftReference.get();
                     case 2:
                         fragmentSubscribeSoftReference = new SoftReference<>(new FragmentSubscribe());
@@ -288,8 +301,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void toggleView() {
-        if (viewPager.getCurrentItem() == 0 && fragmentHomeSoftReference != null && fragmentHomeSoftReference.get() != null) fragmentHomeSoftReference.get().toggleView();
-        if (viewPager.getCurrentItem() == 1 && fragmentDiscoverySoftReference != null && fragmentDiscoverySoftReference.get() != null) fragmentDiscoverySoftReference.get().toggleView();
+        if (viewPager.getCurrentItem() == 0 && fragmentHomeSoftReference != null && fragmentHomeSoftReference.get() != null) {
+            fragmentHomeSoftReference.get().toggleView();
+            fragmentHomeSoftReference.get().setViewPager(viewPager);
+        }
+        if (viewPager.getCurrentItem() == 1 && fragmentDiscoverySoftReference != null && fragmentDiscoverySoftReference.get() != null) {
+            fragmentDiscoverySoftReference.get().toggleView();
+            fragmentDiscoverySoftReference.get().setViewPager(viewPager);
+        }
     }
 
     private void subScribe() {
