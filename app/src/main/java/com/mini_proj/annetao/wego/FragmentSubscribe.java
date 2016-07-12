@@ -400,8 +400,9 @@ public class FragmentSubscribe extends Fragment
         String latitude = "1";
         String longitude = "1";
         Map<String, String> map = new HashMap<>();
-        Exercise.upload(Float.valueOf(latitude), User.getInstance().getId(), startTime, endTime, titleStr
-                , Float.valueOf(longitude), detailStr, Float.valueOf(averageStr), "", map, new StringCallback() {
+        Exercise.upload(Float.valueOf(latitude), Float.valueOf(longitude), Integer.valueOf(User.getInstance().getId()),
+                startTime, endTime, titleStr
+                , detailStr, Float.valueOf(averageStr), "",Integer.valueOf(minPeopleStr),Integer.valueOf(maxPeopleStr), map, new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("WeGo", "新建活动失败");

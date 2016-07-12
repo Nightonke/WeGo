@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import okhttp3.Call;
@@ -16,10 +17,19 @@ import okhttp3.Call;
  */
 public class FragmentMessage extends Fragment {
 
+    private MaterialDialog dialog;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View messageLayout = inflater.inflate(R.layout.fragment_message, container, false);
-
+        /*
+        dialog = new MaterialDialog.Builder(getActivity())
+                .title("sdfsdf")
+                .content("dsfsdf")
+                .progress(true, 0)
+                .cancelable(false)
+                .show();
+        */
         UserInf.getUserInf().queryMyNotice(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
