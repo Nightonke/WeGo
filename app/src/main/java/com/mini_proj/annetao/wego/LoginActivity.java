@@ -94,7 +94,7 @@ public class LoginActivity extends BaseActivity
         if(result.equals(QQLoginSupporter.QQ_LOGIN_RESULT_COMPLETE)) {
             //TODO 存储登录数据
             JSONObject jsonResponse = (JSONObject) response;
-            User.getInstance().setLogin(true);
+            User.getInstance().setLogin(true);//问问
             try {
                 User.getInstance().setOpenId(jsonResponse.getString(Constants.PARAM_OPEN_ID));
                 User.getInstance().setToken(jsonResponse.getString(Constants.PARAM_ACCESS_TOKEN));
