@@ -3,6 +3,9 @@ package com.mini_proj.annetao.wego;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.HashMap;
+import java.util.HashSet;
+
 /**
  * Created by huangweiping on 16/7/10.
  */
