@@ -4,19 +4,30 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.mini_proj.annetao.wego.util.Utils;
+import com.tencent.connect.common.Constants;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import com.zhy.http.okhttp.callback.Callback;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Locale;
+
+import okhttp3.Call;
+import okhttp3.Response;
 
 public class UserInformationActivity extends BaseActivity
         implements
@@ -27,12 +38,15 @@ public class UserInformationActivity extends BaseActivity
     private TextView birthday;
     private TextView tagsText;
     private RadioGroup sex;
+    private String sexString = "2";
 
     private int year;
     private int month;
     private int day;
 
     private HashSet<Integer> selectedId = new HashSet<>();
+
+    private MaterialDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +61,31 @@ public class UserInformationActivity extends BaseActivity
         sex = findView(R.id.sex);
 
         findView(R.id.name_layout).setOnClickListener(this);
-        findView(R.id.clear_name).setOnClickListener(this);
         findView(R.id.birthday_layout).setOnClickListener(this);
         findView(R.id.tags_layout).setOnClickListener(this);
         findView(R.id.next).setOnClickListener(this);
+
+        sex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.male:
+                        sexString = "0";
+                        break;
+                    case R.id.female:
+                        sexString = "1";
+                        break;
+                    case R.id.unknown:
+                        sexString = "2";
+                        break;
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 
     @Override
@@ -76,10 +111,6 @@ public class UserInformationActivity extends BaseActivity
 
                             }
                         }).show();
-                break;
-            case R.id.clear_name:
-                name.setText("");
-                onClick(findView(R.id.name_layout));
                 break;
             case R.id.birthday_layout:
                 Calendar calendar = Calendar.getInstance();
@@ -142,6 +173,46 @@ public class UserInformationActivity extends BaseActivity
                 } else if (selectedId.size() == 0) {
                     Utils.toastImmediately("兴趣标签不能为空");
                 } else {
+                    dialog = new MaterialDialog.Builder(mContext)
+                            .title("提交信息中")
+                            .content("请耐心等候")
+                            .cancelable(false)
+                            .progress(true, 0)
+                            .show();
+                    UserInf.getUserInf().doRegister(User.getInstance().getOpenId(), name.getText().toString(), sexString, birthday.getText().toString(), new StringCallback() {
+                        @Override
+                        public void onError(Call call, Exception e, int id) {
+                            Log.d("Wego", e.toString());
+                            if (dialog != null) dialog.dismiss();
+                            dialog = new MaterialDialog.Builder(mContext)
+                                    .title("提交失败")
+                                    .content("提交信息失败。")
+                                    .positiveText("确定")
+                                    .show();
+                        }
+
+                        @Override
+                        public void onResponse(String response, int id) {
+                            Log.d("Wego", response.toString());
+                            if (dialog != null) dialog.dismiss();
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                if ("200".equals(jsonObject.getString("result"))) {
+                                    Utils.toastImmediately("提交信息成功，欢迎你，" + name.getText().toString());
+                                    setResult(Constants.REQUEST_API + 1);
+                                    finish();
+                                } else {
+                                    dialog = new MaterialDialog.Builder(mContext)
+                                            .title("提交失败")
+                                            .content("提交信息失败。")
+                                            .positiveText("确定")
+                                            .show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
 
                 }
                 break;

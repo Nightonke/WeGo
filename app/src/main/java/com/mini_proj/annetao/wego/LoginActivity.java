@@ -48,18 +48,6 @@ public class LoginActivity extends BaseActivity
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.name_layout:
-                name.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Utils.showKeyboard(name, LoginActivity.this);
-                    }
-                });
-                break;
-            case R.id.clear_name:
-                name.setText("");
-                onClick(findView(R.id.name_layout));
-                break;
             case R.id.qq:
                 qqLogin();
                 break;

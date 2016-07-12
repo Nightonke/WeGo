@@ -3,8 +3,12 @@ package com.mini_proj.annetao.wego;
 import com.zhy.http.okhttp.callback.Callback;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import okhttp3.Call;
@@ -39,12 +43,29 @@ public class UserInf {
         NetworkTools.doRequest(NetworkTools.URL_USER + "/login", map, callback);
     }
 
-    public void doRegister(String name,String gender,String birthday, Callback callback) {
+    public void doRegister(String id, String name,String gender,String birthday, Callback callback) {
+        Map<String, String> map = new HashMap<>();
+        map.put("id", id);
+        map.put("name", name);
+        map.put("gender", gender);
+        map.put("birthday", birthday);
+        NetworkTools.doRequest(NetworkTools.URL_USER + "/register", map, callback);
+    }
+
+    public void doRegister(String name, String gender, String birthday, HashSet<Integer> tagIds, Callback callback) {
         Map<String, String> map = new HashMap<>();
         map.putAll(NetworkTools.paramsMap);
         map.put("name", name);
         map.put("gender", gender);
         map.put("birthday", birthday);
+        JSONObject jsonObject = new JSONObject();
+        for (Integer id : tagIds)
+            try {
+                jsonObject.put(tagIds + "", Tag.value(id).toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        map.put("tags", jsonObject.toString());
         NetworkTools.doRequest(NetworkTools.URL_USER + "/register", map, callback);
     }
 
