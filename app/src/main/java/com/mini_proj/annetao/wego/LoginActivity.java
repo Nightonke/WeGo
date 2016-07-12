@@ -1,7 +1,10 @@
 package com.mini_proj.annetao.wego;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -11,6 +14,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.mini_proj.annetao.wego.util.Utils;
 import com.mini_proj.annetao.wego.util.login.QQLoginListener;
 import com.mini_proj.annetao.wego.util.login.QQLoginSupporter;
+import com.tencent.connect.UserInfo;
 import com.tencent.connect.common.Constants;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
@@ -90,11 +94,68 @@ public class LoginActivity extends BaseActivity
                 e.printStackTrace();
             }
 
-            weGoLogin();
+            initOpenidAndToken((JSONObject) response);
+            updateUserInfo();
+
+
         }
         else{
             Toast.makeText(this,"登录失败",Toast.LENGTH_SHORT);
         }
+
+    }
+
+    public  void initOpenidAndToken(JSONObject jsonObject) {
+        try {
+            String token = jsonObject.getString(Constants.PARAM_ACCESS_TOKEN);
+            String expires = jsonObject.getString(Constants.PARAM_EXPIRES_IN);
+            String openId = jsonObject.getString(Constants.PARAM_OPEN_ID);
+            if (!TextUtils.isEmpty(token) && !TextUtils.isEmpty(expires)
+                    && !TextUtils.isEmpty(openId)) {
+                mTencent.setAccessToken(token, expires);
+                mTencent.setOpenId(openId);
+            }
+        } catch(Exception e) {
+        }
+    }
+
+    private void updateUserInfo() {
+
+            IUiListener listener = new IUiListener() {
+
+                @Override
+                public void onError(UiError e) {
+                    Toast.makeText(LoginActivity.this,"获取头像失败",Toast.LENGTH_SHORT).show();
+                    weGoLogin();
+
+                }
+
+                @Override
+                public void onComplete(final Object response) {
+                    JSONObject json = (JSONObject)response;
+                    Log.e("avatorurl",response.toString());
+                    if(json.has("figureurl")) {
+                        try {
+                            User.getInstance().setAvatorUrl(json.getString("figureurl_qq_2"));
+                            User.getInstance().setName(json.getString("nickname"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    weGoLogin();
+
+
+                }
+
+                @Override
+                public void onCancel() {
+
+                }
+            };
+            UserInfo mInfo = new UserInfo(this, mTencent.getQQToken());
+            mInfo.getUserInfo(listener);
+
 
     }
     private void goToRegistry(){
@@ -142,6 +203,7 @@ public class LoginActivity extends BaseActivity
 
         @Override
         public void onComplete(Object response) {
+            Log.e("openid",response.toString());
             onQQLoginResult(QQ_LOGIN_RESULT_COMPLETE,response);
 
             doComplete(response);
