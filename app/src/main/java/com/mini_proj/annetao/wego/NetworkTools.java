@@ -19,6 +19,16 @@ import okhttp3.Call;
  * Created by bran on 2016/7/7.
  */
 public class NetworkTools {
+    public static String RESULT_SUCCESS = "200";
+    public static String RESULT_FAILED = "400";
+    public static String RESULT_PERMISSION_DENY = "401";
+    public static String RESULT_SERVER_FAILED = "501";
+    public static String RESULT_USER_LOGIN_REQUESTED = "402";
+    public static String RESULT_TIMESTAMP_ERROR = "8000";
+    public static String ACTION_QUERY = "1";
+    public static String ACTION_REMOVE = "2";
+    public static String ACTION_INSERT = "3";
+    public static String ACTION_UPDATE = "4";
     public static String ServerAddr="http://119.29.235.26:33000";
     public static String URL_USER = "/user";
     public static String URL_EXERCISE = "/exercise";

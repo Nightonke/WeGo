@@ -3,6 +3,13 @@ package com.mini_proj.annetao.wego;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.HashSet;
+
 /**
  * Created by huangweiping on 16/7/10.
  */
@@ -11,6 +18,7 @@ public class User {
     public static final String PREFERENCES_NAME = "VALUE";
 
     private boolean login = false;
+    private String tagString = "";
     private int id = -1;
     private String openId = "";
     private String token ="";
@@ -35,6 +43,52 @@ public class User {
                 .putBoolean("LOGIN", login)
                 .commit();
         this.login = login;
+    }
+
+    public String getTagString() {
+        tagString = getSharedPreferences().getString("TAGSTRING","");
+        return tagString;
+    }
+
+    public void setTagString(String tagString) {
+        MyApplication.getAppContext()
+                .getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE).edit()
+                .putString("TAGSTRING", tagString)
+                .commit();
+        this.tagString = tagString;
+    }
+
+    public void updateByJsonResult(JSONObject jsonObject){
+        try {
+            if(jsonObject.getString("name")!=null) setName(jsonObject.getString("name"));
+            if(jsonObject.getString("password")!=null) setPassword(jsonObject.getString("password"));
+            if(jsonObject.getString("birthday")!=null){
+                String birthDayStr = jsonObject.getString("birthday");
+                String bds[] = birthDayStr.split("-");
+                year = Integer.parseInt(bds[0]);
+                month = Integer.parseInt(bds[1]);
+                day = Integer.parseInt(bds[2]);
+                setYear(year);
+                setMonth(month);
+                setDay(day);
+            }
+            setGender(jsonObject.getInt("gender"));
+            setCredit((float)jsonObject.getDouble("credit"));
+            if(jsonObject.getJSONArray("tags")!=null){
+                JSONArray ja = jsonObject.getJSONArray("tags");
+                String tagString="";
+                if(ja.length()>0) tagString+=ja.getInt(0);
+                for(int i = 1;i<ja.length();i++){
+                    tagString+=","+ja.getInt(i);
+                }
+                setTagString(tagString);
+
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public int getId() {
