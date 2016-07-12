@@ -28,6 +28,7 @@ public class LoginActivity extends BaseActivity
     private EditText name;
     private EditText password;
     private QQLoginSupporter qs;
+    public static int REGISTRY_REQUEST = 145;
     private BaseUiListener loginListener;
     public static String QQ_LOGIN_APP_ID = "1105456541";
     public static String QQ_LOGIN_RESULT_COMPLETE = "util.login.qqloginlistener.qqloginresult.complete";
@@ -110,7 +111,8 @@ public class LoginActivity extends BaseActivity
 
     }
     private void goToRegistry(){
-
+        Intent intent = new Intent(this,UserInformationActivity.class);
+        startActivityForResult(intent,REGISTRY_REQUEST);
 
     }
     private void weGoLogin() {
@@ -184,11 +186,17 @@ public class LoginActivity extends BaseActivity
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // 官方文档没没没没没没没没没没没这句代码, 但是很很很很很很重要, 不然不会回调!
-        Tencent.onActivityResultData(requestCode, resultCode, data, loginListener);
+        if(requestCode == REGISTRY_REQUEST) {
+            finish();
 
-        if(requestCode == Constants.REQUEST_API) {
-            if(resultCode == Constants.REQUEST_LOGIN) {
-                Tencent.handleResultData(data, loginListener);
+        }
+        else {
+            Tencent.onActivityResultData(requestCode, resultCode, data, loginListener);
+
+            if (requestCode == Constants.REQUEST_API) {
+                if (resultCode == Constants.REQUEST_LOGIN) {
+                    Tencent.handleResultData(data, loginListener);
+                }
             }
         }
     }
