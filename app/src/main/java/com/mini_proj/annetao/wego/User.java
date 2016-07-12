@@ -26,6 +26,20 @@ public class User {
     private int day;
     private int gender = -1;
     private float credit = 0;
+    private String avatorUrl = "";
+
+    public String getAvatorUrl() {
+        avatorUrl = getSharedPreferences().getString("AVATORURL","");
+        return avatorUrl;
+    }
+
+    public void setAvatorUrl(String avatorUrl) {
+        MyApplication.getAppContext()
+                .getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE).edit()
+                .putString("AVATORURL", avatorUrl)
+                .commit();
+        this.avatorUrl = avatorUrl;
+    }
 
     private SharedPreferences mSharedPreferences = null;
 
