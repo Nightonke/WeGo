@@ -110,8 +110,7 @@ public class LoginActivity extends BaseActivity
 
     }
     private void goToRegistry(){
-
-
+        startActivityForResult(new Intent(mContext, UserInformationActivity.class), Constants.REQUEST_API + 1);
     }
     private void weGoLogin() {
         UserInf.getUserInf().doLogin(User.getInstance().getOpenId(),new StringCallback() {
@@ -124,8 +123,9 @@ public class LoginActivity extends BaseActivity
             @Override
             public void onResponse(String response, int id) {
                 try {
+                    Log.d("Wego", response);
                     JSONObject jsonObject = new JSONObject(response);
-                    if(jsonObject.getInt("result")==NetworkTools.RESULT_FAILED)
+                    if(jsonObject.getString("result").equals(NetworkTools.RESULT_FAILED))
                         goToRegistry();
                     else {
                         User.getInstance().updateByJsonResult(jsonObject);
@@ -183,6 +183,10 @@ public class LoginActivity extends BaseActivity
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Constants.REQUEST_API + 1) {
+            finish();
+            return;
+        }
         // 官方文档没没没没没没没没没没没这句代码, 但是很很很很很很重要, 不然不会回调!
         Tencent.onActivityResultData(requestCode, resultCode, data, loginListener);
 
