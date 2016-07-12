@@ -29,7 +29,7 @@ public class User {
 
     private SharedPreferences mSharedPreferences = null;
 
-    public boolean isLogin() {
+    public boolean isLogin() {//fcuk
         login = getSharedPreferences().getBoolean("LOGIN", false);
         return login;
     }
