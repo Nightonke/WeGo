@@ -1,5 +1,6 @@
 package com.mini_proj.annetao.wego;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,6 +20,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.zhy.http.okhttp.callback.Callback;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -185,7 +187,7 @@ public class UserInformationActivity extends BaseActivity
                             .cancelable(false)
                             .progress(true, 0)
                             .show();
-                    UserInf.getUserInf().doRegister(User.getInstance().getOpenId(), name.getText().toString(), sexString, birthday.getText().toString(), new StringCallback() {
+                    UserInf.getUserInf().doRegister(User.getInstance().getOpenId(), name.getText().toString(), sexString, birthday.getText().toString(),new JSONArray(selectedId), new StringCallback() {
                         @Override
                         public void onError(Call call, Exception e, int id) {
                             Log.d("Wego", e.toString());
@@ -206,8 +208,8 @@ public class UserInformationActivity extends BaseActivity
                                 if ("200".equals(jsonObject.getString("result"))) {
                                     updateUserInfo();
                                     Utils.toastImmediately("提交信息成功，欢迎你，" + name.getText().toString());
-                                    setResult(RESULT_OK);
-                                    finish();
+                                    Intent intent = new Intent(UserInformationActivity.this,MainActivity.class);
+                                    startActivity(intent);
                                 } else {
                                     dialog = new MaterialDialog.Builder(mContext)
                                             .title("提交失败")
@@ -228,6 +230,14 @@ public class UserInformationActivity extends BaseActivity
 
     private void updateUserInfo() {
         //TODO 注册成功信息存入本地
+        User.getInstance().setName(name.getText()+"");
+        User.getInstance().setGender(Integer.parseInt(sexString));
+        String tagStr = selectedId.toString().replaceAll("\\[|\\]","");
+        Log.e("wego_tagStr",tagStr);
+        User.getInstance().setTagString(tagStr);
+        User.getInstance().setYear(year);
+        User.getInstance().setYear(month);
+        User.getInstance().setYear(day);
     }
 
     @Override

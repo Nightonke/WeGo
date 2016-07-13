@@ -1,8 +1,11 @@
 package com.mini_proj.annetao.wego;
 
+import android.util.Log;
+
 import com.zhy.http.okhttp.callback.Callback;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -65,7 +68,7 @@ public class UserInf {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        map.put("tags", jsonObject.toString());
+        map.put("tag", jsonObject.toString());
         NetworkTools.doRequest(NetworkTools.URL_USER + "/register", map, callback);
     }
 
@@ -193,6 +196,17 @@ public class UserInf {
 
     public void setNoticeArrayList(ArrayList<UserNotice> noticeArrayList) {
         this.noticeArrayList = noticeArrayList;
+    }
+
+    public void doRegister(String openId, String s, String sexString, String s1, JSONArray jsonArray, StringCallback stringCallback) {
+        Map<String, String> map = new HashMap<>();
+        map.put("id", openId);
+        map.put("name", s);
+        map.put("gender", sexString);
+        map.put("birthday", s1);
+        map.put("tag",jsonArray.toString());
+        Log.e("wego",map.toString());
+        NetworkTools.doRequest(NetworkTools.URL_USER + "/register", map, stringCallback);
     }
     //attend
 }

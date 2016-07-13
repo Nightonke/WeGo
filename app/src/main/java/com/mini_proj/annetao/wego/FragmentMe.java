@@ -52,6 +52,7 @@ public class FragmentMe extends Fragment implements View.OnClickListener{
         }
         sex.setText(sexString);
         birthday = (TextView) messageLayout.findViewById(R.id.birthday);
+        birthday.setText(User.getInstance().getYear()+"-"+User.getInstance().getMonth()+"-"+User.getInstance().getDay());
         tags = (TextView) messageLayout.findViewById(R.id.tags);
         tags.setText(User.getInstance().getTagShowString());
 
@@ -97,7 +98,7 @@ public class FragmentMe extends Fragment implements View.OnClickListener{
                     public void run() {
                         if (dialog != null) dialog.dismiss();
                         User.getInstance().setLogin(false);
-                        Intent intent = new Intent(getActivity(),MainActivity.class);
+                        Intent intent = new Intent(getActivity(),LoginActivity.class);
                         startActivity(intent);
                     }
                 }, 2000);
