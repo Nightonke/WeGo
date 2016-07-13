@@ -232,6 +232,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 return 5;
             }
         });
+        viewPager.setOffscreenPageLimit(4);
 
         findView(R.id.tab_home).setOnClickListener(this);
         findView(R.id.tab_discovery).setOnClickListener(this);
