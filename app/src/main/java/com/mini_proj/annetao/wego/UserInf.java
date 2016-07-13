@@ -79,6 +79,16 @@ public class UserInf {
         NetworkTools.doRequest(NetworkTools.URL_USER + "/chguname", map, callback);
     }
 
+    public void updateUserTag(String openId, JSONArray tags,Callback callback) {
+        Map<String, String> map = new HashMap<>();
+        map.put("id", openId);
+
+        map.put("tag",tags.toString());
+        Log.e("wego_up",map.toString());
+        NetworkTools.doRequest(NetworkTools.URL_USER + "/update_user_tag", map, callback);
+    }
+
+
     //notice
     public void queryMyNotice(Callback callback) {
         Map<String, String> map = new HashMap<>();
