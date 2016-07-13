@@ -69,6 +69,22 @@ public class User {
         this.tagString = tagString;
     }
 
+    public String getTagShowString() {
+        String text = "";
+        String[] ids = User.getInstance().getTagString().split(",");
+        for (int i = 0; i < ids.length; i++) {
+            if (i > 0) text += ", ";
+            int id = -1;
+            try {
+                id = Integer.valueOf(ids[i]);
+            } catch (NumberFormatException n) {
+                id = -1;
+            }
+            if (id != -1) text += Tag.value(id).toString();
+        }
+        return text;
+    }
+
     public void updateByJsonResult(JSONObject jsonObject){
         try {
             if(jsonObject.getString("name")!=null) setName(jsonObject.getString("name"));

@@ -3,8 +3,12 @@ package com.mini_proj.annetao.wego;
 import com.zhy.http.okhttp.callback.Callback;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import okhttp3.Call;
@@ -37,6 +41,39 @@ public class UserInf {
         map.put("id", user);
         //map.put("password", pass);
         NetworkTools.doRequest(NetworkTools.URL_USER + "/login", map, callback);
+    }
+
+    public void doRegister(String id, String name,String gender,String birthday, Callback callback) {
+        Map<String, String> map = new HashMap<>();
+        map.put("id", id);
+        map.put("name", name);
+        map.put("gender", gender);
+        map.put("birthday", birthday);
+        NetworkTools.doRequest(NetworkTools.URL_USER + "/register", map, callback);
+    }
+
+    public void doRegister(String name, String gender, String birthday, HashSet<Integer> tagIds, Callback callback) {
+        Map<String, String> map = new HashMap<>();
+        map.putAll(NetworkTools.paramsMap);
+        map.put("name", name);
+        map.put("gender", gender);
+        map.put("birthday", birthday);
+        JSONObject jsonObject = new JSONObject();
+        for (Integer id : tagIds)
+            try {
+                jsonObject.put(tagIds + "", Tag.value(id).toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        map.put("tags", jsonObject.toString());
+        NetworkTools.doRequest(NetworkTools.URL_USER + "/register", map, callback);
+    }
+
+    public void doChangeName(String name, Callback callback) {
+        Map<String, String> map = new HashMap<>();
+        map.putAll(NetworkTools.paramsMap);
+        map.put("name", name);
+        NetworkTools.doRequest(NetworkTools.URL_USER + "/chguname", map, callback);
     }
 
     //notice
@@ -73,7 +110,7 @@ public class UserInf {
         Map<String, String> map = new HashMap<>();
         map.putAll(NetworkTools.paramsMap);
         map.put("tag_id", tagid);
-        NetworkTools.doRequest(NetworkTools.URL_USER_TAG + "/del_usr_tag", map, callback);
+        NetworkTools.doRequest(NetworkTools.URL_USER_TAG + "/del_tag", map, callback);
     }
 
     public void queryUserTag(String tagname, Callback callback) {
@@ -83,11 +120,10 @@ public class UserInf {
     }
 
     //attend
-    public void addUserAttend(String tagname, String exercise_id, String created_day, Callback callback) {
+    public void addUserAttend(String tagname, String exercise_id, Callback callback) {
         Map<String, String> map = new HashMap<>();
         map.putAll(NetworkTools.paramsMap);
         map.put("activity_id", exercise_id);
-        map.put("created_day", created_day);
         NetworkTools.doRequest(NetworkTools.URL_ATTENDENCY + "/addusrActi", map, callback);
     }
 
