@@ -55,6 +55,9 @@ public class UserInformationActivity extends BaseActivity
 
         name = findView(R.id.name);
         name.setSelected(true);
+        String defaultName = User.getInstance().getName();
+        if(defaultName!=null&&!defaultName.equals(""))
+            name.setText(defaultName);
         birthday = findView(R.id.birthday);
         tagsText = findView(R.id.tags);
         tagsText.setSelected(true);
@@ -64,6 +67,9 @@ public class UserInformationActivity extends BaseActivity
         findView(R.id.birthday_layout).setOnClickListener(this);
         findView(R.id.tags_layout).setOnClickListener(this);
         findView(R.id.next).setOnClickListener(this);
+
+        if(User.getInstance().getGender()==1) sex.check(R.id.female);
+        else if(User.getInstance().getGender()==0) sex.check(R.id.male);
 
         sex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -198,8 +204,9 @@ public class UserInformationActivity extends BaseActivity
                             try {
                                 JSONObject jsonObject = new JSONObject(response);
                                 if ("200".equals(jsonObject.getString("result"))) {
+                                    updateUserInfo();
                                     Utils.toastImmediately("提交信息成功，欢迎你，" + name.getText().toString());
-                                    setResult(Constants.REQUEST_API + 1);
+                                    setResult(RESULT_OK);
                                     finish();
                                 } else {
                                     dialog = new MaterialDialog.Builder(mContext)
@@ -217,6 +224,10 @@ public class UserInformationActivity extends BaseActivity
                 }
                 break;
         }
+    }
+
+    private void updateUserInfo() {
+        //TODO 注册成功信息存入本地
     }
 
     @Override
