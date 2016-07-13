@@ -19,11 +19,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity"
             >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.tencent.tauth.AuthActivity"
@@ -57,7 +53,14 @@
         <activity
             android:name="me.iwf.photopicker.PhotoPagerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            </activity>
+
         <activity android:name=".UserInformationActivity" />
         <activity android:name=".SettingsActivity"></activity>
     </application>

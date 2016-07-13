@@ -183,7 +183,7 @@ public class LoginActivity extends BaseActivity
 
     }
     private void goToRegistry(){
-        startActivityForResult(new Intent(mContext, UserInformationActivity.class), Constants.REQUEST_API + 1);
+        startActivity(new Intent(mContext, UserInformationActivity.class));
     }
     private void weGoLogin() {
         UserInf.getUserInf().doLogin(User.getInstance().getOpenId(),new StringCallback() {
@@ -209,8 +209,8 @@ public class LoginActivity extends BaseActivity
                         Log.d("Wego_resulttojson", data.toString());
                         User.getInstance().updateByJsonResult(data);
                         User.getInstance().setLogin(true);
-                        LoginActivity.this.setResult(RESULT_OK);
-                        LoginActivity.this.finish();
+                        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                        startActivity(intent);
                     }
 
                 } catch (JSONException e) {
@@ -265,13 +265,7 @@ public class LoginActivity extends BaseActivity
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constants.REQUEST_API + 1) {
-            if(resultCode == RESULT_OK) {
-                User.getInstance().setLogin(true);
-                finish();
-                return;
-            }
-        }
+
         // 官方文档没没没没没没没没没没没这句代码, 但是很很很很很很重要, 不然不会回调!
         Tencent.onActivityResultData(requestCode, resultCode, data, loginListener);
 

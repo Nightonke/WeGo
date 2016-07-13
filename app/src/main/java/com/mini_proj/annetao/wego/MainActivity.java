@@ -52,7 +52,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         tabTexts[0] = findView(R.id.icon_home_text);
         tabTexts[1] = findView(R.id.icon_discovery_text);
         tabTexts[2] = findView(R.id.icon_subscribe_text);
@@ -69,6 +68,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         tabImages[8] = findView(R.id.icon_me_checked);
         tabImages[9] = findView(R.id.icon_me_unchecked);
 
+        User.getInstance().setLogin(true);
         viewPager = findView(R.id.view_pager);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -253,10 +253,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        if(!isLogin) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivityForResult(intent, REQUEST_LOGIN);// 跳到登录页
-        }
 
 
     }
@@ -294,13 +290,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == REQUEST_LOGIN) {
-        //TODO 写界面初始化逻辑
-            isLogin = true;
-            if( fragmentMeSoftReference != null && fragmentMeSoftReference.get() != null)
-                fragmentMeSoftReference.get().updateByUserInfo();
 
-        }
 
         if (resultCode == RESULT_OK && requestCode == PhotoPicker.REQUEST_CODE) {
             if (data != null) {
