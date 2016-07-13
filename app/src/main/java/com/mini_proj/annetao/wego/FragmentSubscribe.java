@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -21,10 +20,15 @@ import com.mini_proj.annetao.wego.util.Utils;
 import com.mini_proj.annetao.wego.util.map.QQMapSupporter;
 import com.mini_proj.annetao.wego.util.map.WeGoLocation;
 import com.squareup.picasso.Picasso;
+import com.tencent.lbssearch.object.Location;
+import com.tencent.tencentmap.mapsdk.maps.model.LatLng;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -58,11 +62,17 @@ public class FragmentSubscribe extends Fragment
     private TextView average;
     private TextView detail;
     private TagGroup tagGroup;
+    private TextView deadline;
 
     private Calendar startCalendar = Calendar.getInstance();
     private Calendar endCalendar = Calendar.getInstance();
+    private Calendar deadlineCalendar = Calendar.getInstance();
     private int setTimeStep = 0;
     private Tag tag = Tag.NONE;
+
+    private MaterialDialog dialog;
+    private double lat = -1;
+    private double lng = -1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,7 +82,7 @@ public class FragmentSubscribe extends Fragment
         title = (TextView) messageLayout.findViewById(R.id.title);
         time = (TextView) messageLayout.findViewById(R.id.time);
         time.setSelected(true);
-        place = (TextView) messageLayout.findViewById(R.id.place);
+        deadline = (TextView) messageLayout.findViewById(R.id.place);
         minPeople = (TextView) messageLayout.findViewById(R.id.min_people);
         maxPeople = (TextView) messageLayout.findViewById(R.id.max_people);
         credit = (TextView) messageLayout.findViewById(R.id.credit);
@@ -127,7 +137,7 @@ public class FragmentSubscribe extends Fragment
                         }).show();
                 break;
             case R.id.time_layout:
-                Calendar calendar = Calendar.getInstance();
+                final Calendar calendar = Calendar.getInstance();
                 DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
                         this,
                         calendar.get(Calendar.YEAR),
@@ -142,7 +152,28 @@ public class FragmentSubscribe extends Fragment
                 openMap();
                 break;
             case R.id.place_layout:
-
+                final Calendar placeCalendar = Calendar.getInstance();
+                datePickerDialog = DatePickerDialog.newInstance(
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePickerDialog view, final int year, final int monthOfYear, final int dayOfMonth) {
+                                TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(new TimePickerDialog.OnTimeSetListener() {
+                                    @Override
+                                    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
+                                        deadlineCalendar.set(year, monthOfYear, dayOfMonth, hourOfDay, minute, 0);
+                                        deadlineCalendar.add(Calendar.SECOND, 0);
+                                        setDeadlineCalendarText();
+                                    }
+                                }, placeCalendar.get(Calendar.HOUR_OF_DAY), placeCalendar.get(Calendar.MINUTE), true);
+                                timePickerDialog.show(FragmentSubscribe.this.getActivity().getFragmentManager(), "");
+                            }
+                        },
+                        placeCalendar.get(Calendar.YEAR),
+                        placeCalendar.get(Calendar.MONTH),
+                        placeCalendar.get(Calendar.DAY_OF_MONTH)
+                );
+                datePickerDialog.setTitle("开始时间");
+                datePickerDialog.show(getActivity().getFragmentManager(), "");
                 break;
             case R.id.min_people_layout:
                 new MaterialDialog.Builder(getActivity())
@@ -328,6 +359,11 @@ public class FragmentSubscribe extends Fragment
         time.setText(simpleDateFormat.format(startCalendar.getTime()) + " ~ " + simpleDateFormat.format(endCalendar.getTime()));
     }
 
+    private void setDeadlineCalendarText() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        deadline.setText(simpleDateFormat.format(deadlineCalendar.getTime()));
+    }
+
     public void setPhoto(ArrayList<String> paths) {
         String imageString = paths.get(0);
         File imgFile = new File(imageString);
@@ -344,7 +380,9 @@ public class FragmentSubscribe extends Fragment
 
     public void setAddress(String wegolocationStr) {
         WeGoLocation wegoLoc = new WeGoLocation(wegolocationStr);
-        place.setText(wegoLoc.title);
+        place.setText(wegoLoc.getTitle());
+        lat = wegoLoc.getLatLng().latitude;
+        lng = wegoLoc.getLatLng().longitude;
         //TODO
     }
 
@@ -355,10 +393,8 @@ public class FragmentSubscribe extends Fragment
     }
 
     public void subscribe() {
-        String titleStr = title.getText().toString();
-        if(titleStr.equals(""))
-        {
-            Toast.makeText(getActivity(), "请填写活动标题！", Toast.LENGTH_LONG).show();
+        if ("".equals(title.getText().toString())) {
+            Utils.toastImmediately("尚未选择活动标题");
             return;
         }
         String[] timeStr = time.getText().toString().split("~");
@@ -368,58 +404,111 @@ public class FragmentSubscribe extends Fragment
             startTime = timeStr[0];
             endTime = timeStr[1];
         } catch (ArrayIndexOutOfBoundsException e) {
-            Toast.makeText(getActivity(), "请填写时间！", Toast.LENGTH_LONG).show();
+            Utils.toastImmediately("尚未选择活动时间");
             return;
         }
-        String placeStr = place.getText().toString();
-        if(placeStr.equals(""))
-        {
-            Toast.makeText(getActivity(), "请选择活动地点！", Toast.LENGTH_LONG).show();
+        if (startCalendar.after(endCalendar)) {
+            Utils.toastImmediately("活动起始时间必须早于结束时间");
             return;
         }
-        String minPeopleStr = minPeople.getText().toString();
-        if(placeStr.equals(""))
-        {
-            Toast.makeText(getActivity(), "请填写最少参与人数！", Toast.LENGTH_LONG).show();
+        Calendar nowCalendar = Calendar.getInstance();
+        if (nowCalendar.after(endCalendar)) {
+            Utils.toastImmediately("活动结束时间必须晚于当前时间");
             return;
         }
-        String maxPeopleStr = maxPeople.getText().toString();
-        if(placeStr.equals(""))
-        {
-            Toast.makeText(getActivity(), "请填写最多参与人数！", Toast.LENGTH_LONG).show();
+        if ("".equals(place.getText().toString())) {
+            Utils.toastImmediately("尚未选择详细地址");
             return;
         }
-        String creitStr = credit.getText().toString();
-        if(creitStr.equals(""))
-        {
-            Toast.makeText(getActivity(), "请填写最少参与人数！", Toast.LENGTH_LONG).show();
+        if ("".equals(deadline.getText().toString())) {
+            Utils.toastImmediately("尚未填写报名截止日期");
             return;
         }
-        String averageStr = average.getText().toString();
-        String detailStr = detail.getText().toString();
-        String latitude = "1";
-        String longitude = "1";
+        if (nowCalendar.after(deadlineCalendar)) {
+            Utils.toastImmediately("截止报名日期必须晚于当前时间");
+            return;
+        }
+        if ("".equals(minPeople.getText().toString())) {
+            Utils.toastImmediately("尚未填写最少参与人数");
+            return;
+        }
+        if ("".equals(maxPeople.getText().toString())) {
+            Utils.toastImmediately("尚未填写最多参与人数");
+            return;
+        }
+        if (Integer.valueOf(minPeople.getText().toString()) > Integer.valueOf(maxPeople.getText().toString())) {
+            Utils.toastImmediately("最少人数不能大于最多人数");
+            return;
+        }
+        if ("".equals(credit.getText().toString())) {
+            Utils.toastImmediately("尚未填写信用要求");
+            return;
+        }
+        if ("".equals(average.getText().toString())) {
+            Utils.toastImmediately("尚未填写人均消费");
+            return;
+        }
+        if ("".equals(detail.getText().toString())) {
+            Utils.toastImmediately("尚未填写活动详情");
+            return;
+        }
+
         Map<String, String> map = new HashMap<>();
-        Exercise.upload(Float.valueOf(latitude), Float.valueOf(longitude), Integer.valueOf(User.getInstance().getId()),
-                startTime, endTime, titleStr
-                , detailStr, Float.valueOf(averageStr), "",Integer.valueOf(minPeopleStr),Integer.valueOf(maxPeopleStr), map, new StringCallback() {
+        dialog = new MaterialDialog.Builder(getContext())
+                .title("新建活动中")
+                .content("请稍候...")
+                .cancelable(false)
+                .progress(true, 0)
+                .show();
+        Exercise.createExercise(
+                (float)lat,
+                (float)lng,
+                User.getInstance().getOpenId(),
+                startTime,
+                endTime,
+                title.getText().toString(),
+                detail.getText().toString(),
+                Float.valueOf(average.getText().toString()),
+                deadline.getText().toString(),
+                Integer.valueOf(minPeople.getText().toString()),
+                Integer.valueOf(maxPeople.getText().toString()),
+                map,
+                "http://p1.ifengimg.com/a/2016_26/39593b0547b5420.jpg",
+                new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-                        Log.e("WeGo", "新建活动失败");
-                        Toast.makeText(getActivity(), "发布活动失败！", Toast.LENGTH_LONG).show();
+                        if (dialog != null) dialog.dismiss();
+                        Log.d("Wego", e.toString());
+                        dialog = new MaterialDialog.Builder(getContext())
+                                .title("发布活动失败")
+                                .content("发布活动失败，网络异常。")
+                                .positiveText("确定")
+                                .show();
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
                         Log.d("Wego", response);
-                        Gson gson = new Gson();
-                        Exercise exercise = gson.fromJson(response, Exercise.class);
-                        UserInf.getUserInf().addExerciseMyList(exercise);
-                        Map<String, String> tagList = exercise.getTagList();
-                        for (Map.Entry<String, String> entry : tagList.entrySet()) {
-                            ExercisePool.getTopicPool().addExerciseToMap(entry.getValue(), exercise);
+                        if (dialog != null) dialog.dismiss();
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            if ("200".equals(jsonObject.getString("result"))) {
+                                Utils.toastImmediately("发布活动成功");
+                                Gson gson = new Gson();
+                                Exercise exercise = gson.fromJson(response, Exercise.class);
+                                UserInf.getUserInf().addExerciseMyList(exercise);
+                                Map<String, String> tagList = exercise.getTagList();
+                                for (Map.Entry<String, String> entry : tagList.entrySet()) ExercisePool.getTopicPool().addExerciseToMap(entry.getValue(), exercise);
+                            } else {
+                                dialog = new MaterialDialog.Builder(getContext())
+                                        .title("发布活动失败")
+                                        .content("发布活动失败，网络异常。")
+                                        .positiveText("确定")
+                                        .show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        Toast.makeText(getActivity(), "发布活动成功！", Toast.LENGTH_LONG).show();
                     }
                 });
     }

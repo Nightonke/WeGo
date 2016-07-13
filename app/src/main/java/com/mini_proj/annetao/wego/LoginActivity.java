@@ -177,7 +177,7 @@ public class LoginActivity extends BaseActivity
                     if(jsonObject.getString("result").equals(NetworkTools.RESULT_FAILED))
                         goToRegistry();
                     else {
-                        User.getInstance().updateByJsonResult(jsonObject);
+                        User.getInstance().updateByJsonResult(jsonObject.getJSONObject("data"));
                         LoginActivity.this.finish();
                     }
 

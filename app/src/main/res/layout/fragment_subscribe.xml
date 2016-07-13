@@ -179,7 +179,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="详细地址"
+                    android:text="报名截止日期"
                     android:textColor="@color/black"
                     android:gravity="center_vertical"
                     android:layout_marginLeft="10dp"
