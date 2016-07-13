@@ -28,21 +28,26 @@ public class ExerciseSignUpActivity extends BaseActivity
     private TextView phone;
     private TextView remark;
     private TextView sign_in;
-    private String exercise_id;
+    private int exercise_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_sign_up);
-        exercise_id=getIntent().getStringExtra("exercise_id");
+        exercise_id=getIntent().getIntExtra("exercise_id",0);
+        Log.d("Wego,exercise_id",exercise_id+"");
         titleLayout = findView(R.id.title_layout_top);
         titleLayout.setOnTitleActionListener(this);
         name = findView(R.id.name);
         phone=findView(R.id.phone);
+
         remark=findView(R.id.remark);
         sign_in=findView(R.id.sign_in);
         name.setText("");
         findView(R.id.name_layout).setOnClickListener(this);
+        findView(R.id.phone_layout).setOnClickListener(this);
+        findView(R.id.remark_layout).setOnClickListener(this);
+        findView(R.id.sign_in).setOnClickListener(this);
 
     }
 
@@ -125,7 +130,7 @@ public class ExerciseSignUpActivity extends BaseActivity
                         }).show();
                 break;
             case R.id.sign_in:
-                UserInf.getUserInf().addUserAttend(exercise_id, new StringCallback() {
+                UserInf.getUserInf().addUserAttend(""+exercise_id,name.getText()+"",phone.getText()+"", new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("WeGo",e.toString());
