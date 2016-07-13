@@ -505,7 +505,7 @@ public class FragmentSubscribe extends Fragment
                             if ("200".equals(jsonObject.getString("result"))) {
                                 HashMap<String, String> tagMap = new HashMap<>();
                                 tagMap.put(tag.v + "", tag.toString());
-                                Exercise exercise = new Exercise(jsonObject.getInt("id"), (float)lat, -1, startTime, endTime, title.getText().toString(), (float)lng, detail.getText().toString(), "Create Time", "Status", "https://c1.staticflickr.com/7/6085/6099592258_be13b0968c_b.jpg", Float.valueOf(average.getText().toString()), deadline.getText().toString(), 0, tagMap);
+                                Exercise exercise = new Exercise(jsonObject.getInt("id"), (float)lat, "1", startTime, endTime, title.getText().toString(), (float)lng, detail.getText().toString(), "Create Time", "Status", "https://c1.staticflickr.com/7/6085/6099592258_be13b0968c_b.jpg", Float.valueOf(average.getText().toString()), deadline.getText().toString(), 0, tagMap);
                                 UserInf.getUserInf().addExerciseMyList(exercise);
                                 Map<String, String> tagList = exercise.getTagList();
                                 for (Map.Entry<String, String> entry : tagList.entrySet()) ExercisePool.getTopicPool().addExerciseToMap(entry.getValue(), exercise);
