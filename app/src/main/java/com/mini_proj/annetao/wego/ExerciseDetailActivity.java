@@ -75,7 +75,9 @@ public class ExerciseDetailActivity extends BaseActivity implements TitleLayout.
 
     @Override
     public void clickTitleEdit() {
-        startActivity(new Intent(mContext, ExerciseSignUpActivity.class));
+        Intent intent = new Intent(this, ExerciseSignUpActivity.class);
+        intent.putExtra("exercise_id", exercise.getId());
+        startActivity(intent);
     }
 
     private void openMap() {

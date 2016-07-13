@@ -236,8 +236,8 @@ public class UserInformationActivity extends BaseActivity
         Log.e("wego_tagStr",tagStr);
         User.getInstance().setTagString(tagStr);
         User.getInstance().setYear(year);
-        User.getInstance().setYear(month);
-        User.getInstance().setYear(day);
+        User.getInstance().setMonth(month);
+        User.getInstance().setDay(day);
     }
 
     @Override

@@ -270,7 +270,8 @@
             android:textColor="@color/black"
             android:gravity="center_vertical"
             android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"/>
+            android:layout_marginStart="10dp"
+            android:id="@+id/settings"/>
 
     </LinearLayout>
 

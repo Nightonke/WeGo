@@ -144,6 +144,7 @@
             <View style="@style/Divider"/>
 
             <TextView
+                android:id="@+id/sign_in"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:text="提交"
