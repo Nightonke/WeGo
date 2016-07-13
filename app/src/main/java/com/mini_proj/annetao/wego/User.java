@@ -89,9 +89,9 @@ public class User {
 
     public void updateByJsonResult(JSONObject jsonObject){
         try {
-            if(jsonObject.getString("name")!=null) setName(jsonObject.getString("name"));
-            if(jsonObject.getString("password")!=null) setPassword(jsonObject.getString("password"));
-            if(jsonObject.getString("birthday")!=null){
+            if(jsonObject.has("name")) setName(jsonObject.getString("name"));
+            if(jsonObject.has("password")) setPassword(jsonObject.getString("password"));
+            if(jsonObject.has("birthday")) {
                 String birthDayStr = jsonObject.getString("birthday");
                 String bds[] = birthDayStr.split("[^0-9]");
                 year = Integer.parseInt(bds[0]);

@@ -88,6 +88,50 @@ public class Exercise {
                 , map, callback);
     }
 
+    public static void createExercise(
+            float latitude_,
+            float longitude_,
+            String sponsor_id_,
+            String start_time_,
+            String end_time_,
+            String name_,
+            String description_,
+            float avgCost_,
+            String deadline_,
+            int min_num_,
+            int max_num_,
+            Map<String, String> tagList_,
+            String pic_store,
+            Callback callback) {
+        Map<String, String> map = new HashMap<>();
+        map.putAll(NetworkTools.paramsMap);
+        map.put("latitude", "" + latitude_);
+        map.put("longitude", "" + longitude_);
+        map.put("open_id", sponsor_id_);
+        map.put("sponsor_id", sponsor_id_);
+        map.put("start_time", start_time_);
+        map.put("end_time", end_time_);
+        map.put("description", "" + description_);
+        map.put("name", name_);
+        map.put("min_num", "" + min_num_);
+        map.put("max_num", "" + max_num_);
+        map.put("avg_cost", "" + avgCost_);
+        map.put("deadline", deadline_);
+        map.put("pic_store", pic_store);
+        //图片！！
+        JSONObject result = new JSONObject();
+        try {
+            for (Map.Entry<String, String> entry : tagList_.entrySet()) {
+                result.put(entry.getKey(), entry.getValue());
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        map.put("tag", result.toString());
+        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/add_exercise"
+                , map, callback);
+    }
+
     public void addExercise_tag(String tagid, Callback callback) {
         Map<String, String> map = new HashMap<>();
         map.putAll(NetworkTools.paramsMap);
