@@ -103,8 +103,8 @@ public class User {
             }
             setGender(jsonObject.getInt("gender"));
             setCredit((float)jsonObject.getDouble("credit"));
-            if(jsonObject.getJSONArray("tags")!=null){
-                JSONArray ja = jsonObject.getJSONArray("tags");
+            if(jsonObject.has("tag")) {
+                JSONArray ja = jsonObject.getJSONArray("tag");
                 String tagString="";
                 if(ja.length()>0) tagString+=ja.getInt(0);
                 for(int i = 1;i<ja.length();i++){
