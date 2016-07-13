@@ -51,6 +51,7 @@ public class FragmentMe extends Fragment implements View.OnClickListener{
                 break;
         }
         sex.setText(sexString);
+        birthday = (TextView) messageLayout.findViewById(R.id.birthday);
         tags = (TextView) messageLayout.findViewById(R.id.tags);
         tags.setText(User.getInstance().getTagShowString());
 
@@ -75,6 +76,7 @@ public class FragmentMe extends Fragment implements View.OnClickListener{
                 break;
         }
         sex.setText(sexString);
+        birthday.setText(User.getInstance().getYear()+"-"+User.getInstance().getMonth()+"-"+User.getInstance().getDay());
         tags.setText(User.getInstance().getTagShowString());
 
     }
