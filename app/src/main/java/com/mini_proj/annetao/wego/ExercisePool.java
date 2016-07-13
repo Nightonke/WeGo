@@ -72,6 +72,15 @@ public class ExercisePool {
                 , map, callback);
     }
 
+    public void queryTopicWithOpenId(String openId,
+                                      Callback callback) {
+        Map<String, String> map = new HashMap<>();
+        map.putAll(NetworkTools.paramsMap);
+        map.put("sponsor_id", "" + openId);
+        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/query_user_exercise"
+                , map, callback);
+    }
+
     public void queryTopicWithSponsorAndTime(int sponsor_id, String time_lower_bound, String time_upper_bound,
                                              Callback callback) {
         Map<String, String> map = new HashMap<>();

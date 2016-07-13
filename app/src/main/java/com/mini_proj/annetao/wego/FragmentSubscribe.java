@@ -428,6 +428,10 @@ public class FragmentSubscribe extends Fragment
             Utils.toastImmediately("截止报名日期必须晚于当前时间");
             return;
         }
+        if (startCalendar.before(deadlineCalendar)) {
+            Utils.toastImmediately("截止报名日期必须早于活动开始时间");
+            return;
+        }
         if ("".equals(minPeople.getText().toString())) {
             Utils.toastImmediately("尚未填写最少参与人数");
             return;
@@ -472,7 +476,7 @@ public class FragmentSubscribe extends Fragment
                 deadline.getText().toString(),
                 Integer.valueOf(minPeople.getText().toString()),
                 Integer.valueOf(maxPeople.getText().toString()),
-                map,
+                tag,
                 "http://p1.ifengimg.com/a/2016_26/39593b0547b5420.jpg",
                 new StringCallback() {
                     @Override
