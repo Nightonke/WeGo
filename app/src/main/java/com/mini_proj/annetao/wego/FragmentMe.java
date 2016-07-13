@@ -19,11 +19,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class FragmentMe extends Fragment implements View.OnClickListener{
 
+    public static final int REQUEST_SETTING = 8345;
+
     private CircleImageView imageView;
     private TextView userName;
     private TextView birthday;
     private TextView sex;
     private TextView tags;
+    private TextView settings;
 
     private TextView signOutBtn;
 
@@ -58,6 +61,11 @@ public class FragmentMe extends Fragment implements View.OnClickListener{
 
         signOutBtn = (TextView) messageLayout.findViewById(R.id.sign_out);
         signOutBtn.setOnClickListener(this);
+
+        settings = (TextView) messageLayout.findViewById(R.id.settings);
+        settings.setOnClickListener(this);
+
+
 
         return messageLayout;
     }
@@ -103,8 +111,17 @@ public class FragmentMe extends Fragment implements View.OnClickListener{
                     }
                 }, 2000);
                 break;
+            case R.id.settings:
+                startActivityForResult(new Intent(getActivity(),SettingsActivity.class),REQUEST_SETTING);
 
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_SETTING&&resultCode == getActivity().RESULT_OK){
+            updateByUserInfo();
+        }
+    }
 }

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:background="@android:color/white">
 
     <com.mini_proj.annetao.wego.TitleLayout
@@ -15,166 +14,195 @@
 
     <View style="@style/Divider"/>
 
-    <ScrollView
-        android:id="@+id/scroll_view"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:overScrollMode="never"
-        android:scrollbars="none">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center_vertical"
+
+        android:layout_marginBottom="90dp"
+        >
+
+        <View style="@style/Divider"/>
+
+        <LinearLayout
+            android:id="@+id/name_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@drawable/button_toggle_view"
+            android:clickable="true"
+            android:layout_marginLeft="60dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginTop="60dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="昵称"
+                android:gravity="center"
+                android:paddingLeft="5dp"/>
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:text=""
+                android:textColor="@android:color/black"
+                android:gravity="end|center_vertical"
+                android:paddingEnd="5dp"
+                android:paddingRight="5dp"
+                android:singleLine="true"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:freezesText="true"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/birthday_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@drawable/button_toggle_view"
+            android:clickable="true"
+            android:layout_marginLeft="60dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginTop="10dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="生日"
+                android:gravity="center"
+                android:paddingLeft="5dp"/>
+
+            <TextView
+                android:id="@+id/birthday"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:text="生日"
+                android:textColor="@android:color/black"
+                android:gravity="end|center_vertical"
+                android:paddingEnd="5dp"
+                android:paddingRight="5dp"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@drawable/button_toggle_view"
+            android:layout_marginLeft="60dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginTop="10dp"
+            >
 
-            <LinearLayout
-                android:id="@+id/birthday_layout"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="性别"
+                android:gravity="center"
+                android:paddingLeft="5dp"/>
+
+
+            <RadioGroup
+                android:id="@+id/sex"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center"
-                android:background="@drawable/button_toggle_view"
-                android:clickable="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="10dp"
-                >
+                android:gravity="end"
+                android:paddingEnd="5dp"
+                android:paddingRight="5dp">
 
-                <TextView
+                <RadioButton
+                    android:id="@+id/male"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text="生日"
-                    android:gravity="center"
-                    android:textColor="@android:color/black"
-                    android:paddingLeft="5dp"/>
-
-                <TextView
-                    android:id="@+id/birthday"
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"
-                    android:layout_weight="1"
-                    android:text="生日"
-                    android:textColor="@android:color/black"
-                    android:gravity="end|center_vertical"
-                    android:paddingEnd="5dp"
-                    android:paddingRight="5dp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:background="@drawable/button_toggle_view"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="10dp"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text="性别"
-                    android:textColor="@android:color/black"
-                    android:gravity="center"
-                    android:paddingLeft="5dp"/>
-
-
-                <RadioGroup
-                    android:id="@+id/sex"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="end"
-                    android:paddingEnd="5dp"
-                    android:paddingRight="5dp">
+                    android:text="男"/>
 
-                    <RadioButton
-                        android:id="@+id/male"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="男"/>
+                <RadioButton
+                    android:id="@+id/female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="女"/>
 
-                    <RadioButton
-                        android:id="@+id/female"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="女"/>
+                <RadioButton
+                    android:id="@+id/unknown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="保密"/>
 
-                    <RadioButton
-                        android:id="@+id/unknown"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="不明"/>
-
-                </RadioGroup>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:clickable="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="10dp"
-                >
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="30dp"
-                    android:text="我的兴趣标签"
-                    android:textColor="@android:color/black"
-                    android:gravity="center_vertical"/>
-
-                <TextView
-                    android:id="@+id/manager"
-                    android:layout_width="80dp"
-                    android:layout_height="30dp"
-                    android:text="管理"
-                    android:background="@drawable/button_subscribe"
-                    android:textColor="@android:color/white"
-                    android:gravity="center"
-                    />
-
-            </LinearLayout>
-
-            <me.gujun.android.taggroup.TagGroup
-                android:id="@+id/tag_group"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                app:atg_isAppendMode="false"
-                app:atg_backgroundColor="@android:color/transparent"
-                app:atg_checkedMarkerColor="@color/tag"
-                app:atg_checkedBorderColor="@color/tag"
-                app:atg_checkedTextColor="@color/white"
-                app:atg_checkedBackgroundColor="@android:color/transparent"
-                app:atg_pressedBackgroundColor="@android:color/transparent"
-                app:atg_borderColor="@color/tag"
-                app:atg_textColor="@color/tag"
-                app:atg_textSize="13sp"
-                app:atg_horizontalPadding="20dp"
-                app:atg_verticalPadding="2dp"
-                />
-
-            <View style="@style/Divider"/>
+            </RadioGroup>
 
         </LinearLayout>
 
-    </ScrollView>
+        <LinearLayout
+            android:id="@+id/tags_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@drawable/button_toggle_view"
+            android:layout_marginLeft="60dp"
+            android:layout_marginStart="60dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="60dp"
+            >
 
-</LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="兴趣标签"
+                android:gravity="center"
+                android:paddingLeft="5dp"/>
+
+            <TextView
+                android:id="@+id/tags"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:text=""
+                android:textColor="@android:color/black"
+                android:gravity="end|center_vertical"
+                android:paddingEnd="5dp"
+                android:paddingRight="5dp"
+                android:singleLine="true"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:freezesText="true"/>
+
+        </LinearLayout>
+
+        <View style="@style/Divider"/>
+
+    </LinearLayout>
+
+
+
+</FrameLayout>
