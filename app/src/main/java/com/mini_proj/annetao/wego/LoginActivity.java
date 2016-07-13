@@ -132,6 +132,7 @@ public class LoginActivity extends BaseActivity
     }
 
     private void updateUserInfo() {
+        loginDialog.show();
 
             IUiListener listener = new IUiListener() {
 
@@ -197,14 +198,15 @@ public class LoginActivity extends BaseActivity
              */
             @Override
             public void onResponse(String response, int id) {
+                if(loginDialog!=null) loginDialog.dismiss();
                 try {
                     Log.d("Wego", response);
                     JSONObject jsonObject = new JSONObject(response);
-                    JSONObject data = jsonObject.getJSONArray("data").getJSONObject(0);
-                    Log.d("Wego_resulttojson", data.toString());
                     if(jsonObject.getString("result").equals(NetworkTools.RESULT_FAILED))
                         goToRegistry();
                     else {
+                        JSONObject data = jsonObject.getJSONArray("data").getJSONObject(0);
+                        Log.d("Wego_resulttojson", data.toString());
                         User.getInstance().updateByJsonResult(data);
                         User.getInstance().setLogin(true);
                         LoginActivity.this.setResult(RESULT_OK);
