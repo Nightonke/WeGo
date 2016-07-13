@@ -23,7 +23,7 @@ import okhttp3.Request;
 public class Exercise {
     private int id;
     private float latitude;
-    private int sponsor_id;
+    private String sponsor_id;
     private String start_time;
     private String end_time;
     private String name;
@@ -42,7 +42,7 @@ public class Exercise {
         tagList=new HashMap<>();
     }
 
-    public Exercise(int id_, float latitude_, int sponsor_id_, String start_time_,
+    public Exercise(int id_, float latitude_, String sponsor_id_, String start_time_,
                     String end_time_, String name_, float longitude_,
                     String description_, String created_datetime_, String status_,
                     String picUrl_, float avgCost_, String deadline_, int attendencyNum_,
@@ -68,7 +68,7 @@ public class Exercise {
         int id_ = Integer.valueOf(dataJson.getString("id"));
         float latitude_ = Float.valueOf(dataJson.getString("latitude"));
         float longitude_ = Float.valueOf(dataJson.getString("longitude"));
-        int sponsor_id_ = Integer.valueOf(dataJson.getString("sponsor_id"));
+        String sponsor_id_ = dataJson.getString("sponsor_id");
         String start_time_ = dataJson.getString("start_time");
         String end_time_ = dataJson.getString("end_time");
         String description_ = dataJson.getString("description");
@@ -128,7 +128,7 @@ public class Exercise {
                 , map, callback);
     }
 
-    public static void upload(float latitude_, float longitude_, int sponsor_id_, String start_time_,
+    public static void upload(float latitude_, float longitude_, String sponsor_id_, String start_time_,
                               String end_time_, String name_, String description_,
                               float avgCost_, String deadline_, int min_num_, int max_num_,
                               Map<String, String> tagList_, Callback callback) {
@@ -289,11 +289,11 @@ public class Exercise {
         this.latitude = latitude;
     }
 
-    public int getSponsor_id() {
+    public String getSponsor_id() {
         return sponsor_id;
     }
 
-    public void setSponsor_id(int sponsor_id) {
+    public void setSponsor_id(String sponsor_id) {
         this.sponsor_id = sponsor_id;
     }
 

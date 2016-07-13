@@ -42,7 +42,7 @@ public class FragmentMessage extends Fragment {
             }
         });
 
-        ExercisePool.getTopicPool().queryTopicWithSponsor(1,new StringCallback() {
+        ExercisePool.getTopicPool().queryTopicWithSponsor("1",new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
                 Log.d("Wego", e.toString() + " " + id);
