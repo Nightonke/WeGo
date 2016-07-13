@@ -7,6 +7,7 @@ import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.BitmapCallback;
 import com.zhy.http.okhttp.callback.Callback;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -101,7 +102,7 @@ public class Exercise {
             String deadline_,
             int min_num_,
             int max_num_,
-            Map<String, String> tagList_,
+            Tag tag,
             String pic_store,
             Callback callback) {
         Map<String, String> map = new HashMap<>();
@@ -120,15 +121,9 @@ public class Exercise {
         map.put("deadline", deadline_);
         map.put("pic_store", pic_store);
         //图片！！
-        JSONObject result = new JSONObject();
-        try {
-            for (Map.Entry<String, String> entry : tagList_.entrySet()) {
-                result.put(entry.getKey(), entry.getValue());
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        map.put("tag", result.toString());
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.put(tag.v);
+        map.put("tag", jsonArray.toString());
         NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/add_exercise"
                 , map, callback);
     }
