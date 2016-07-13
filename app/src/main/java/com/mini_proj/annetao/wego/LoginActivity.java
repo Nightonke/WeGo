@@ -200,17 +200,18 @@ public class LoginActivity extends BaseActivity
                 try {
                     Log.d("Wego", response);
                     JSONObject jsonObject = new JSONObject(response);
-                    JSONObject data = jsonObject.getJSONArray("data").getJSONObject(0);
-                    Log.d("Wego_resulttojson", data.toString());
+                    JSONObject data=null;
                     if(jsonObject.getString("result").equals(NetworkTools.RESULT_FAILED))
                         goToRegistry();
                     else {
+                        data = jsonObject.getJSONArray("data").getJSONObject(0);
                         User.getInstance().updateByJsonResult(data);
                         User.getInstance().setLogin(true);
                         LoginActivity.this.setResult(RESULT_OK);
                         LoginActivity.this.finish();
                     }
-
+                    if(data!=null)
+                        Log.d("Wego_resulttojson", data.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
