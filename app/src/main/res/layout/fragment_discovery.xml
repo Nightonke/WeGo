@@ -68,25 +68,47 @@
             app:atg_verticalPadding="2dp"
             />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/list_view"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1">
 
-        <com.mini_proj.annetao.wego.WegoRelativeLayout
-            android:id="@+id/base"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.tencent.tencentmap.mapsdk.maps.MapView
-                android:id="@+id/map_view"
+            <FrameLayout
+                android:id="@+id/list_view_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="invisible"
-                android:gravity="center"/>
+                android:layout_height="match_parent">
 
-        </com.mini_proj.annetao.wego.WegoRelativeLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/list_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    android:id="@+id/loading_tip"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:background="@color/white"
+                    android:text="加载中…"
+                    />
+
+            </FrameLayout>
+
+            <com.mini_proj.annetao.wego.WegoRelativeLayout
+                android:id="@+id/base"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.tencent.tencentmap.mapsdk.maps.MapView
+                    android:id="@+id/map_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="invisible"
+                    android:gravity="center"/>
+
+            </com.mini_proj.annetao.wego.WegoRelativeLayout>
+
+        </FrameLayout>
 
     </LinearLayout>
 

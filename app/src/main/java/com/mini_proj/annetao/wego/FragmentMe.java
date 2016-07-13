@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +27,7 @@ public class FragmentMe extends Fragment implements View.OnClickListener{
     private TextView birthday;
     private TextView sex;
     private TextView tags;
-    private TextView settings;
+    private LinearLayout settings;
 
     private TextView signOutBtn;
 
@@ -62,12 +63,18 @@ public class FragmentMe extends Fragment implements View.OnClickListener{
         signOutBtn = (TextView) messageLayout.findViewById(R.id.sign_out);
         signOutBtn.setOnClickListener(this);
 
-        settings = (TextView) messageLayout.findViewById(R.id.settings);
+        settings = (LinearLayout) messageLayout.findViewById(R.id.settings_layout);
         settings.setOnClickListener(this);
 
 
 
         return messageLayout;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        tags.setText(User.getInstance().getTagShowString());
     }
 
     public void updateByUserInfo(){
@@ -111,7 +118,7 @@ public class FragmentMe extends Fragment implements View.OnClickListener{
                     }
                 }, 2000);
                 break;
-            case R.id.settings:
+            case R.id.settings_layout:
                 startActivityForResult(new Intent(getActivity(),SettingsActivity.class),REQUEST_SETTING);
 
         }

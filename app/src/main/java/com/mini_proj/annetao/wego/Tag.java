@@ -45,7 +45,7 @@ public enum Tag {
             case "健身": return BODY_BUILDING;
             case "桌游": return BOARD_GAME;
             case "摄影": return PHOTOGRAPHY;
-            case "旅游": return TRAVEL;
+            case "郊游": return TRAVEL;
             case "公益": return COMMONWEAL;
             case "音乐会": return CONCERT;
             case "戏剧": return DRAMA;
@@ -53,7 +53,7 @@ public enum Tag {
             case "读书": return READING;
             case "展览": return SHOW;
             case "外语": return FOREIGN_LANGUAGE;
-            case "台球": return SNOOKER;
+            case "桌球": return SNOOKER;
         }
         return null;
     }

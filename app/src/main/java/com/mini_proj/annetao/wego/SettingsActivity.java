@@ -36,6 +36,7 @@ public class SettingsActivity extends BaseActivity
     private TextView tagsText;
     private RadioGroup sex;
     private String sexString = "2";
+    private int resultScore = 0;
 
     private int year;
     private int month;
@@ -61,36 +62,53 @@ public class SettingsActivity extends BaseActivity
         sex = findView(R.id.sex);
 
         findView(R.id.name_layout).setOnClickListener(this);
-        findView(R.id.birthday_layout).setOnClickListener(this);
         findView(R.id.tags_layout).setOnClickListener(this);
-        findView(R.id.next).setOnClickListener(this);
 
-        if(User.getInstance().getGender()==1) sex.check(R.id.female);
-        else if(User.getInstance().getGender()==0) sex.check(R.id.male);
+        name.setText(User.getInstance().getName());
+        switch (User.getInstance().getGender()) {
+            case 0:
+                sex.check(R.id.male);
+                break;
+            case 1:
+                sex.check(R.id.female);
+                break;
+            case 2:
+                sex.check(R.id.unknown);
+                break;
+        }
+        year = User.getInstance().getYear();
+        month = User.getInstance().getMonth();
+        day = User.getInstance().getDay();
+        birthday.setText(User.getInstance().getYear()+"-"+User.getInstance().getMonth()+"-"+User.getInstance().getDay());
+        tagsText.setText(User.getInstance().getTagShowString());
 
-        sex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.male:
-                        sexString = "0";
-                        break;
-                    case R.id.female:
-                        sexString = "1";
-                        break;
-                    case R.id.unknown:
-                        sexString = "2";
-                        break;
-                }
+
+        String[] ids = User.getInstance().getTagString().split(",");
+        int[] idsint = new int[ids.length];
+        Log.e("wego_getTagShowString",User.getInstance().getTagString());
+        for (int i = 0; i < ids.length; i++) {
+            Log.e("wego_getTagShowString"+i,ids[i]);
+            try {
+                selectedId.add(Integer.valueOf(ids[i]));
+            } catch (NumberFormatException n) {
+
             }
-        });
+        }
+
+
+
+
+
+
+
+
+        findViewById(R.id.male).setEnabled(false);
+        findViewById(R.id.female).setEnabled(false);
+        findViewById(R.id.unknown).setEnabled(false);
 
 
     }
-    @Override
-    public void onBackPressed() {
 
-    }
 
     @Override
     public void onClick(View v) {
@@ -151,6 +169,7 @@ public class SettingsActivity extends BaseActivity
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 if (dialog.getSelectedIndices() != null) {
+                                    selectedId.clear();
                                     for (Integer id : dialog.getSelectedIndices()) {
                                         selectedId.add(id);
                                     }
@@ -176,7 +195,7 @@ public class SettingsActivity extends BaseActivity
         //TODO 注册成功信息存入本地
         User.getInstance().setName(name.getText()+"");
         User.getInstance().setGender(Integer.parseInt(sexString));
-        String tagStr = selectedId.toString().replaceAll("\\[|\\]","");
+        String tagStr = selectedId.toString().replaceAll("\\[|\\]| ","");
         Log.e("wego_tagStr",tagStr);
         User.getInstance().setTagString(tagStr);
         User.getInstance().setYear(year);
@@ -194,6 +213,7 @@ public class SettingsActivity extends BaseActivity
 
     @Override
     public void clickTitleBack() {
+        onBackPressed();
 
     }
 
@@ -217,10 +237,10 @@ public class SettingsActivity extends BaseActivity
                     .cancelable(false)
                     .progress(true, 0)
                     .show();
-            UserInf.getUserInf().doRegister(User.getInstance().getOpenId(), name.getText().toString(), sexString, birthday.getText().toString(),new JSONArray(selectedId), new StringCallback() {
+            UserInf.getUserInf().updateUserTag(User.getInstance().getOpenId(),new JSONArray(selectedId), new StringCallback() {
                 @Override
                 public void onError(Call call, Exception e, int id) {
-                    Log.d("Wego", e.toString());
+                    Log.d("Wego_update_user_tag", e.toString());
                     if (dialog != null) dialog.dismiss();
                     dialog = new MaterialDialog.Builder(mContext)
                             .title("提交失败")
@@ -231,15 +251,49 @@ public class SettingsActivity extends BaseActivity
 
                 @Override
                 public void onResponse(String response, int id) {
-                    Log.d("Wego", response.toString());
+                    Log.d("Wego_update_user_tag", response.toString());
                     if (dialog != null) dialog.dismiss();
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         if ("200".equals(jsonObject.getString("result"))) {
-                            updateUserInfo();
-                            Utils.toastImmediately("提交信息成功" + name.getText().toString());
-                            setResult(RESULT_OK);
-                            finish();
+
+                            resultScore++;
+                            if(resultScore==2)success();
+
+                        } else {
+                            dialog = new MaterialDialog.Builder(mContext)
+                                    .title("提交失败")
+                                    .content("提交信息失败。")
+                                    .positiveText("确定")
+                                    .show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            UserInf.getUserInf().doChangeName(User.getInstance().getOpenId(),name.getText().toString(), new StringCallback() {
+                @Override
+                public void onError(Call call, Exception e, int id) {
+                    Log.d("Wego_chg_name", e.toString());
+                    if (dialog != null) dialog.dismiss();
+                    dialog = new MaterialDialog.Builder(mContext)
+                            .title("提交失败")
+                            .content("提交信息失败。")
+                            .positiveText("确定")
+                            .show();
+                }
+
+                @Override
+                public void onResponse(String response, int id) {
+                    Log.d("Wego_chg_name", response.toString());
+                    if (dialog != null) dialog.dismiss();
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        if ("200".equals(jsonObject.getString("result"))) {
+                            resultScore++;
+                            if(resultScore==2)success();
                         } else {
                             dialog = new MaterialDialog.Builder(mContext)
                                     .title("提交失败")
@@ -255,5 +309,16 @@ public class SettingsActivity extends BaseActivity
 
         }
 
+
+
+
     }
+
+    public void success(){
+        updateUserInfo();
+        Utils.toastImmediately("提交信息成功" + name.getText().toString());
+        setResult(RESULT_OK);
+        finish();
+    }
+
 }

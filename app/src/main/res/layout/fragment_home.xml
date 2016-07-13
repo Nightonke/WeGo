@@ -6,15 +6,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.malinskiy.superrecyclerview.SuperRecyclerView
-        android:id="@+id/list_view"
+    <FrameLayout
+        android:id="@+id/list_view_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_empty="@layout/layout_empty"
-        app:layout_moreProgress="@layout/layout_more_progress"
-        app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"
-        app:recyclerClipToPadding="false"
-        app:scrollbarStyle="outsideOverlay"/>
+        android:layout_height="match_parent">
+
+        <com.malinskiy.superrecyclerview.SuperRecyclerView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_empty="@layout/layout_empty"
+            app:layout_moreProgress="@layout/layout_more_progress"
+            app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"
+            app:recyclerClipToPadding="false"
+            app:scrollbarStyle="outsideOverlay"/>
+
+        <TextView
+            android:id="@+id/loading_tip"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@color/white"
+            android:text="加载中…"
+            />
+
+    </FrameLayout>
 
     <com.tencent.tencentmap.mapsdk.maps.MapView
         android:id="@+id/map_view"

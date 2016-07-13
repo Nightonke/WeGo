@@ -72,20 +72,21 @@ public class UserInf {
         NetworkTools.doRequest(NetworkTools.URL_USER + "/register", map, callback);
     }
 
-    public void doChangeName(String name, Callback callback) {
+    public void doChangeName(String openId,String name, Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.putAll(NetworkTools.paramsMap);
+        map.put("id", openId);
+        map.put("open_id", openId);
         map.put("name", name);
         NetworkTools.doRequest(NetworkTools.URL_USER + "/chguname", map, callback);
     }
 
     public void updateUserTag(String openId, JSONArray tags,Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.put("id", openId);
-
+        map.put("user_id", openId);
+        map.put("open_id", openId);
         map.put("tag",tags.toString());
         Log.e("wego_up",map.toString());
-        NetworkTools.doRequest(NetworkTools.URL_USER + "/update_user_tag", map, callback);
+        NetworkTools.doRequest(NetworkTools.URL_USER_TAG + "/update_user_tag", map, callback);
     }
 
 
