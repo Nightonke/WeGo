@@ -47,39 +47,48 @@ public class FragmentHome extends Fragment implements ExerciseAdapter.OnExercise
 
         mapView = (MapView) messageLayout.findViewById(R.id.map_view);
         qqMapSupporter = new QQMapSupporter(getActivity(),mapView,QQMapSupporter.QQ_MAP_TYPE_EXERCISES);
-        qqMapSupporter.initialMapView();
+
+
+        shownMapView = false;
 
         return messageLayout;
     }
 
+
     @Override
     public void onStart() {
         super.onStart();
-        mapView.onStart();
+        if(shownMapView)
+            mapView.onStart();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mapView.onResume();
+        if(shownMapView)
+            mapView.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mapView.onPause();
+        if(shownMapView)
+            mapView.onPause();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        mapView.onStop();
+        if(shownMapView) {
+            mapView.onStop();
+            mapView.onDestroy();
+        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mapView.onDestroy();
+            mapView.onDestroy();
     }
 
     @Override
@@ -93,6 +102,10 @@ public class FragmentHome extends Fragment implements ExerciseAdapter.OnExercise
         shownMapView = !shownMapView;
         wegoRelativeLayout.setShowingMap(shownMapView);
         if (shownMapView) {
+            mapView.onRestart();
+            mapView.onStart();
+            mapView.onResume();
+            qqMapSupporter.initialMapView();
             YoYo.with(Techniques.BounceInUp).duration(700).playOn(mapView);
             YoYo.with(Techniques.FadeOutUp)
                     .withListener(new AnimatorListenerAdapter() {
@@ -112,6 +125,8 @@ public class FragmentHome extends Fragment implements ExerciseAdapter.OnExercise
             if(qqMapSupporter.isMapLoaded) qqMapSupporter.updateExerciseMarkers();
 
         } else {
+            mapView.onPause();
+            mapView.onStop();
             YoYo.with(Techniques.BounceInUp).duration(700).playOn(listView);
             YoYo.with(Techniques.FadeOutUp)
                     .withListener(new AnimatorListenerAdapter() {

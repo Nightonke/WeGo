@@ -13,6 +13,8 @@ import org.json.JSONObject;
 public class User {
 
     public static final String PREFERENCES_NAME = "VALUE";
+    public static final int GENDER_MALE = 0;
+    public static final int GENDER_FEMALE = 1;
 
     private boolean login = false;
     private String tagString = "";
@@ -91,7 +93,7 @@ public class User {
             if(jsonObject.getString("password")!=null) setPassword(jsonObject.getString("password"));
             if(jsonObject.getString("birthday")!=null){
                 String birthDayStr = jsonObject.getString("birthday");
-                String bds[] = birthDayStr.split("-");
+                String bds[] = birthDayStr.split("[^0-9]");
                 year = Integer.parseInt(bds[0]);
                 month = Integer.parseInt(bds[1]);
                 day = Integer.parseInt(bds[2]);

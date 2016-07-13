@@ -25,6 +25,7 @@ import me.iwf.photopicker.PhotoPicker;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
+    private static final int REQUEST_LOGIN = 837;
     private ViewPager viewPager;
     private int[] titles = new int[]{R.id.home_title, R.id.discovery_title, R.id.subscribe_title, R.id.message_title, R.id.me_title};
     private int lastTitlePosition = 0;
@@ -37,10 +38,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private SoftReference<FragmentHome> fragmentHomeSoftReference;
     private SoftReference<FragmentDiscovery> fragmentDiscoverySoftReference;
     private SoftReference<FragmentSubscribe> fragmentSubscribeSoftReference;
+    private SoftReference<FragmentMe> fragmentMeSoftReference;
+
 
     private View homeToggleViewButton;
     private View discoveryToggleViewButton;
     private View subscribeButton;
+
+    private boolean isLogin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -214,7 +219,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         fragmentSubscribeSoftReference = new SoftReference<>(new FragmentSubscribe());
                         return fragmentSubscribeSoftReference.get();
                     case 3: return new FragmentMessage();
-                    case 4: return new FragmentMe();
+                    case 4:
+                        fragmentMeSoftReference = new SoftReference<>(new FragmentMe());
+                        return fragmentMeSoftReference.get();
                 }
                 return null;
             }
@@ -245,12 +252,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        if (!User.getInstance().isLogin()) {
-            Intent intent = new Intent(this,LoginActivity.class);
-            startActivity(intent);// 跳到登录页
-
-
+        if(!isLogin) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivityForResult(intent, REQUEST_LOGIN);// 跳到登录页
         }
+
+
     }
 
     @Override
@@ -286,6 +293,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == REQUEST_LOGIN) {
+        //TODO 写界面初始化逻辑
+            isLogin = true;
+            if( fragmentMeSoftReference != null && fragmentMeSoftReference.get() != null)
+                fragmentMeSoftReference.get().updateByUserInfo();
+
+        }
 
         if (resultCode == RESULT_OK && requestCode == PhotoPicker.REQUEST_CODE) {
             if (data != null) {
