@@ -207,7 +207,7 @@ public class LoginActivity extends BaseActivity
                     else {
                         JSONObject data = jsonObject.getJSONArray("data").getJSONObject(0);
                         Log.d("Wego_resulttojson", data.toString());
-                        User.getInstance().updateByJsonResult(data);
+                        User.getInstance().updateByJsonResult(data,jsonObject);
                         User.getInstance().setLogin(true);
                         Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                         startActivity(intent);

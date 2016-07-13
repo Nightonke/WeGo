@@ -168,7 +168,7 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
      */
 
     public void updateExerciseMarkers(){
-        removeAllMarkers();
+        Log.e("wego_map","updateMarkers");
         setMarkers();
         moveCameraByMarkers();
     }
@@ -182,6 +182,7 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
      * 添加活动list的markers
      */
     public void setMarkers(){
+        removeAllMarkers();
 
         for(Exercise e:ExercisePool.getTopicPool().getTestExercises()) {
             WeGoLocation weGoLocation = new WeGoLocation(e);

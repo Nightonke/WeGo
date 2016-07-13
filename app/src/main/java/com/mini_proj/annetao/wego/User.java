@@ -2,6 +2,7 @@ package com.mini_proj.annetao.wego;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,8 +75,10 @@ public class User {
     public String getTagShowString() {
         String text = "";
         String[] ids = User.getInstance().getTagString().split(",");
+        Log.e("wego_getTagShowString",User.getInstance().getTagString());
         for (int i = 0; i < ids.length; i++) {
-            if (i > 0) text += ", ";
+            Log.e("wego_getTagShowString"+i,ids[i]);
+            if (i > 0) text += ",";
             int id = -1;
             try {
                 id = Integer.valueOf(ids[i]);
@@ -87,7 +90,7 @@ public class User {
         return text;
     }
 
-    public void updateByJsonResult(JSONObject jsonObject){
+    public void updateByJsonResult(JSONObject jsonObject,JSONObject jsonObject2){
         try {
             if(jsonObject.has("name")) setName(jsonObject.getString("name"));
             if(jsonObject.has("password")) setPassword(jsonObject.getString("password"));
@@ -103,8 +106,8 @@ public class User {
             }
             setGender(jsonObject.getInt("gender"));
             setCredit((float)jsonObject.getDouble("credit"));
-            if(jsonObject.getJSONArray("tags")!=null){
-                JSONArray ja = jsonObject.getJSONArray("tags");
+            if(jsonObject2.getJSONArray("tag")!=null){
+                JSONArray ja = jsonObject2.getJSONArray("tag");
                 String tagString="";
                 if(ja.length()>0) tagString+=ja.getInt(0);
                 for(int i = 1;i<ja.length();i++){
