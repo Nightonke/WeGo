@@ -47,10 +47,11 @@ public class FragmentMe extends Fragment implements View.OnClickListener{
                 sexString = "女";
                 break;
             case 2:
-                sexString = "不明";
+                sexString = "保密";
                 break;
         }
         sex.setText(sexString);
+        birthday = (TextView) messageLayout.findViewById(R.id.birthday);
         tags = (TextView) messageLayout.findViewById(R.id.tags);
         tags.setText(User.getInstance().getTagShowString());
 
@@ -58,6 +59,26 @@ public class FragmentMe extends Fragment implements View.OnClickListener{
         signOutBtn.setOnClickListener(this);
 
         return messageLayout;
+    }
+
+    public void updateByUserInfo(){
+        userName.setText(User.getInstance().getName());
+        String sexString = "男";
+        switch (User.getInstance().getGender()) {
+            case 0:
+                sexString = "男";
+                break;
+            case 1:
+                sexString = "女";
+                break;
+            case 2:
+                sexString = "保密";
+                break;
+        }
+        sex.setText(sexString);
+        birthday.setText(User.getInstance().getYear()+"-"+User.getInstance().getMonth()+"-"+User.getInstance().getDay());
+        tags.setText(User.getInstance().getTagShowString());
+
     }
 
     @Override

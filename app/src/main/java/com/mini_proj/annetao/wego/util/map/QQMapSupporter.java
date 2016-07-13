@@ -1,6 +1,7 @@
 package com.mini_proj.annetao.wego.util.map;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -62,6 +63,7 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
     private Activity activity;
     private DemoLocationSource locationSource;
     public boolean isMapLoaded=false;
+    private ProgressDialog dialog;
     Handler componentEnabledHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -106,6 +108,13 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
         mapView.getMap().setMyLocationEnabled(true);
         tencentMap.setLocationSource(locationSource);
         nowMarker = null;
+        if(!mapType.equals(QQ_MAP_TYPE_EXERCISES)) {
+            dialog = new ProgressDialog(activity);
+            dialog.setMessage("正在加载地图，请稍候...");
+            dialog.setIndeterminate(true);
+            dialog.setCancelable(true);
+            dialog.show();
+        }
 
 
 
@@ -125,6 +134,7 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
                 activity.startActivity(intent);
             }
         });
+        if(dialog!=null)dialog.dismiss();
     }
 
 
@@ -137,6 +147,7 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
         //TODO 改为getAllExercises()
         Exercise e = ExercisePool.getTopicPool().getTestExercises().get(position);
         addExerciseMarker(e);
+        if(dialog!=null)dialog.dismiss();
 
 
     }
@@ -279,6 +290,7 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
             TencentLocationManager locationManager =
                     TencentLocationManager.getInstance(activity);
             locationManager.removeUpdates(this);// 定位成功
+            if(dialog!=null)dialog.dismiss();
         } else {
             // 定位失败
         }
@@ -333,7 +345,10 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
                 Toast.makeText(activity,arg2, Toast.LENGTH_SHORT).show();
             }
         });
-        refreshNowMarker(new WeGoLocation(latLng));
+        WeGoLocation weGoLocation = new WeGoLocation(latLng);
+        weGoLocation.title = "...";
+        weGoLocation.disc = "";
+        refreshNowMarker(weGoLocation);
 
     }
 

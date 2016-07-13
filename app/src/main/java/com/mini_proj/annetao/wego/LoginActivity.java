@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -46,7 +47,15 @@ public class LoginActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         qs = new QQLoginSupporter(this);
-        findView(R.id.qq).setOnClickListener(this);
+        TextView btn = findView(R.id.qq);
+        if(User.getInstance().isLogin()){
+            btn.setText("欢迎，请稍候...");
+            weGoLogin();
+        }
+        else{
+            findView(R.id.qq).setOnClickListener(this);
+        }
+
     }
 
     @Override
@@ -81,12 +90,15 @@ public class LoginActivity extends BaseActivity
 
     }
 
-
+    /**
+     * QQ登陆回调
+     * @param result
+     * @param response
+     */
     public void onQQLoginResult(String result, Object response) {
         if(result.equals(QQLoginSupporter.QQ_LOGIN_RESULT_COMPLETE)) {
             //TODO 存储登录数据
             JSONObject jsonResponse = (JSONObject) response;
-            User.getInstance().setLogin(true);//问问
             try {
                 User.getInstance().setOpenId(jsonResponse.getString(Constants.PARAM_OPEN_ID));
                 User.getInstance().setToken(jsonResponse.getString(Constants.PARAM_ACCESS_TOKEN));
@@ -120,6 +132,7 @@ public class LoginActivity extends BaseActivity
     }
 
     private void updateUserInfo() {
+        loginDialog.show();
 
             IUiListener listener = new IUiListener() {
 
@@ -130,6 +143,9 @@ public class LoginActivity extends BaseActivity
 
                 }
 
+                /**
+                 * 请求QQ昵称和头像的回调
+                 */
                 @Override
                 public void onComplete(final Object response) {
                     JSONObject json = (JSONObject)response;
@@ -137,7 +153,15 @@ public class LoginActivity extends BaseActivity
                     if(json.has("figureurl")) {
                         try {
                             User.getInstance().setAvatorUrl(json.getString("figureurl_qq_2"));
-                            User.getInstance().setName(json.getString("nickname"));
+                            if(User.getInstance().getName()==null||User.getInstance().getName().equals(""))
+                                User.getInstance().setName(json.getString("nickname"));
+                            if(User.getInstance().getGender()==-1) {
+                                String genderStr = json.getString("gender");
+                                if (genderStr.equals("男"))
+                                    User.getInstance().setGender(User.GENDER_MALE);
+                                else if (genderStr.equals("女"))
+                                    User.getInstance().setGender(User.GENDER_FEMALE);
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -169,15 +193,23 @@ public class LoginActivity extends BaseActivity
 
             }
 
+            /**
+             * 后台登陆成功的回调
+             */
             @Override
             public void onResponse(String response, int id) {
+                if(loginDialog!=null) loginDialog.dismiss();
                 try {
                     Log.d("Wego", response);
                     JSONObject jsonObject = new JSONObject(response);
                     if(jsonObject.getString("result").equals(NetworkTools.RESULT_FAILED))
                         goToRegistry();
                     else {
-                        User.getInstance().updateByJsonResult(jsonObject.getJSONObject("data"));
+                        JSONObject data = jsonObject.getJSONArray("data").getJSONObject(0);
+                        Log.d("Wego_resulttojson", data.toString());
+                        User.getInstance().updateByJsonResult(data);
+                        User.getInstance().setLogin(true);
+                        LoginActivity.this.setResult(RESULT_OK);
                         LoginActivity.this.finish();
                     }
 
@@ -234,8 +266,11 @@ public class LoginActivity extends BaseActivity
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Constants.REQUEST_API + 1) {
-            finish();
-            return;
+            if(resultCode == RESULT_OK) {
+                User.getInstance().setLogin(true);
+                finish();
+                return;
+            }
         }
         // 官方文档没没没没没没没没没没没这句代码, 但是很很很很很很重要, 不然不会回调!
         Tencent.onActivityResultData(requestCode, resultCode, data, loginListener);
