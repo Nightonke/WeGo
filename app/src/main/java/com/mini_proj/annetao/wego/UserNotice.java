@@ -5,13 +5,13 @@ package com.mini_proj.annetao.wego;
  */
 public class UserNotice {
     private int id;
-    private int user_id;
+    private String user_id;
     private int exercise_id;
     private String notice_content;
     private String time;
     private int status;
 
-    public UserNotice(int id, int user_id, int exercise_id,
+    public UserNotice(int id, String user_id, int exercise_id,
                       String notice_content, String time, int status) {
         this.id = id;
         this.user_id = user_id;
@@ -29,11 +29,11 @@ public class UserNotice {
         this.id = id;
     }
 
-    public int getUser_id() {
+    public String getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(String user_id) {
         this.user_id = user_id;
     }
 
