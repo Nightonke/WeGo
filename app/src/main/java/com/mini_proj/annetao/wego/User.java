@@ -56,6 +56,7 @@ public class User {
                 .getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE).edit()
                 .putBoolean("LOGIN", login)
                 .commit();
+        NetworkTools.getNetworkTools().setUserName(getOpenId());
         this.login = login;
     }
 
