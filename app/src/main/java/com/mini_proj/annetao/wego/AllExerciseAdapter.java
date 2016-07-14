@@ -17,16 +17,16 @@ import me.gujun.android.taggroup.TagGroup;
 /**
  * Created by huangweiping on 16/7/10.
  */
-public class ExerciseInTagAdapter
-        extends RecyclerView.Adapter<ExerciseInTagAdapter.ViewHolder> {
+public class AllExerciseAdapter
+        extends RecyclerView.Adapter<AllExerciseAdapter.ViewHolder> {
 
     private OnExerciseSelectListener onExerciseSelectListener;
     private Context context;
-    private ArrayList<Exercise> tagExercises;
+    private ArrayList<Exercise> exercises;
 
-    public ExerciseInTagAdapter(OnExerciseSelectListener onExerciseSelectListener, ArrayList<Exercise> tagExercises) {
+    public AllExerciseAdapter(OnExerciseSelectListener onExerciseSelectListener, ArrayList<Exercise> exercises) {
         this.onExerciseSelectListener = onExerciseSelectListener;
-        this.tagExercises = tagExercises;
+        this.exercises = exercises;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class ExerciseInTagAdapter
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final Exercise e = tagExercises.get(position);
+        final Exercise e = exercises.get(position);
 
         holder.base.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +53,7 @@ public class ExerciseInTagAdapter
 
     @Override
     public int getItemCount() {
-        return tagExercises.size();
+        return exercises.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

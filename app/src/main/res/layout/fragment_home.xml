@@ -19,6 +19,7 @@
             app:layout_moreProgress="@layout/layout_more_progress"
             app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"
             app:recyclerClipToPadding="false"
+            android:background="@android:color/white"
             app:scrollbarStyle="outsideOverlay"/>
 
         <TextView

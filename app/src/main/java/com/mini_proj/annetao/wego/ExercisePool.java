@@ -4,6 +4,7 @@ import com.zhy.http.okhttp.callback.Callback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -26,6 +27,11 @@ public class ExercisePool {
 
     public ArrayList<Exercise> getExerciseList(String tag) {
         return exerciseMap.get(tag);
+    }
+
+    public ArrayList<Exercise> getTagExercise(String tagId) {
+        if (exerciseMap.get(tagId) == null) return new ArrayList<>();
+        else return exerciseMap.get(tagId);
     }
 
     public ArrayList<Exercise> getAllExercise() {
@@ -98,5 +104,13 @@ public class ExercisePool {
         exercises.add(new Exercise(2, 31.247241f, "2", "2016-07-07 20:00", "2016-07-08 06:00", "通宵狼人杀", 121.492696f, "即将到来", "2016-07-07 20:00", "status", "http://ww3.sinaimg.cn/crop.0.0.690.387.1000.562/006tT5Uqjw1f5bqxf3cisj30j60bzaas.jpg", 100f, "deadline", 100, null));
         exercises.add(new Exercise(3, 36.666574f, "3", "2016-07-07 20:00", "2016-07-08 06:00", "通宵LOL", 117.028908f, "即将到来", "2016-07-07 20:00", "status", "http://4.bp.blogspot.com/-F4e4ArhbKL0/UoC7b4qnraI/AAAAAAAAACA/WcMCqYcmF5g/w1200-h630-p-nu/tumblr_static_22924_league_of_legends.jpg", 100f, "deadline", 100, null));
         return exercises;
+    }
+
+    public void clearAllExercises() {
+        exerciseMap = new HashMap<>();
+    }
+
+    public void clearTagExercises(String tagId) {
+        exerciseMap.remove(tagId);
     }
 }
