@@ -68,6 +68,8 @@ public class FragmentMe extends Fragment implements View.OnClickListener{
         settings = (LinearLayout) messageLayout.findViewById(R.id.settings_layout);
         settings.setOnClickListener(this);
 
+        messageLayout.findViewById(R.id.subscribe_layout).setOnClickListener(this);
+        messageLayout.findViewById(R.id.sign_in_layout).setOnClickListener(this);
 
 
         return messageLayout;
@@ -134,6 +136,12 @@ public class FragmentMe extends Fragment implements View.OnClickListener{
                         })
                         .show();
 
+                break;
+            case R.id.subscribe_layout:
+                startActivity(new Intent(getActivity(), MySubscribeActivity.class));
+                break;
+            case R.id.sign_in_layout:
+                startActivity(new Intent(getActivity(), MySignUpActivity.class));
                 break;
             case R.id.settings_layout:
                 startActivityForResult(new Intent(getActivity(),SettingsActivity.class),REQUEST_SETTING);

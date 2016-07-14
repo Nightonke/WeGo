@@ -23,6 +23,9 @@ import okhttp3.Request;
  * Created by bran on 2016/7/9.
  */
 public class Exercise {
+
+    public static final int ATTENDENCY_TYPE = 1;
+
     private int id;
     private float latitude;
     private String sponsor_id;
@@ -41,6 +44,10 @@ public class Exercise {
     private int tagId = -1;
     private String address;
     private int minNum;
+
+    // 以下变量是用于获取参与活动的时候，获取报名时的用户名和电话
+    private String nickName;
+    private String userPhone;
 
     public Exercise()
     {
@@ -88,6 +95,35 @@ public class Exercise {
 
         JSONArray tagsJson = exerciseJson.getJSONArray("tag");
         if (tagsJson.length() > 0) tagId = tagsJson.getInt(0);
+    }
+
+    public Exercise(JSONObject exerciseJson, int type) throws JSONException {
+        switch (type) {
+            case ATTENDENCY_TYPE:
+                id = exerciseJson.getInt("id");
+                latitude = (float) exerciseJson.getDouble("latitude");
+                longitude = (float) exerciseJson.getDouble("longitude");
+                sponsor_id = exerciseJson.getString("sponsor_id");
+                start_time = getStandardTimeString(exerciseJson.getString("startTime"));
+                end_time = getStandardTimeString(exerciseJson.getString("startTime"));
+                name = exerciseJson.getString("exName");
+                description = exerciseJson.getString("descrip");
+                created_datetime = getStandardTimeString(exerciseJson.getString("attendTime"));
+                status = exerciseJson.getInt("status") + "";
+                if (exerciseJson.has("deadline")) deadline = getStandardTimeString(exerciseJson.getString("deadline"));
+                if (exerciseJson.has("avg_cost")) avg_cost = (float) exerciseJson.getDouble("avg_cost");
+                if (exerciseJson.has("pic_store")) pic_store = exerciseJson.getString("pic_store");
+                if (exerciseJson.has("address")) address = exerciseJson.getString("address");
+                minNum = exerciseJson.getInt("minNum");
+                nickName = exerciseJson.getString("nickname");
+                userPhone = exerciseJson.getString("phone");
+
+                if (exerciseJson.has("tag")) {
+                    JSONArray tagsJson = exerciseJson.getJSONArray("tag");
+                    if (tagsJson.length() > 0) tagId = tagsJson.getInt(0);
+                }
+                break;
+        }
     }
 
     public String getStandardTimeString(String time) {

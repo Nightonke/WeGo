@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <com.mini_proj.annetao.wego.TitleLayout
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:nbTitleText="我参与的活动"
+        app:nbHasEditText="false"/>
+
+    <com.malinskiy.superrecyclerview.SuperRecyclerView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:layout_empty="@layout/layout_empty_my_sign_up"
+        app:layout_moreProgress="@layout/layout_more_progress"
+        app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"
+        app:recyclerClipToPadding="false"
+        android:background="@android:color/white"
+        app:scrollbarStyle="outsideOverlay"/>
+
+</LinearLayout>
