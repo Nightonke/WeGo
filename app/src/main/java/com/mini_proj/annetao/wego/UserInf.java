@@ -150,6 +150,13 @@ public class UserInf {
         NetworkTools.doRequest(NetworkTools.URL_ATTENDENCY + "/delusrActi", map, callback);
     }
 
+    public void deleteUserAttend(String exerciseId, Callback callback) {
+        Map<String, String> map = new HashMap<>();
+        map.putAll(NetworkTools.paramsMap);
+        map.put("activity_id", exerciseId);
+        NetworkTools.doRequest(NetworkTools.URL_ATTENDENCY + "/delusrActi", map, callback);
+    }
+
     public void queryIsAttend(String exercise_id, Callback callback) {
         Map<String, String> map = new HashMap<>();
         map.putAll(NetworkTools.paramsMap);

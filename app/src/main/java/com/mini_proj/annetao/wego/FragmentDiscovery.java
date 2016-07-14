@@ -212,6 +212,13 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
                     //
                     adapter = new ExerciseInTagAdapter(FragmentDiscovery.this, ExercisePool.getTopicPool().getTagExercise(tag.v + ""));
                     listView.setAdapter(adapter);
+                    if (adapter.getItemCount() == 0) {
+                        loadingTip.setVisibility(View.VISIBLE);
+                        loadingTip.setText("暂无 " + tag.toString() + " 下的活动");
+                    } else {
+                        loadingTip.setVisibility(View.GONE);
+                        loadingTip.setText("加载中…");
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
