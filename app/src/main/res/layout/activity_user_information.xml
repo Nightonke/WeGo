@@ -8,10 +8,20 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_above="@+id/next"
-        android:layout_marginBottom="90dp"
+        android:layout_marginBottom="40dp"
         >
 
         <View style="@style/Divider"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="亲，先填个人信息咯~"
+            android:textColor="@color/button_subscribe"
+            android:gravity="center"
+            android:textSize="18dp"
+
+            />
+
 
         <LinearLayout
             android:id="@+id/name_layout"
