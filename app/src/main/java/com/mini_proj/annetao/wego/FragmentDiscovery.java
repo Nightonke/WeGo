@@ -114,6 +114,8 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
         shownMapView = !shownMapView;
         wegoRelativeLayout.setShowingMap(shownMapView);
         if (shownMapView) {
+            TextView home_toggle_view=(TextView)getActivity().findViewById(R.id.discovery_toggle_view);
+            home_toggle_view.setText("列表视图");
             qqMapSupporter.initialMapView();
             if(!qqMapSupporter.isMapLoaded){
                 mapView.onRestart();
@@ -143,6 +145,8 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
             if(qqMapSupporter.isMapLoaded) qqMapSupporter.updateExerciseMarkers(tagId);
 
         } else {
+            TextView home_toggle_view=(TextView)getActivity().findViewById(R.id.discovery_toggle_view);
+            home_toggle_view.setText("地图视图");
             qqMapSupporter.isMapLoaded = false;
             YoYo.with(Techniques.BounceInUp).duration(700).playOn(listViewLayout);
             YoYo.with(Techniques.FadeOutUp)

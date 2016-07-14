@@ -161,7 +161,7 @@ public class UserInformationActivity extends BaseActivity
                                     String tags = "";
                                     boolean isFirst = true;
                                     for (Integer id : selectedId) {
-                                        if (!isFirst) tags += ", ";
+                                        if (!isFirst) tags += ",";
                                         isFirst = false;
                                         tags += Tag.getAllTagName().get(id);
                                     }
@@ -232,7 +232,7 @@ public class UserInformationActivity extends BaseActivity
         //TODO 注册成功信息存入本地
         User.getInstance().setName(name.getText()+"");
         User.getInstance().setGender(Integer.parseInt(sexString));
-        String tagStr = selectedId.toString().replaceAll("\\[|\\]","");
+        String tagStr = selectedId.toString().replaceAll("\\[|\\]| ","");
         Log.e("wego_tagStr",tagStr);
         User.getInstance().setTagString(tagStr);
         User.getInstance().setYear(year);
