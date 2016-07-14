@@ -2,6 +2,7 @@ package com.mini_proj.annetao.wego;
 
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.BitmapCallback;
@@ -122,6 +123,9 @@ public class Exercise {
                     JSONArray tagsJson = exerciseJson.getJSONArray("tag");
                     if (tagsJson.length() > 0) tagId = tagsJson.getInt(0);
                 }
+                if (exerciseJson.has("tag_id")) {
+                    tagId = exerciseJson.getInt("tag_id");
+                }
                 break;
         }
     }
@@ -194,6 +198,7 @@ public class Exercise {
         JSONArray jsonArray = new JSONArray();
         jsonArray.put(tag.v);
         map.put("tag", jsonArray.toString());
+        Log.d("Wego",map.toString());
         NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/add_exercise"
                 , map, callback);
     }

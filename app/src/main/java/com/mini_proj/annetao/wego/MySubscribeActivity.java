@@ -1,5 +1,6 @@
 package com.mini_proj.annetao.wego;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -59,6 +60,9 @@ public class MySubscribeActivity extends BaseActivity
 
     @Override
     public void onSelect(int p) {
+        Intent intent = new Intent(this,MyExerciseDetailActivity.class);
+        intent.putExtra("position",p);
+        startActivity(intent);
 
     }
 
@@ -111,6 +115,7 @@ public class MySubscribeActivity extends BaseActivity
                     }
                     adapter = new ExerciseAdapter(MySubscribeActivity.this, exercises);
                     listView.setAdapter(adapter);
+                    ExercisePool.getTopicPool().setMySubscribeExercises(exercises);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
