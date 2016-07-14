@@ -172,6 +172,7 @@ public class Exercise {
             int max_num_,
             Tag tag,
             String pic_store,
+            String address,
             Callback callback) {
         Map<String, String> map = new HashMap<>();
         map.putAll(NetworkTools.paramsMap);
@@ -188,6 +189,7 @@ public class Exercise {
         map.put("avg_cost", "" + avgCost_);
         map.put("deadline", deadline_);
         map.put("pic_store", pic_store);
+        map.put("address", address);
         //图片！！
         JSONArray jsonArray = new JSONArray();
         jsonArray.put(tag.v);
