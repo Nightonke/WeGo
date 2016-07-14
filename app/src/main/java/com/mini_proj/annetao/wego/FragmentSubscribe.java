@@ -48,7 +48,6 @@ public class FragmentSubscribe extends Fragment
         DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener {
 
-    private KenBurnsView kenBurnsView;
     private View imageTip;
     private String imageLocalPath;
     private TextView title;
@@ -76,7 +75,7 @@ public class FragmentSubscribe extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View messageLayout = inflater.inflate(R.layout.fragment_subscribe, container, false);
 
-        kenBurnsView = (KenBurnsView) messageLayout.findViewById(R.id.image);
+
         title = (TextView) messageLayout.findViewById(R.id.title);
         time = (TextView) messageLayout.findViewById(R.id.time);
         time.setSelected(true);
@@ -89,9 +88,7 @@ public class FragmentSubscribe extends Fragment
         tagGroup = (TagGroup) messageLayout.findViewById(R.id.tag_group);
         place = (TextView) messageLayout.findViewById(R.id.map);
 
-        imageTip = messageLayout.findViewById(R.id.image_tip);
-        imageTip.setOnClickListener(this);
-        messageLayout.findViewById(R.id.image).setOnClickListener(this);
+
         messageLayout.findViewById(R.id.title_layout).setOnClickListener(this);
         messageLayout.findViewById(R.id.time_layout).setOnClickListener(this);
         messageLayout.findViewById(R.id.map_button).setOnClickListener(this);
@@ -109,10 +106,6 @@ public class FragmentSubscribe extends Fragment
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.image_tip:
-            case R.id.image:
-                choosePicture();
-                break;
             case R.id.title_layout:
                 new MaterialDialog.Builder(getActivity())
                         .title("活动标题")
@@ -363,23 +356,12 @@ public class FragmentSubscribe extends Fragment
     }
 
     public void setPhoto(ArrayList<String> paths) {
-        String imageString = paths.get(0);
-        File imgFile = new File(imageString);
-        if (imgFile.exists()) {
-            imageLocalPath = imageString;
-            Picasso.with(getActivity())
-                    .load(imgFile)
-                    .resize(Utils.getScreenWidth(), Utils.dp2px(200))
-                    .into(kenBurnsView);
-            imageTip.setVisibility(View.INVISIBLE);
-        } else {
-            imageTip.setVisibility(View.VISIBLE);
-        }
+
     }
 
     public void setAddress(String wegolocationStr) {
         WeGoLocation wegoLoc = new WeGoLocation(wegolocationStr);
-        place.setText(wegoLoc.getTitle());
+        place.setText(wegoLoc.getDisc()+" "+wegoLoc.getTitle());
         lat = wegoLoc.getLatLng().latitude;
         lng = wegoLoc.getLatLng().longitude;
         //TODO
@@ -481,6 +463,7 @@ public class FragmentSubscribe extends Fragment
                 Integer.valueOf(maxPeople.getText().toString()),
                 tag,
                 "http://p1.ifengimg.com/a/2016_26/39593b05420.jpg",
+                place.getText().toString(),
                 new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
@@ -499,7 +482,7 @@ public class FragmentSubscribe extends Fragment
                         if (dialog != null) dialog.dismiss();
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            if ("200".equals(jsonObject.getString("result"))) {
+                            if (jsonObject.has("result") && "200".equals(jsonObject.getString("result"))) {
                                 HashMap<String, String> tagMap = new HashMap<>();
                                 tagMap.put(tag.v + "", tag.toString());
                                 Exercise exercise = new Exercise(jsonObject.getJSONObject("data").getInt("id"), (float)lat, User.getInstance().getOpenId(), startTime, endTime, title.getText().toString(), (float)lng, detail.getText().toString(), "Create Time", "Status", "https://c1.staticflickr.com/7/6085/6099592258_be13b0968c_b.jpg", Float.valueOf(average.getText().toString()), deadline.getText().toString(), 0, tagMap);
@@ -513,7 +496,6 @@ public class FragmentSubscribe extends Fragment
                                         .positiveText("确定")
                                         .show();
 
-                                imageTip.setVisibility(View.VISIBLE);
                                 title.setText("");
                                 time.setText("");
                                 place.setText("");

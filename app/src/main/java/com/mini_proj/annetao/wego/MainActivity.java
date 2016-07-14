@@ -15,7 +15,6 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.mini_proj.annetao.wego.util.Utils;
 import com.mini_proj.annetao.wego.util.map.QQMapSupporter;
-import com.mini_proj.annetao.wego.util.map.WeGoLocation;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 
@@ -33,6 +32,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private int[] titles = new int[]{R.id.home_title, R.id.discovery_title, R.id.subscribe_title, R.id.message_title, R.id.me_title};
     private int lastTitlePosition = 0;
     private int[] buttons = new int[]{R.id.home_toggle_view, R.id.discovery_toggle_view, R.id.subscribe};
+    private int lastLastTitlePosition = 0;
     private int lastButtonPosition = 0;
     private TextView[] tabTexts = new TextView[5];
     private ImageView[] tabImages = new ImageView[10];
@@ -140,52 +140,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void onPageSelected(final int position) {
-                if (position == lastTitlePosition) return;
-                YoYo.with(Techniques.FadeOutUp)
-                        .duration(300)
-                        .withListener(new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationCancel(Animator animation) {
-                                super.onAnimationCancel(animation);
-                                Log.d("Wego", "Cancel");
-                                findView(titles[lastTitlePosition]).setVisibility(View.GONE);
-                            }
-                        })
-                        .playOn(findViewById(titles[lastTitlePosition]));
-                YoYo.with(Techniques.BounceInUp)
-                        .duration(700)
-                        .withListener(new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationStart(Animator animation) {
-                                super.onAnimationStart(animation);
-                                findView(titles[position]).setVisibility(View.VISIBLE);
-                            }
-                        })
-                        .playOn(findViewById(titles[position]));
-
-                if (position < 3) {
-                    if (lastButtonPosition < 3) YoYo.with(Techniques.FadeOutRight).duration(300).playOn(findViewById(buttons[lastButtonPosition]));
-                    YoYo.with(Techniques.BounceInUp)
-                            .duration(700)
-                            .withListener(new AnimatorListenerAdapter() {
-                                @Override
-                                public void onAnimationStart(Animator animation) {
-                                    super.onAnimationStart(animation);
-                                    findView(buttons[position]).bringToFront();
-                                    findView(buttons[position]).setVisibility(View.VISIBLE);
-                                }
-
-                                @Override
-                                public void onAnimationEnd(Animator animation) {
-                                    super.onAnimationEnd(animation);
-                                }
-                            })
-                            .playOn(findViewById(buttons[position]));
-                } else {
-                    if (lastButtonPosition < 3) YoYo.with(Techniques.FadeOutRight).duration(300).playOn(findViewById(buttons[lastButtonPosition]));
+                for (int i = 0; i < 5; i++) {
+                    if (i != position) findView(titles[i]).setVisibility(View.GONE);
+                    else {
+                        findView(titles[i]).bringToFront();
+                        findView(titles[i]).setVisibility(View.VISIBLE);
+                    }
                 }
-                lastTitlePosition = position;
-                lastButtonPosition = position;
+                for (int i = 0; i < 3 && position < 3; i++) {
+                    if (i != position) findView(buttons[i]).setVisibility(View.GONE);
+                    else {
+                        findView(buttons[i]).bringToFront();
+                        findView(buttons[i]).setVisibility(View.VISIBLE);
+                    }
+                }
 
                 if (viewPager.getCurrentItem() == 0 && fragmentHomeSoftReference != null && fragmentHomeSoftReference.get() != null) fragmentHomeSoftReference.get().setViewPager(viewPager);
                 if (viewPager.getCurrentItem() == 1 && fragmentDiscoverySoftReference != null && fragmentDiscoverySoftReference.get() != null) fragmentDiscoverySoftReference.get().setViewPager(viewPager);

@@ -12,9 +12,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.mini_proj.annetao.wego.util.Utils;
 import com.mini_proj.annetao.wego.util.login.QQLoginListener;
 import com.mini_proj.annetao.wego.util.login.QQLoginSupporter;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.common.Constants;
 import com.tencent.tauth.IUiListener;
@@ -33,6 +37,7 @@ public class LoginActivity extends BaseActivity
     private EditText name;
     private EditText password;
     private QQLoginSupporter qs;
+    private TextView btn;
     private BaseUiListener loginListener;
     public static String QQ_LOGIN_APP_ID = "1105456541";
     public static String QQ_LOGIN_RESULT_COMPLETE = "util.login.qqloginlistener.qqloginresult.complete";
@@ -40,14 +45,13 @@ public class LoginActivity extends BaseActivity
     public static String QQ_LOGIN_RESULT_ERROR = "util.login.qqloginlistener.qqloginresult.error";
     Tencent mTencent;
 
-    public MaterialDialog loginDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         qs = new QQLoginSupporter(this);
-        TextView btn = findView(R.id.qq);
+        btn = findView(R.id.qq);
         if(User.getInstance().isLogin()){
             btn.setText("欢迎，请稍候...");
             weGoLogin();
@@ -55,7 +59,6 @@ public class LoginActivity extends BaseActivity
         else{
             findView(R.id.qq).setOnClickListener(this);
         }
-
     }
 
     @Override
@@ -72,12 +75,7 @@ public class LoginActivity extends BaseActivity
 
     private void qqLogin() {
 
-        loginDialog = new MaterialDialog.Builder(mContext)
-                .title("连接中")
-                .content("请稍候...")
-                .cancelable(false)
-                .progress(true, 0)
-                .show();
+        btn.setText("加载中，请稍候...");
 
 
         mTencent = Tencent.createInstance(QQ_LOGIN_APP_ID, getApplicationContext());
@@ -132,7 +130,6 @@ public class LoginActivity extends BaseActivity
     }
 
     private void updateUserInfo() {
-        loginDialog.show();
 
         IUiListener listener = new IUiListener() {
 
@@ -198,7 +195,6 @@ public class LoginActivity extends BaseActivity
              */
             @Override
             public void onResponse(String response, int id) {
-                if(loginDialog!=null) loginDialog.dismiss();
                 try {
                     Log.d("Wego", response);
                     JSONObject jsonObject = new JSONObject(response);
@@ -227,9 +223,6 @@ public class LoginActivity extends BaseActivity
     @Override
     protected void onStop() {
         super.onStop();
-        if(loginDialog!=null){
-            loginDialog.dismiss();
-        }
     }
 
     private class BaseUiListener implements IUiListener {
@@ -268,6 +261,7 @@ public class LoginActivity extends BaseActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         // 官方文档没没没没没没没没没没没这句代码, 但是很很很很很很重要, 不然不会回调!
+        btn.setText("欢迎，请稍候...");
         Tencent.onActivityResultData(requestCode, resultCode, data, loginListener);
 
         if(requestCode == Constants.REQUEST_API) {
