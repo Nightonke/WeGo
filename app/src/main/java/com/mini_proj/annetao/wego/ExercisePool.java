@@ -12,10 +12,14 @@ import java.util.Map;
  */
 public class ExercisePool {
     private static Map<String, ArrayList<Exercise>> exerciseMap;
+    private static ArrayList<Exercise> mySubscribeExercises;
+    private static ArrayList<Exercise> mySignUpExercises;
     private static ExercisePool exercisePool = null;
 
     private ExercisePool() {
         exerciseMap = new HashMap<>();
+        mySubscribeExercises = new ArrayList<>();
+        mySignUpExercises = new ArrayList<>();
         exercisePool = this;
     }
 
@@ -24,6 +28,26 @@ public class ExercisePool {
             return new ExercisePool();
         return exercisePool;
     }
+
+    public ArrayList<Exercise> getMySubscribeExercises(){
+        return mySubscribeExercises;
+    }
+
+    public ArrayList<Exercise> getMySignUpExercises(){
+        return mySignUpExercises;
+    }
+
+    public void setMySubscribeExercises(ArrayList<Exercise> exercises){
+        mySubscribeExercises.clear();
+        mySubscribeExercises.addAll(exercises);
+    }
+
+    public void setMySignUpExercises(ArrayList<Exercise> exercises){
+        mySignUpExercises.clear();
+        mySignUpExercises.addAll(exercises);
+    }
+
+
 
     public ArrayList<Exercise> getExerciseList(String tag) {
         return exerciseMap.get(tag);
