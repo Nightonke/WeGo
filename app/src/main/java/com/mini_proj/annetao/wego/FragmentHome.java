@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -19,17 +22,22 @@ import com.mini_proj.annetao.wego.util.Utils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.tencent.tencentmap.mapsdk.maps.MapView;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import okhttp3.Call;
 
 /**
  * Created by huangweiping on 16/7/10.
  */
-public class FragmentHome extends Fragment implements ExerciseAdapter.OnExerciseSelectListener {
+public class FragmentHome extends Fragment implements ExerciseAdapter.OnExerciseSelectListener, SwipeRefreshLayout.OnRefreshListener {
 
     private boolean shownMapView = false;
 
     private WegoRelativeLayout wegoRelativeLayout;
     private MapView mapView;
+    private View listViewLayout;
     private SuperRecyclerView listView;
+    private TextView loadingTip;
     private ExerciseAdapter adapter;
     private QQMapSupporter qqMapSupporter;
 
@@ -39,6 +47,7 @@ public class FragmentHome extends Fragment implements ExerciseAdapter.OnExercise
 
         wegoRelativeLayout = (WegoRelativeLayout) messageLayout.findViewById(R.id.base);
         listView = (SuperRecyclerView) messageLayout.findViewById(R.id.list_view);
+        listView.setRefreshListener(this);
         listView.addItemDecoration(new PhoneOrderDecoration(Utils.dp2px(10)));
         LinearLayoutManager mManager = new LinearLayoutManager(getContext());
         listView.setLayoutManager(mManager);
@@ -48,12 +57,31 @@ public class FragmentHome extends Fragment implements ExerciseAdapter.OnExercise
         mapView = (MapView) messageLayout.findViewById(R.id.map_view);
         qqMapSupporter = new QQMapSupporter(getActivity(),mapView,QQMapSupporter.QQ_MAP_TYPE_EXERCISES);
 
+        listViewLayout = messageLayout.findViewById(R.id.list_view_layout);
+        loadingTip = (TextView) messageLayout.findViewById(R.id.loading_tip);
 
         shownMapView = false;
+
+        onRefresh();
 
         return messageLayout;
     }
 
+    @Override
+    public void onRefresh() {
+        ExercisePool.getTopicPool().queryPlaceTopic(-1, -1, new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                loadingTip.setText("加载失败，点击标签重试");
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                loadingTip.setVisibility(View.GONE);
+                Log.d("Wego", response);
+            }
+        });
+    }
 
     @Override
     public void onStart() {
@@ -121,13 +149,13 @@ public class FragmentHome extends Fragment implements ExerciseAdapter.OnExercise
                             listView.setVisibility(View.GONE);
                         }
                     })
-                    .duration(300).playOn(listView);
+                    .duration(300).playOn(listViewLayout);
             if(qqMapSupporter.isMapLoaded) qqMapSupporter.updateExerciseMarkers();
 
         } else {
             mapView.onPause();
             mapView.onStop();
-            YoYo.with(Techniques.BounceInUp).duration(700).playOn(listView);
+            YoYo.with(Techniques.BounceInUp).duration(700).playOn(listViewLayout);
             YoYo.with(Techniques.FadeOutUp)
                     .withListener(new AnimatorListenerAdapter() {
                         @Override

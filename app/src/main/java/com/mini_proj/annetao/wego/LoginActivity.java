@@ -134,51 +134,51 @@ public class LoginActivity extends BaseActivity
     private void updateUserInfo() {
         loginDialog.show();
 
-            IUiListener listener = new IUiListener() {
+        IUiListener listener = new IUiListener() {
 
-                @Override
-                public void onError(UiError e) {
-                    Toast.makeText(LoginActivity.this,"获取头像失败",Toast.LENGTH_SHORT).show();
-                    weGoLogin();
+            @Override
+            public void onError(UiError e) {
+                Toast.makeText(LoginActivity.this,"获取头像失败",Toast.LENGTH_SHORT).show();
+                weGoLogin();
 
-                }
+            }
 
-                /**
-                 * 请求QQ昵称和头像的回调
-                 */
-                @Override
-                public void onComplete(final Object response) {
-                    JSONObject json = (JSONObject)response;
-                    Log.e("avatorurl",response.toString());
-                    if(json.has("figureurl")) {
-                        try {
-                            User.getInstance().setAvatorUrl(json.getString("figureurl_qq_2"));
-                            if(User.getInstance().getName()==null||User.getInstance().getName().equals(""))
-                                User.getInstance().setName(json.getString("nickname"));
-                            if(User.getInstance().getGender()==-1) {
-                                String genderStr = json.getString("gender");
-                                if (genderStr.equals("男"))
-                                    User.getInstance().setGender(User.GENDER_MALE);
-                                else if (genderStr.equals("女"))
-                                    User.getInstance().setGender(User.GENDER_FEMALE);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+            /**
+             * 请求QQ昵称和头像的回调
+             */
+            @Override
+            public void onComplete(final Object response) {
+                JSONObject json = (JSONObject)response;
+                Log.e("avatorurl",response.toString());
+                if(json.has("figureurl")) {
+                    try {
+                        User.getInstance().setAvatorUrl(json.getString("figureurl_qq_2"));
+                        if(User.getInstance().getName()==null||User.getInstance().getName().equals(""))
+                            User.getInstance().setName(json.getString("nickname"));
+                        if(User.getInstance().getGender()==-1) {
+                            String genderStr = json.getString("gender");
+                            if (genderStr.equals("男"))
+                                User.getInstance().setGender(User.GENDER_MALE);
+                            else if (genderStr.equals("女"))
+                                User.getInstance().setGender(User.GENDER_FEMALE);
                         }
-
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                    weGoLogin();
-
 
                 }
+                weGoLogin();
 
-                @Override
-                public void onCancel() {
 
-                }
-            };
-            UserInfo mInfo = new UserInfo(this, mTencent.getQQToken());
-            mInfo.getUserInfo(listener);
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        };
+        UserInfo mInfo = new UserInfo(this, mTencent.getQQToken());
+        mInfo.getUserInfo(listener);
 
 
     }

@@ -160,6 +160,7 @@ public class User {
                 .putString("OPENID", openId)
                 .commit();
         this.openId = openId;
+        NetworkTools.getNetworkTools().setUserName(openId);
     }
 
     public String getToken() {

@@ -53,6 +53,7 @@ public class FragmentSubscribe extends Fragment
 
     private KenBurnsView kenBurnsView;
     private View imageTip;
+    private String imageLocalPath;
     private TextView title;
     private TextView time;
     private TextView place;
@@ -368,6 +369,7 @@ public class FragmentSubscribe extends Fragment
         String imageString = paths.get(0);
         File imgFile = new File(imageString);
         if (imgFile.exists()) {
+            imageLocalPath = imageString;
             Picasso.with(getActivity())
                     .load(imgFile)
                     .resize(Utils.getScreenWidth(), Utils.dp2px(200))
@@ -398,8 +400,8 @@ public class FragmentSubscribe extends Fragment
             return;
         }
         String[] timeStr = time.getText().toString().split("~");
-        String startTime;
-        String endTime;
+        final String startTime;
+        final String endTime;
         try {
             startTime = timeStr[0];
             endTime = timeStr[1];
@@ -428,6 +430,10 @@ public class FragmentSubscribe extends Fragment
             Utils.toastImmediately("截止报名日期必须晚于当前时间");
             return;
         }
+        if (startCalendar.before(deadlineCalendar)) {
+            Utils.toastImmediately("截止报名日期必须早于活动开始时间");
+            return;
+        }
         if ("".equals(minPeople.getText().toString())) {
             Utils.toastImmediately("尚未填写最少参与人数");
             return;
@@ -452,6 +458,10 @@ public class FragmentSubscribe extends Fragment
             Utils.toastImmediately("尚未填写活动详情");
             return;
         }
+        if (Tag.NONE.equals(tag)) {
+            Utils.toastImmediately("尚未选择标签");
+            return;
+        }
 
         Map<String, String> map = new HashMap<>();
         dialog = new MaterialDialog.Builder(getContext())
@@ -472,8 +482,8 @@ public class FragmentSubscribe extends Fragment
                 deadline.getText().toString(),
                 Integer.valueOf(minPeople.getText().toString()),
                 Integer.valueOf(maxPeople.getText().toString()),
-                map,
-                "http://p1.ifengimg.com/a/2016_26/39593b0547b5420.jpg",
+                tag,
+                "http://p1.ifengimg.com/a/2016_26/39593b05420.jpg",
                 new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
@@ -493,12 +503,31 @@ public class FragmentSubscribe extends Fragment
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             if ("200".equals(jsonObject.getString("result"))) {
-                                Utils.toastImmediately("发布活动成功");
-                                Gson gson = new Gson();
-                                Exercise exercise = gson.fromJson(response, Exercise.class);
+                                HashMap<String, String> tagMap = new HashMap<>();
+                                tagMap.put(tag.v + "", tag.toString());
+                                Exercise exercise = new Exercise(jsonObject.getJSONObject("data").getInt("id"), (float)lat, -1, startTime, endTime, title.getText().toString(), (float)lng, detail.getText().toString(), "Create Time", "Status", "https://c1.staticflickr.com/7/6085/6099592258_be13b0968c_b.jpg", Float.valueOf(average.getText().toString()), deadline.getText().toString(), 0, tagMap);
                                 UserInf.getUserInf().addExerciseMyList(exercise);
                                 Map<String, String> tagList = exercise.getTagList();
                                 for (Map.Entry<String, String> entry : tagList.entrySet()) ExercisePool.getTopicPool().addExerciseToMap(entry.getValue(), exercise);
+
+                                dialog = new MaterialDialog.Builder(getContext())
+                                        .title("发布活动成功")
+                                        .content("发布活动成功。")
+                                        .positiveText("确定")
+                                        .show();
+
+                                imageTip.setVisibility(View.VISIBLE);
+                                title.setText("");
+                                time.setText("");
+                                place.setText("");
+                                deadline.setText("");
+                                minPeople.setText("");
+                                maxPeople.setText("");
+                                credit.setText("");
+                                average.setText("");
+                                detail.setText("");
+                                tag = Tag.NONE;
+                                tagGroup.setTags(new ArrayList<String>());
                             } else {
                                 dialog = new MaterialDialog.Builder(getContext())
                                         .title("发布活动失败")

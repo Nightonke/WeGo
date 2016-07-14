@@ -169,6 +169,7 @@ public class SettingsActivity extends BaseActivity
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 if (dialog.getSelectedIndices() != null) {
+                                    selectedId.clear();
                                     for (Integer id : dialog.getSelectedIndices()) {
                                         selectedId.add(id);
                                     }

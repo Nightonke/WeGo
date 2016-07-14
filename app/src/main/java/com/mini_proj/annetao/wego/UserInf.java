@@ -134,10 +134,12 @@ public class UserInf {
     }
 
     //attend
-    public void addUserAttend(String tagname, String exercise_id, Callback callback) {
+    public void addUserAttend(String exercise_id,String nickname,String phone, Callback callback) {
         Map<String, String> map = new HashMap<>();
         map.putAll(NetworkTools.paramsMap);
         map.put("activity_id", exercise_id);
+        map.put("nickname", nickname);
+        map.put("phone", phone);
         NetworkTools.doRequest(NetworkTools.URL_ATTENDENCY + "/addusrActi", map, callback);
     }
 

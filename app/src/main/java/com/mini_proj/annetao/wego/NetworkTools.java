@@ -38,26 +38,25 @@ public class NetworkTools {
     public static String URL_ATTENDENCY = "/attendency";
     public static String URL_EXERCISE_COMMENT = "/activity_comment";
     public static String URL_NOTICE = "/user_notice";
-    public static Map<String, String> paramsMap=new HashMap<>();
+    public static Map<String, String> paramsMap;
     public static Handler mHandler;
     private static NetworkTools networkTools = null;
     private static String UserName = "";
 
-    private NetworkTools(String serveraddr, Handler handler) {
-        setServerAddr(serveraddr);
-        mHandler = handler;
+    private NetworkTools() {
+        paramsMap=new HashMap<>();
         networkTools = this;
     }
 
-    public static void setUserName(String name) {
+    public void setUserName(String name) {
         UserName = name;
         paramsMap.put("user_id", UserName);
     }
 
     public static NetworkTools getNetworkTools() {
-        if (networkTools != null)
-            return networkTools;
-        return null;
+        if (networkTools == null)
+            return new NetworkTools();
+        return networkTools;
     }
 
     public static String getServerAddr() {
@@ -75,7 +74,8 @@ public class NetworkTools {
             builder = builder.addParams(param.getKey(), param.getValue());
         }
         RequestCall build = builder.build();
-        //Log.d("WeGo",build.getRequest().toString());
+        //Log.d("WeGo:getRequest ",build.getRequest().toString());
+        Log.d("WeGo:paramsmap ",paramsmap.toString());
         build.execute(callback);
     }
 

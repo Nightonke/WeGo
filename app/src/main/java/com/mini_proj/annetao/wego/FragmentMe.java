@@ -71,6 +71,12 @@ public class FragmentMe extends Fragment implements View.OnClickListener{
         return messageLayout;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        tags.setText(User.getInstance().getTagShowString());
+    }
+
     public void updateByUserInfo(){
         userName.setText(User.getInstance().getName());
         String sexString = "男";

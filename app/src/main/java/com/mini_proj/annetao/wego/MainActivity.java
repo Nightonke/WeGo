@@ -186,6 +186,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                 if (viewPager.getCurrentItem() == 0 && fragmentHomeSoftReference != null && fragmentHomeSoftReference.get() != null) fragmentHomeSoftReference.get().setViewPager(viewPager);
                 if (viewPager.getCurrentItem() == 1 && fragmentDiscoverySoftReference != null && fragmentDiscoverySoftReference.get() != null) fragmentDiscoverySoftReference.get().setViewPager(viewPager);
+                if (viewPager.getCurrentItem() == 1 && fragmentDiscoverySoftReference != null && fragmentDiscoverySoftReference.get() != null) fragmentDiscoverySoftReference.get().autoSelect();
 
             }
 
@@ -232,6 +233,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 return 5;
             }
         });
+        viewPager.setOffscreenPageLimit(4);
 
         findView(R.id.tab_home).setOnClickListener(this);
         findView(R.id.tab_discovery).setOnClickListener(this);
