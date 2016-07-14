@@ -238,43 +238,6 @@
 
             <View style="@style/MarginDivider"/>
 
-            <LinearLayout
-                android:id="@+id/level_layout"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:orientation="horizontal"
-                style="@style/WhiteRippleBackgroundStyle"
-                android:clickable="true">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="发布者等级"
-                    android:textColor="@color/black"
-                    android:gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"/>
-
-                <TextView
-                    android:id="@+id/level"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text=""
-                    android:layout_marginRight="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:gravity="center_vertical|end"
-                    android:singleLine="true"
-                    android:ellipsize="marquee"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:scrollHorizontally="true"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:freezesText="true"/>
-
-            </LinearLayout>
-
-            <View style="@style/MarginDivider"/>
 
             <LinearLayout
                 android:id="@+id/detail_layout"
@@ -308,31 +271,6 @@
 
             <View style="@style/MarginDivider"/>
 
-            <LinearLayout
-                android:id="@+id/comment_layout"
-                android:layout_width="match_parent"
-                android:layout_height="248dp"
-                android:orientation="vertical"
-                style="@style/WhiteRippleBackgroundStyle"
-                android:clickable="true">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:text="评论区"
-                    android:textColor="@color/black"
-                    android:gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"/>
-
-                <com.mini_proj.annetao.wego.ExpandedListView
-                    android:id="@+id/comment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-            <View style="@style/MarginDivider"/>
 
         </LinearLayout>
 

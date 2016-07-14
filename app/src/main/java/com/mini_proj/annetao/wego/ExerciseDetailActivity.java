@@ -24,6 +24,7 @@ public class ExerciseDetailActivity extends BaseActivity implements TitleLayout.
     private TextView people;
     private TextView detail;
     private TextView location;
+    private TextView map;
     private ExpandedListView expandedListView;
     private String tagId = "-1";
 
@@ -55,6 +56,8 @@ public class ExerciseDetailActivity extends BaseActivity implements TitleLayout.
         title.setText(exercise.getName());
         time = findView(R.id.time);
         time.setText(exercise.getStart_time() + " ~ " + exercise.getEnd_time());
+        map = findView(R.id.map);
+        map.setText(exercise.getAddress());
         mapButton = findView(R.id.map_button);
         mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,10 +68,10 @@ public class ExerciseDetailActivity extends BaseActivity implements TitleLayout.
         average = findView(R.id.average);
         average.setText(exercise.getAvg_cost()+"");
         people = findView(R.id.people);
+        people.setText(exercise.getAttendencyNum()+"/"+exercise.getMinNum());
         detail = findView(R.id.detail);
         detail.setText(exercise.getDescription());
         location=findView(R.id.map);
-        expandedListView = findView(R.id.comment);
     }
 
     @Override
