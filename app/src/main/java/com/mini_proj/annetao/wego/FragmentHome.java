@@ -24,6 +24,10 @@ import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.tencent.tencentmap.mapsdk.maps.MapView;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import okhttp3.Call;
 
 /**
@@ -79,6 +83,16 @@ public class FragmentHome extends Fragment implements ExerciseAdapter.OnExercise
             public void onResponse(String response, int id) {
                 loadingTip.setVisibility(View.GONE);
                 Log.d("Wego", response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray data = jsonObject.getJSONArray("data");
+                    for (int i = 0; i < data.length(); i++) {
+                        Exercise exercise = new Exercise(data.getJSONObject(i));
+                        if (exercise.getTagId() != -1) ExercisePool.getTopicPool().addExerciseToMap(Tag.value(exercise.getTagId()).toString(), exercise);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

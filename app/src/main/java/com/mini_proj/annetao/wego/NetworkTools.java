@@ -38,7 +38,7 @@ public class NetworkTools {
     public static String URL_ATTENDENCY = "/attendency";
     public static String URL_EXERCISE_COMMENT = "/activity_comment";
     public static String URL_NOTICE = "/user_notice";
-    public static Map<String, String> paramsMap;
+    public static Map<String, String> paramsMap = new HashMap<>();
     public static Handler mHandler;
     private static NetworkTools networkTools = null;
     private static String UserName = "";
