@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.mini_proj.annetao.wego.util.Utils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.json.JSONException;
@@ -29,6 +30,8 @@ public class ExerciseSignUpActivity extends BaseActivity
     private TextView remark;
     private TextView sign_in;
     private int exercise_id;
+
+    private MaterialDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,24 +133,36 @@ public class ExerciseSignUpActivity extends BaseActivity
                         }).show();
                 break;
             case R.id.sign_in:
+                dialog = new MaterialDialog.Builder(mContext)
+                        .title("报名中")
+                        .content("请稍候...")
+                        .cancelable(false)
+                        .progress(true, 0)
+                        .show();
                 UserInf.getUserInf().addUserAttend(""+exercise_id,name.getText()+"",phone.getText()+"", new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("WeGo",e.toString());
+                        dialog = new MaterialDialog.Builder(mContext)
+                                .title("报名失败")
+                                .content("报名失败，网络异常")
+                                .positiveText("确定")
+                                .show();
                     }
 
                     @Override
                     public void onResponse(String response, int id) {
+                        if (dialog != null) dialog.dismiss();
                         try {
                             JSONObject object = new JSONObject(response);
                             if(object.getString("result").equals("400"))
                             {
-                                Toast.makeText(getApplicationContext(),"提交失败",Toast.LENGTH_LONG).show();
+                                Utils.toastImmediately("报名失败，网络异常");
                             }
                             else
                             {
-                                Toast.makeText(getApplication(),"报名成功",Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(ExerciseSignUpActivity.this,MainActivity.class));
+                                Utils.toastImmediately("报名成功");
+                                finish();
                             }
                         }
                         catch(JSONException e)
