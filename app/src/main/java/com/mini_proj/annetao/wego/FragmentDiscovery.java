@@ -48,6 +48,7 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
     private MapView mapView;
     private QQMapSupporter qqMapSupporter;
     private boolean autoSelect = true;
+    private String tagId="0";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -95,7 +96,7 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
         loadingTip = (TextView) messageLayout.findViewById(R.id.loading_tip);
 
         mapView = (MapView) messageLayout.findViewById(R.id.map_view);
-        qqMapSupporter = new QQMapSupporter(getActivity(),mapView,QQMapSupporter.QQ_MAP_TYPE_EXERCISES);
+        qqMapSupporter = new QQMapSupporter(getActivity(),mapView,QQMapSupporter.QQ_MAP_TYPE_EXERCISES,tagId);
 
         shownMapView = false;
         return messageLayout;
@@ -105,6 +106,7 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
     public void onSelect(int p) {
         Intent intent = new Intent(getContext(), ExerciseDetailActivity.class);
         intent.putExtra("position", p);
+        intent.putExtra("tag_id", tagId);
         startActivity(intent);
     }
 
@@ -138,7 +140,7 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
                         }
                     })
                     .duration(300).playOn(listViewLayout);
-            if(qqMapSupporter.isMapLoaded) qqMapSupporter.updateExerciseMarkers();
+            if(qqMapSupporter.isMapLoaded) qqMapSupporter.updateExerciseMarkers(tagId);
 
         } else {
             qqMapSupporter.isMapLoaded = false;
@@ -163,7 +165,10 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
 
     public void chooseTag(String tagName) {
         final Tag tag = Tag.value(tagName);
+        tagId = tag.v+"";
+
         Utils.toastImmediately("选择 " + tagName + " 标签中…");
+
 
         loadingTip.setVisibility(View.VISIBLE);
         ExercisePool.getTopicPool().queryPlaceTopicWithTag(-1, -1, tag.v + "", new StringCallback() {
@@ -176,6 +181,7 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
             public void onResponse(String response, int id) {
                 loadingTip.setVisibility(View.GONE);
                 Log.d("Wego", response);
+                if(qqMapSupporter.isMapLoaded) qqMapSupporter.updateExerciseMarkers(tagId);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONArray data = jsonObject.getJSONArray("data");
@@ -216,7 +222,7 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
             qqMapSupporter.isMapLoaded = true;
             Log.e("wego_map","onResume");
             qqMapSupporter.initialMapView();
-            if(qqMapSupporter.isMapLoaded) qqMapSupporter.updateExerciseMarkers();
+            if(qqMapSupporter.isMapLoaded) qqMapSupporter.updateExerciseMarkers(tagId);
         }
     }
 
@@ -250,6 +256,7 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
                 @Override
                 public void run() {
                     tagGroup.getChildAt(0).performClick();
+                    tagId = "0";
                 }
             });
         }
