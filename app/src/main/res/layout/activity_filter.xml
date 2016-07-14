@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         app:nbTitleText="搜索条件"
-        app:nbEditText="确定"/>
+        app:nbEditText="　确定　"/>
 
     <View style="@style/Divider"/>
 
