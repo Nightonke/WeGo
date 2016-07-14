@@ -45,7 +45,7 @@ public class ExercisePool {
     public void queryPlaceTopic(float latitude, float longitude,
                                 Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.putAll(NetworkTools.paramsMap);
+        map.putAll(NetworkTools.getNetworkTools().paramsMap);
         map.put("latitude", "" + latitude);
         map.put("longitude", "" + longitude);
         NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/query_nearby_exercise"
@@ -55,7 +55,7 @@ public class ExercisePool {
     public void queryPlaceTopicWithTag(float latitude, float longitude, String tag,
                                        Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.putAll(NetworkTools.paramsMap);
+        map.putAll(NetworkTools.getNetworkTools().paramsMap);
         map.put("latitude", "" + latitude);
         map.put("longitude", "" + longitude);
         map.put("tag", "" + tag);
@@ -66,7 +66,7 @@ public class ExercisePool {
     public void queryTopicWithSponsor(String sponsor_id,
                                       Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.putAll(NetworkTools.paramsMap);
+        map.putAll(NetworkTools.getNetworkTools().paramsMap);
         map.put("sponsor_id", "" + sponsor_id);
         NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/query_user_exercise"
                 , map, callback);
@@ -75,7 +75,7 @@ public class ExercisePool {
     public void queryTopicWithOpenId(String openId,
                                       Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.putAll(NetworkTools.paramsMap);
+        map.putAll(NetworkTools.getNetworkTools().paramsMap);
         map.put("sponsor_id", "" + openId);
         NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/query_user_exercise"
                 , map, callback);
@@ -84,7 +84,7 @@ public class ExercisePool {
     public void queryTopicWithSponsorAndTime(String sponsor_id, String time_lower_bound, String time_upper_bound,
                                              Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.putAll(NetworkTools.paramsMap);
+        map.putAll(NetworkTools.getNetworkTools().paramsMap);
         map.put("sponsor_id", "" + sponsor_id);
         map.put("time_lower_bound", "" + time_lower_bound);
         map.put("time_upper_bound", "" + time_upper_bound);

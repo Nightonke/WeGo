@@ -40,7 +40,7 @@ public class UserInf {
 
     public void doLogin(String user, Callback callback) {
         Map<String, String> map = new HashMap<>();
-        //map.putAll(NetworkTools.paramsMap);
+        //map.putAll(NetworkTools.getNetworkTools().paramsMap);
         map.put("id", user);
         //map.put("password", pass);
         NetworkTools.doRequest(NetworkTools.URL_USER + "/login", map, callback);
@@ -57,7 +57,7 @@ public class UserInf {
 
     public void doRegister(String name, String gender, String birthday, HashSet<Integer> tagIds, Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.putAll(NetworkTools.paramsMap);
+        map.putAll(NetworkTools.getNetworkTools().paramsMap);
         map.put("name", name);
         map.put("gender", gender);
         map.put("birthday", birthday);
@@ -93,13 +93,13 @@ public class UserInf {
     //notice
     public void queryMyNotice(Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.putAll(NetworkTools.paramsMap);
+        map.putAll(NetworkTools.getNetworkTools().paramsMap);
         NetworkTools.doRequest(NetworkTools.URL_NOTICE + "/query_notice", map, callback);
     }
 
     public void readMyNotice(String id,Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.putAll(NetworkTools.paramsMap);
+        map.putAll(NetworkTools.getNetworkTools().paramsMap);
         map.put("notice_id",id);
         NetworkTools.doRequest(NetworkTools.URL_NOTICE + "/read_notice", map, callback);
     }
@@ -107,14 +107,14 @@ public class UserInf {
     //Tag
     public void addUserTag(String tagid, Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.putAll(NetworkTools.paramsMap);
+        map.putAll(NetworkTools.getNetworkTools().paramsMap);
         map.put("tag_id", tagid);
         NetworkTools.doRequest(NetworkTools.URL_USER_TAG + "/add_user_tag", map, callback);
     }
 
     public void addUserNewTag(String tagname, Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.putAll(NetworkTools.paramsMap);
+        map.putAll(NetworkTools.getNetworkTools().paramsMap);
         map.put("name", tagname);
         NetworkTools.doRequest(NetworkTools.URL_USER_TAG + "/add_user_new_tag", map, callback);
     }
@@ -122,21 +122,21 @@ public class UserInf {
     //Tag
     public void deleteUserTag(String tagid, Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.putAll(NetworkTools.paramsMap);
+        map.putAll(NetworkTools.getNetworkTools().paramsMap);
         map.put("tag_id", tagid);
         NetworkTools.doRequest(NetworkTools.URL_USER_TAG + "/del_tag", map, callback);
     }
 
     public void queryUserTag(String tagname, Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.putAll(NetworkTools.paramsMap);
+        map.putAll(NetworkTools.getNetworkTools().paramsMap);
         NetworkTools.doRequest(NetworkTools.URL_USER_TAG + "/query_usr_tag", map, callback);
     }
 
     //attend
     public void addUserAttend(String exercise_id,String nickname,String phone, Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.putAll(NetworkTools.paramsMap);
+        map.putAll(NetworkTools.getNetworkTools().paramsMap);
         map.put("activity_id", exercise_id);
         map.put("nickname", nickname);
         map.put("phone", phone);
@@ -145,28 +145,28 @@ public class UserInf {
 
     public void deleteUserAttend(String tagname, String exercise_id, Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.putAll(NetworkTools.paramsMap);
+        map.putAll(NetworkTools.getNetworkTools().paramsMap);
         map.put("activity_id", exercise_id);
         NetworkTools.doRequest(NetworkTools.URL_ATTENDENCY + "/delusrActi", map, callback);
     }
 
     public void queryIsAttend(String exercise_id, Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.putAll(NetworkTools.paramsMap);
+        map.putAll(NetworkTools.getNetworkTools().paramsMap);
         map.put("activity_id", exercise_id);
         NetworkTools.doRequest(NetworkTools.URL_ATTENDENCY + "/query_actiforusr", map, callback);
     }
 
     public void queryAllMyAttend(Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.putAll(NetworkTools.paramsMap);
+        map.putAll(NetworkTools.getNetworkTools().paramsMap);
         map.put("type", "all");
         NetworkTools.doRequest(NetworkTools.URL_ATTENDENCY + "/query_allforusr", map, callback);
     }
 
     public void queryAllMyAttendWithTime(String time_lower_bound, String time_upper_bound, Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.putAll(NetworkTools.paramsMap);
+        map.putAll(NetworkTools.getNetworkTools().paramsMap);
         map.put("time_lower_bound", time_lower_bound);
         map.put("time_upper_bound", time_upper_bound);
         NetworkTools.doRequest(NetworkTools.URL_ATTENDENCY + "/query_actibytime", map, callback);
@@ -174,7 +174,7 @@ public class UserInf {
 
     public void queryMyAttendWithNoFinish(Callback callback) {
         Map<String, String> map = new HashMap<>();
-        map.putAll(NetworkTools.paramsMap);
+        map.putAll(NetworkTools.getNetworkTools().paramsMap);
         map.put("type", "waiting");
         NetworkTools.doRequest(NetworkTools.URL_ATTENDENCY + "/query_actibeforeend", map, callback);
     }
