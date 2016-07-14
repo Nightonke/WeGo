@@ -155,6 +155,7 @@ public class FragmentHome extends Fragment implements AllExerciseAdapter.OnExerc
     public void onSelect(int p) {
         Intent intent = new Intent(getContext(), ExerciseDetailActivity.class);
         intent.putExtra("position", p);
+        intent.putExtra("tag_id","-1");
         startActivity(intent);
     }
 
