@@ -29,8 +29,12 @@ public class WeGoLocation {
         location = new Location();
         location.lat(e.getLatitude());
         location.lng(e.getLongitude());
-        title = "活动名—"+e.getName();
-        disc = "所属标签—"+Tag.value(e.getTagId()).toString()+"\n"+"点击查看详情";
+        String name = e.getName();
+        if(name.length()>4){
+            name = name.substring(0,4)+"..";
+        }
+        title = "活动名—"+name;
+        disc = "所属标签—"+Tag.value(e.getTagId()).toString()+"\n"+" 点击查看详情";
 
 
     }

@@ -101,7 +101,7 @@ public class FragmentMe extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sign_out:
-                //TODO 登出数据处理
+
                 dialog = new MaterialDialog.Builder(getContext())
                         .title("退出登录中")
                         .content("请稍候...")
@@ -113,6 +113,8 @@ public class FragmentMe extends Fragment implements View.OnClickListener{
                     public void run() {
                         if (dialog != null) dialog.dismiss();
                         User.getInstance().setLogin(false);
+                        User.getInstance().setGender(-1);
+                        User.getInstance().setName("");
                         Intent intent = new Intent(getActivity(),LoginActivity.class);
                         startActivity(intent);
                     }
