@@ -83,7 +83,7 @@ public class ExercisePool {
         Map<String, String> map = new HashMap<>();
         map.putAll(NetworkTools.paramsMap);
         map.put("sponsor_id", "" + openId);
-        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/query_user_exercise"
+        NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_ATTENDENCY + "/query_allforusr"
                 , map, callback);
     }
 

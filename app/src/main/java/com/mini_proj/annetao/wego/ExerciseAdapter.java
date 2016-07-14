@@ -38,7 +38,7 @@ public class ExerciseAdapter
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final Exercise e = ExercisePool.getTopicPool().getTestExercises().get(position);
+        final Exercise e = exercises.get(position);
 
         holder.base.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,14 +47,15 @@ public class ExerciseAdapter
             }
         });
         holder.name.setText(e.getName());
-        holder.people.setText("200人参与");
-        Picasso.with(context).load(e.getPic_store()).into(holder.image);
-        holder.tagGroup.setTags("标签一", "标签二");
+        holder.people.setText(e.getAttendencyNumString());
+        if (e.getPic_store() != null && !"".equals(e.getPic_store())) Picasso.with(context).load(e.getPic_store()).into(holder.image);
+        if (e.getTagId() != -1) holder.tagGroup.setTags(Tag.value(e.getTagId()).toString());
+        holder.date.setText(e.getStart_time().substring(0, 16));
     }
 
     @Override
     public int getItemCount() {
-        return ExercisePool.getTopicPool().getTestExercises().size();
+        return exercises.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -63,6 +64,7 @@ public class ExerciseAdapter
         public TextView people;
         public KenBurnsView image;
         public TagGroup tagGroup;
+        public TextView date;
 
         public ViewHolder(View v) {
             super(v);
@@ -71,6 +73,7 @@ public class ExerciseAdapter
             people = (TextView) v.findViewById(R.id.people);
             image = (KenBurnsView) v.findViewById(R.id.image);
             tagGroup = (TagGroup) v.findViewById(R.id.tag_group);
+            date = (TextView) v.findViewById(R.id.date);
         }
     }
 

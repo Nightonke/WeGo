@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import okhttp3.Call;
 
-public class MySubscribeActivity extends BaseActivity
+public class MySignUpActivity extends BaseActivity
         implements
         SwipeRefreshLayout.OnRefreshListener,
         ExerciseAdapter.OnExerciseSelectListener,
@@ -35,7 +35,7 @@ public class MySubscribeActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_subscribe);
+        setContentView(R.layout.activity_my_sign_up);
 
         title = findView(R.id.title);
         title.setOnTitleActionListener(this);
@@ -77,7 +77,7 @@ public class MySubscribeActivity extends BaseActivity
                 })
                 .show();
 
-        ExercisePool.getTopicPool().queryTopicWithSponsor(User.getInstance().getOpenId(), new StringCallback() {
+        ExercisePool.getTopicPool().queryTopicWithOpenId(User.getInstance().getOpenId(), new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
                 if (mContext == null) return;
@@ -106,10 +106,10 @@ public class MySubscribeActivity extends BaseActivity
                     JSONArray data = jsonObject.getJSONArray("data");
                     exercises.clear();
                     for (int i = 0; i < data.length(); i++) {
-                        Exercise exercise = new Exercise(data.getJSONObject(i));
-                        if (exercise.getTagId() != -1) exercises.add(exercise);
+                        Exercise exercise = new Exercise(data.getJSONObject(i), Exercise.ATTENDENCY_TYPE);
+                        exercises.add(exercise);
                     }
-                    adapter = new ExerciseAdapter(MySubscribeActivity.this, exercises);
+                    adapter = new ExerciseAdapter(MySignUpActivity.this, exercises);
                     listView.setAdapter(adapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
