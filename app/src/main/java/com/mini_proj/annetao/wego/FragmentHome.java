@@ -161,6 +161,8 @@ public class FragmentHome extends Fragment implements AllExerciseAdapter.OnExerc
         shownMapView = !shownMapView;
         wegoRelativeLayout.setShowingMap(shownMapView);
         if (shownMapView) {
+            TextView home_toggle_view=(TextView)getActivity().findViewById(R.id.home_toggle_view);
+            home_toggle_view.setText("列表视图");
             qqMapSupporter.initialMapView();
             if(!qqMapSupporter.isMapLoaded){
                 mapView.onRestart();
@@ -191,6 +193,8 @@ public class FragmentHome extends Fragment implements AllExerciseAdapter.OnExerc
             if(qqMapSupporter.isMapLoaded) qqMapSupporter.updateExerciseMarkers();
 
         } else {
+            TextView home_toggle_view=(TextView)getActivity().findViewById(R.id.home_toggle_view);
+            home_toggle_view.setText("地图视图");
             YoYo.with(Techniques.BounceInUp).duration(700).playOn(listViewLayout);
             YoYo.with(Techniques.FadeOutUp)
                     .withListener(new AnimatorListenerAdapter() {
