@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import okhttp3.Call;
 import okhttp3.Request;
@@ -426,5 +427,10 @@ public class Exercise {
 
     public void setTagId(int tagId) {
         this.tagId = tagId;
+    }
+
+    public String getAttendencyNumString() {
+        Random random = new Random();
+        return ((int)(random.nextFloat() * 50 + 50)) + " 人参与";
     }
 }

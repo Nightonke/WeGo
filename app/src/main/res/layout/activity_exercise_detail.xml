@@ -13,8 +13,6 @@
         app:nbTitleText="详情"
         app:nbEditText="报名"/>
 
-    <View style="@style/Divider"/>
-
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"

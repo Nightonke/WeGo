@@ -17,13 +17,16 @@ import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.mini_proj.annetao.wego.util.Utils;
 import com.mini_proj.annetao.wego.util.map.QQMapSupporter;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.tencent.tencentmap.mapsdk.maps.MapView;
 import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import me.gujun.android.taggroup.TagGroup;
 import okhttp3.Call;
@@ -87,8 +90,6 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
         listView.addItemDecoration(new PhoneOrderDecoration(Utils.dp2px(10)));
         LinearLayoutManager mManager = new LinearLayoutManager(getContext());
         listView.setLayoutManager(mManager);
-        adapter = new ExerciseInTagAdapter(this);
-        listView.setAdapter(adapter);
 
         listViewLayout = messageLayout.findViewById(R.id.list_view_layout);
         loadingTip = (TextView) messageLayout.findViewById(R.id.loading_tip);
@@ -130,13 +131,13 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
                             listView.setVisibility(View.GONE);
                         }
                     })
-                    .duration(300).playOn(listView);
+                    .duration(300).playOn(listViewLayout);
             if(qqMapSupporter.isMapLoaded) qqMapSupporter.updateExerciseMarkers();
 
         } else {
             mapView.onPause();
             mapView.onStop();
-            YoYo.with(Techniques.BounceInUp).duration(700).playOn(listView);
+            YoYo.with(Techniques.BounceInUp).duration(700).playOn(listViewLayout);
             YoYo.with(Techniques.FadeOutUp)
                     .withListener(new AnimatorListenerAdapter() {
                         @Override
@@ -156,9 +157,8 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
     }
 
     public void chooseTag(String tagName) {
-        Tag tag = Tag.value(tagName);
+        final Tag tag = Tag.value(tagName);
         Utils.toastImmediately("选择 " + tagName + " 标签中…");
-        Utils.toast(tag.toString());
 
         loadingTip.setVisibility(View.VISIBLE);
         ExercisePool.getTopicPool().queryPlaceTopicWithTag(-1, -1, tag.v + "", new StringCallback() {
@@ -171,6 +171,21 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
             public void onResponse(String response, int id) {
                 loadingTip.setVisibility(View.GONE);
                 Log.d("Wego", response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray data = jsonObject.getJSONArray("data");
+                    ExercisePool.getTopicPool().clearTagExercises(tag.v + "");
+                    for (int i = 0; i < data.length(); i++) {
+                        Exercise exercise = new Exercise(data.getJSONObject(i));
+                        if (exercise.getTagId() != -1)
+                            ExercisePool.getTopicPool().addExerciseToMap(tag.v + "", exercise);
+                    }
+                    //
+                    adapter = new ExerciseInTagAdapter(FragmentDiscovery.this, ExercisePool.getTopicPool().getTagExercise(tag.v + ""));
+                    listView.setAdapter(adapter);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 

@@ -33,7 +33,7 @@ import okhttp3.Call;
 /**
  * Created by huangweiping on 16/7/10.
  */
-public class FragmentHome extends Fragment implements ExerciseAdapter.OnExerciseSelectListener, SwipeRefreshLayout.OnRefreshListener {
+public class FragmentHome extends Fragment implements AllExerciseAdapter.OnExerciseSelectListener, SwipeRefreshLayout.OnRefreshListener {
 
     private boolean shownMapView = false;
 
@@ -41,8 +41,8 @@ public class FragmentHome extends Fragment implements ExerciseAdapter.OnExercise
     private MapView mapView;
     private View listViewLayout;
     private SuperRecyclerView listView;
+    private AllExerciseAdapter allExerciseAdapter;
     private TextView loadingTip;
-    private ExerciseAdapter adapter;
     private QQMapSupporter qqMapSupporter;
 
     @Override
@@ -55,8 +55,8 @@ public class FragmentHome extends Fragment implements ExerciseAdapter.OnExercise
         listView.addItemDecoration(new PhoneOrderDecoration(Utils.dp2px(10)));
         LinearLayoutManager mManager = new LinearLayoutManager(getContext());
         listView.setLayoutManager(mManager);
-        adapter = new ExerciseAdapter(this);
-        listView.setAdapter(adapter);
+        allExerciseAdapter = new AllExerciseAdapter(this, ExercisePool.getTopicPool().getAllExercise());
+        listView.setAdapter(allExerciseAdapter);
 
         mapView = (MapView) messageLayout.findViewById(R.id.map_view);
         qqMapSupporter = new QQMapSupporter(getActivity(),mapView,QQMapSupporter.QQ_MAP_TYPE_EXERCISES);
@@ -86,11 +86,14 @@ public class FragmentHome extends Fragment implements ExerciseAdapter.OnExercise
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONArray data = jsonObject.getJSONArray("data");
+                    ExercisePool.getTopicPool().clearAllExercises();
                     for (int i = 0; i < data.length(); i++) {
                         Exercise exercise = new Exercise(data.getJSONObject(i));
                         if (exercise.getTagId() != -1) ExercisePool.getTopicPool().addExerciseToMap(Tag.value(exercise.getTagId()).toString(), exercise);
                     }
                     //
+                    allExerciseAdapter = new AllExerciseAdapter(FragmentHome.this, ExercisePool.getTopicPool().getAllExercise());
+                    listView.setAdapter(allExerciseAdapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
