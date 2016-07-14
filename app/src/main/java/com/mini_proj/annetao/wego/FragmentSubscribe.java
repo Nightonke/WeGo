@@ -499,7 +499,7 @@ public class FragmentSubscribe extends Fragment
                         if (dialog != null) dialog.dismiss();
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            if ("200".equals(jsonObject.getString("result"))) {
+                            if (jsonObject.has("result") && "200".equals(jsonObject.getString("result"))) {
                                 HashMap<String, String> tagMap = new HashMap<>();
                                 tagMap.put(tag.v + "", tag.toString());
                                 Exercise exercise = new Exercise(jsonObject.getJSONObject("data").getInt("id"), (float)lat, User.getInstance().getOpenId(), startTime, endTime, title.getText().toString(), (float)lng, detail.getText().toString(), "Create Time", "Status", "https://c1.staticflickr.com/7/6085/6099592258_be13b0968c_b.jpg", Float.valueOf(average.getText().toString()), deadline.getText().toString(), 0, tagMap);

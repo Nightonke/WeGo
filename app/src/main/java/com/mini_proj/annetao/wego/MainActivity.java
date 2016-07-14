@@ -15,7 +15,6 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.mini_proj.annetao.wego.util.Utils;
 import com.mini_proj.annetao.wego.util.map.QQMapSupporter;
-import com.mini_proj.annetao.wego.util.map.WeGoLocation;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 
@@ -33,6 +32,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private int[] titles = new int[]{R.id.home_title, R.id.discovery_title, R.id.subscribe_title, R.id.message_title, R.id.me_title};
     private int lastTitlePosition = 0;
     private int[] buttons = new int[]{R.id.home_toggle_view, R.id.discovery_toggle_view, R.id.subscribe};
+    private int lastLastTitlePosition = 0;
     private int lastButtonPosition = 0;
     private TextView[] tabTexts = new TextView[5];
     private ImageView[] tabImages = new ImageView[10];
@@ -147,8 +147,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             @Override
                             public void onAnimationCancel(Animator animation) {
                                 super.onAnimationCancel(animation);
-                                Log.d("Wego", "Cancel");
-                                findView(titles[lastTitlePosition]).setVisibility(View.GONE);
+                                Log.d("Wego", "Cancel:");
+                                Log.d("Wego", lastLastTitlePosition + " " + lastButtonPosition + " " + position);
+                                findView(titles[lastLastTitlePosition]).setVisibility(View.INVISIBLE);
+                                lastLastTitlePosition = lastTitlePosition;
+                                Log.d("Wego", lastLastTitlePosition + " " + lastButtonPosition + " " + position);
+                            }
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                Log.d("Wego", "End:");
+                                Log.d("Wego", lastLastTitlePosition + " " + lastButtonPosition + " " + position);
+                                findView(titles[lastLastTitlePosition]).setVisibility(View.INVISIBLE);
+                                lastLastTitlePosition = lastTitlePosition;
+                                Log.d("Wego", lastLastTitlePosition + " " + lastButtonPosition + " " + position);
                             }
                         })
                         .playOn(findViewById(titles[lastTitlePosition]));
@@ -184,6 +196,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 } else {
                     if (lastButtonPosition < 3) YoYo.with(Techniques.FadeOutRight).duration(300).playOn(findViewById(buttons[lastButtonPosition]));
                 }
+                lastLastTitlePosition = lastTitlePosition;
                 lastTitlePosition = position;
                 lastButtonPosition = position;
 
