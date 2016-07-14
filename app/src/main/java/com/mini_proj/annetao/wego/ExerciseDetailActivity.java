@@ -23,6 +23,7 @@ public class ExerciseDetailActivity extends BaseActivity implements TitleLayout.
     private TextView average;
     private TextView people;
     private TextView detail;
+    private TextView location;
     private ExpandedListView expandedListView;
     private String tagId = "-1";
 
@@ -62,8 +63,11 @@ public class ExerciseDetailActivity extends BaseActivity implements TitleLayout.
             }
         });
         average = findView(R.id.average);
+        average.setText(exercise.getAvg_cost()+"");
         people = findView(R.id.people);
         detail = findView(R.id.detail);
+        detail.setText(exercise.getDescription());
+        location=findView(R.id.map);
         expandedListView = findView(R.id.comment);
     }
 
