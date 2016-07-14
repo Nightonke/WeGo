@@ -67,14 +67,21 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
     Handler componentEnabledHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
+            super.handleMessage(msg);
             switch (msg.what) {
                 case QQMapSupporter.COMPONENT_ID_MY_LOCATION_BUTTON:
                     mapView.getMap().getUiSettings().setMyLocationButtonEnabled(true);
                     break;
 
             }
-
-            super.handleMessage(msg);
+            UiSettings mapUiSettings = tencentMap.getUiSettings();
+            mapUiSettings.setZoomControlsEnabled(false);
+            mapUiSettings.setCompassEnabled(false);
+            locationSource = new DemoLocationSource(activity);
+            mapView.getMap().setMyLocationEnabled(true);
+            tencentMap.setLocationSource(locationSource);
+            nowMarker = null;
+            isMapLoaded = true;
             if(mapType.equals(QQ_MAP_TYPE_LOCATION)) {
                 initialLocationMap();
             }
@@ -94,27 +101,22 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
         this.mapType = type;
         this.tencentMap = mapView.getMap();
         markerList = new ArrayList<>();
+        tencentMap.setMapType(TencentMap.MAP_TYPE_NORMAL);
+        tencentMap.setOnMapLoadedCallback(this);
     }
 
     public void initialMapView(){
-        tencentMap.setMapType(TencentMap.MAP_TYPE_NORMAL);
-        UiSettings mapUiSettings = tencentMap.getUiSettings();
-        mapUiSettings.setZoomControlsEnabled(false);
-        mapUiSettings.setCompassEnabled(false);
 
-        tencentMap.setOnMapLoadedCallback(this);
+        Log.e("wego_map","initialMapView");
 
-        locationSource = new DemoLocationSource(activity);
-        mapView.getMap().setMyLocationEnabled(true);
-        tencentMap.setLocationSource(locationSource);
-        nowMarker = null;
-        if(!mapType.equals(QQ_MAP_TYPE_EXERCISES)) {
+        if(dialog==null) {
             dialog = new ProgressDialog(activity);
             dialog.setMessage("正在加载地图，请稍候...");
             dialog.setIndeterminate(true);
             dialog.setCancelable(true);
-            dialog.show();
         }
+        dialog.show();
+
 
 
 
@@ -124,6 +126,7 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
         moveCameraToNow();
     }
     public void initialExercisesMap(){
+        Log.e("wego_map","initialExercisesMap");
         setMarkers();
         moveCameraByMarkers();
         tencentMap.setOnInfoWindowClickListener(new TencentMap.OnInfoWindowClickListener() {
@@ -144,6 +147,7 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
             activity.finish();
             return;
         }
+
         //TODO 改为getAllExercises()
         Exercise e = ExercisePool.getTopicPool().getTestExercises().get(position);
         addExerciseMarker(e);
@@ -156,7 +160,8 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
 
     @Override
     public void onMapLoaded() {
-        isMapLoaded = true;
+        Log.e("wego_map","onMapLoaded");
+
         Message msg = new Message();
         msg.what = QQMapSupporter.COMPONENT_ID_MY_LOCATION_BUTTON;
         componentEnabledHandler.sendMessage(msg);
@@ -169,6 +174,7 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
 
     public void updateExerciseMarkers(){
         Log.e("wego_map","updateMarkers");
+        if(dialog!=null)dialog.dismiss();
         setMarkers();
         moveCameraByMarkers();
     }

@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.daimajia.androidanimations.library.Techniques;
@@ -44,6 +45,7 @@ public class FragmentHome extends Fragment implements AllExerciseAdapter.OnExerc
     private AllExerciseAdapter allExerciseAdapter;
     private TextView loadingTip;
     private QQMapSupporter qqMapSupporter;
+    private LinearLayout mapLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,9 +60,10 @@ public class FragmentHome extends Fragment implements AllExerciseAdapter.OnExerc
         allExerciseAdapter = new AllExerciseAdapter(this, ExercisePool.getTopicPool().getAllExercise());
         listView.setAdapter(allExerciseAdapter);
 
-        mapView = (MapView) messageLayout.findViewById(R.id.map_view);
+        mapLayout = (LinearLayout) messageLayout.findViewById(R.id.map_view_container);
+        mapView = new MapView(getActivity());
         qqMapSupporter = new QQMapSupporter(getActivity(),mapView,QQMapSupporter.QQ_MAP_TYPE_EXERCISES);
-
+        mapLayout.addView(mapView);
         listViewLayout = messageLayout.findViewById(R.id.list_view_layout);
         loadingTip = (TextView) messageLayout.findViewById(R.id.loading_tip);
 
@@ -104,37 +107,48 @@ public class FragmentHome extends Fragment implements AllExerciseAdapter.OnExerc
     @Override
     public void onStart() {
         super.onStart();
-        if(shownMapView)
+        if(shownMapView) {
+            mapView.onRestart();
+            Log.e("wego_map","onRestart");
             mapView.onStart();
+            Log.e("wego_map","onStart");
+
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if(shownMapView)
+        if(shownMapView) {
             mapView.onResume();
+            qqMapSupporter.isMapLoaded = true;
+            Log.e("wego_map","onResume");
+            qqMapSupporter.initialMapView();
+            if(qqMapSupporter.isMapLoaded) qqMapSupporter.updateExerciseMarkers();
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if(shownMapView)
-            mapView.onPause();
+        mapView.onPause();
+        Log.e("wego_map","onPause");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if(shownMapView) {
-            mapView.onStop();
-            mapView.onDestroy();
-        }
+        mapView.onStop();
+        qqMapSupporter.isMapLoaded = false;
+        Log.e("wego_map","onStop");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-            mapView.onDestroy();
+        mapView.onDestroy();
+        qqMapSupporter.isMapLoaded = false;
+        Log.e("wego_map","onDestroy");
     }
 
     @Override
@@ -148,17 +162,24 @@ public class FragmentHome extends Fragment implements AllExerciseAdapter.OnExerc
         shownMapView = !shownMapView;
         wegoRelativeLayout.setShowingMap(shownMapView);
         if (shownMapView) {
-            mapView.onRestart();
-            mapView.onStart();
-            mapView.onResume();
             qqMapSupporter.initialMapView();
+            if(!qqMapSupporter.isMapLoaded){
+                mapView.onRestart();
+                Log.e("wego_map","onRestart");
+                mapView.onStart();
+                Log.e("wego_map","onStart");
+                mapView.onResume();
+                Log.e("wego_map","onResume");
+                qqMapSupporter.isMapLoaded = true;
+            }
+
             YoYo.with(Techniques.BounceInUp).duration(700).playOn(mapView);
             YoYo.with(Techniques.FadeOutUp)
                     .withListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationStart(Animator animation) {
                             super.onAnimationStart(animation);
-                            mapView.setVisibility(View.VISIBLE);
+                            mapLayout.setVisibility(View.VISIBLE);
                         }
 
                         @Override
@@ -171,8 +192,6 @@ public class FragmentHome extends Fragment implements AllExerciseAdapter.OnExerc
             if(qqMapSupporter.isMapLoaded) qqMapSupporter.updateExerciseMarkers();
 
         } else {
-            mapView.onPause();
-            mapView.onStop();
             YoYo.with(Techniques.BounceInUp).duration(700).playOn(listViewLayout);
             YoYo.with(Techniques.FadeOutUp)
                     .withListener(new AnimatorListenerAdapter() {
@@ -185,7 +204,7 @@ public class FragmentHome extends Fragment implements AllExerciseAdapter.OnExerc
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             super.onAnimationEnd(animation);
-                            mapView.setVisibility(View.GONE);
+                            mapLayout.setVisibility(View.GONE);
                         }
                     })
                     .duration(300).playOn(mapView);

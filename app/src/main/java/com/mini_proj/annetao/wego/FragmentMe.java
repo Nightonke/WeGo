@@ -38,7 +38,7 @@ public class FragmentMe extends Fragment implements View.OnClickListener{
         View messageLayout = inflater.inflate(R.layout.fragment_me, container, false);
 
         imageView = (CircleImageView) messageLayout.findViewById(R.id.image);
-        if (User.getInstance().getAvatorUrl() != null) Picasso.with(getActivity()).load(User.getInstance().getAvatorUrl()).into(imageView);
+        if (User.getInstance().getAvatorUrl() != null&&!User.getInstance().getAvatorUrl().equals("")) Picasso.with(getActivity()).load(User.getInstance().getAvatorUrl()).into(imageView);
         userName = (TextView) messageLayout.findViewById(R.id.name);
         userName.setText(User.getInstance().getName());
         sex = (TextView) messageLayout.findViewById(R.id.sex);

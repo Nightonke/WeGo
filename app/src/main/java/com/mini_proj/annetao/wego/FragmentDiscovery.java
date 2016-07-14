@@ -112,10 +112,16 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
         shownMapView = !shownMapView;
         wegoRelativeLayout.setShowingMap(shownMapView);
         if (shownMapView) {
-            mapView.onRestart();
-            mapView.onStart();
-            mapView.onResume();
             qqMapSupporter.initialMapView();
+            if(!qqMapSupporter.isMapLoaded){
+                mapView.onRestart();
+                Log.e("wego_map","onRestart");
+                mapView.onStart();
+                Log.e("wego_map","onStart");
+                mapView.onResume();
+                Log.e("wego_map","onResume");
+                qqMapSupporter.isMapLoaded = true;
+            }
             YoYo.with(Techniques.BounceInUp).duration(700).playOn(mapView);
             YoYo.with(Techniques.FadeOutUp)
                     .withListener(new AnimatorListenerAdapter() {
@@ -135,9 +141,8 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
             if(qqMapSupporter.isMapLoaded) qqMapSupporter.updateExerciseMarkers();
 
         } else {
-            mapView.onPause();
-            mapView.onStop();
-            YoYo.with(Techniques.BounceInUp).duration(700).playOn(listViewLayout);
+            qqMapSupporter.isMapLoaded = false;
+            YoYo.with(Techniques.BounceInUp).duration(700).playOn(listView);
             YoYo.with(Techniques.FadeOutUp)
                     .withListener(new AnimatorListenerAdapter() {
                         @Override
@@ -194,37 +199,48 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
     @Override
     public void onStart() {
         super.onStart();
-        if(shownMapView)
+        if(shownMapView) {
+            mapView.onRestart();
+            Log.e("wego_map","onRestart");
             mapView.onStart();
+            Log.e("wego_map","onStart");
+
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if(shownMapView)
+        if(shownMapView) {
             mapView.onResume();
+            qqMapSupporter.isMapLoaded = true;
+            Log.e("wego_map","onResume");
+            qqMapSupporter.initialMapView();
+            if(qqMapSupporter.isMapLoaded) qqMapSupporter.updateExerciseMarkers();
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if(shownMapView)
-            mapView.onPause();
+        mapView.onPause();
+        Log.e("wego_map","onPause");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if(shownMapView) {
-            mapView.onStop();
-            mapView.onDestroy();
-        }
+        mapView.onStop();
+        qqMapSupporter.isMapLoaded = false;
+        Log.e("wego_map","onStop");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
+        qqMapSupporter.isMapLoaded = false;
+        Log.e("wego_map","onDestroy");
     }
 
     public void autoSelect() {
