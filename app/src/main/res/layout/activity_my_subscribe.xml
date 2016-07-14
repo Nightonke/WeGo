@@ -11,4 +11,15 @@
         app:nbTitleText="我发布的活动"
         app:nbHasEditText="false"/>
 
+    <com.malinskiy.superrecyclerview.SuperRecyclerView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_empty="@layout/layout_empty"
+        app:layout_moreProgress="@layout/layout_more_progress"
+        app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"
+        app:recyclerClipToPadding="false"
+        android:background="@android:color/white"
+        app:scrollbarStyle="outsideOverlay"/>
+
 </LinearLayout>

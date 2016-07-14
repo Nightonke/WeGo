@@ -9,11 +9,14 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.util.ArrayList;
+
 import okhttp3.Call;
 
 public class MySubscribeActivity extends BaseActivity {
 
     private MaterialDialog dialog;
+    private ArrayList<Exercise> exercises = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
