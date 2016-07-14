@@ -142,7 +142,7 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
 
         } else {
             qqMapSupporter.isMapLoaded = false;
-            YoYo.with(Techniques.BounceInUp).duration(700).playOn(listView);
+            YoYo.with(Techniques.BounceInUp).duration(700).playOn(listViewLayout);
             YoYo.with(Techniques.FadeOutUp)
                     .withListener(new AnimatorListenerAdapter() {
                         @Override
