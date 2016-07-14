@@ -265,4 +265,8 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
     public void setViewPager(ViewPager viewPager) {
         wegoRelativeLayout.setViewPager(viewPager);
     }
+
+    public void scrollToTop() {
+        listView.smoothScrollToPosition(0);
+    }
 }

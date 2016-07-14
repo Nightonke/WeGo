@@ -21,6 +21,8 @@ import com.nineoldandroids.animation.AnimatorListenerAdapter;
 
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import me.iwf.photopicker.PhotoPicker;
 
@@ -75,7 +77,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 float dis = position + positionOffset;
                 int w = ContextCompat.getColor(mContext, R.color.gray);
-                int y = ContextCompat.getColor(mContext, R.color.orange);
+                int y = ContextCompat.getColor(mContext, R.color.tag);
 
                 if (dis <= 0) {
                     tabTexts[0].setTextColor(y);
@@ -246,11 +248,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         discoveryToggleViewButton.setOnClickListener(this);
         subscribeButton = findView(R.id.subscribe);
         subscribeButton.setOnClickListener(this);
+
+        findView(R.id.action_bar).setOnClickListener(new DoubleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+
+            }
+
+            @Override
+            public void onDoubleClick(View v) {
+                scrollToTop();
+            }
+        });
     }
 
     @Override
     public void onBackPressed() {
-
+        exitByDoubleClick();
     }
     @Override
     protected void onResume() {
@@ -334,5 +348,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if (viewPager.getCurrentItem() == 2 && fragmentSubscribeSoftReference != null && fragmentSubscribeSoftReference.get() != null) fragmentSubscribeSoftReference.get().setAddress(wegolocationStr);
     }
 
+    private void scrollToTop() {
+        if (viewPager.getCurrentItem() == 0 && fragmentHomeSoftReference != null && fragmentHomeSoftReference.get() != null) fragmentHomeSoftReference.get().scrollToTop();
+        if (viewPager.getCurrentItem() == 1 && fragmentDiscoverySoftReference != null && fragmentDiscoverySoftReference.get() != null) fragmentDiscoverySoftReference.get().scrollToTop();
+    }
 
+    private static Boolean isGoingToExit = false;
+    private void exitByDoubleClick() {
+        Timer tExit;
+        if (!isGoingToExit) {
+            isGoingToExit = true;
+            Utils.toastImmediately("再点击一次退出");
+            tExit = new Timer();
+            tExit.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    isGoingToExit = false;
+                }
+            }, 2000);
+        } else {
+            finish();
+            System.exit(0);
+        }
+    }
 }

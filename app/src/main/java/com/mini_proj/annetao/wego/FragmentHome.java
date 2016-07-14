@@ -213,4 +213,8 @@ public class FragmentHome extends Fragment implements AllExerciseAdapter.OnExerc
     public void setViewPager(ViewPager viewPager) {
         wegoRelativeLayout.setViewPager(viewPager);
     }
+
+    public void scrollToTop() {
+        listView.getRecyclerView().smoothScrollToPosition(0);
+    }
 }

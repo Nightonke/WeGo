@@ -69,7 +69,7 @@ public class Utils {
         superToast.setTextColor(Color.parseColor("#ffffff"));
         superToast.setTextSize(SuperToast.TextSize.SMALL);
         superToast.setText(text);
-        superToast.setBackground(SuperToast.Background.RED);
+        superToast.setBackground(SuperToast.Background.BLUE);
         superToast.show();
     }
 
@@ -85,7 +85,7 @@ public class Utils {
         superToast.setTextColor(Color.parseColor("#ffffff"));
         superToast.setTextSize(SuperToast.TextSize.SMALL);
         superToast.setText(text);
-        superToast.setBackground(SuperToast.Background.RED);
+        superToast.setBackground(SuperToast.Background.BLUE);
         superToast.show();
     }
 

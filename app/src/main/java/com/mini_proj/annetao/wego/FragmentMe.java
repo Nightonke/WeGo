@@ -2,6 +2,7 @@ package com.mini_proj.annetao.wego;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
 
@@ -31,7 +33,7 @@ public class FragmentMe extends Fragment implements View.OnClickListener{
 
     private TextView signOutBtn;
 
-    private MaterialDialog dialog;
+    private MaterialDialog materialDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -102,21 +104,35 @@ public class FragmentMe extends Fragment implements View.OnClickListener{
         switch (v.getId()) {
             case R.id.sign_out:
                 //TODO 登出数据处理
-                dialog = new MaterialDialog.Builder(getContext())
-                        .title("退出登录中")
-                        .content("请稍候...")
-                        .cancelable(false)
-                        .progress(true, 0)
+                new MaterialDialog.Builder(getContext())
+                        .title("退出登录")
+                        .content("确定退出登录吗？")
+                        .positiveText("确定")
+                        .negativeText("取消")
+                        .onAny(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                if (which.equals(DialogAction.POSITIVE)) {
+                                    materialDialog = new MaterialDialog.Builder(getContext())
+                                            .title("退出登录中")
+                                            .content("请稍候...")
+                                            .cancelable(false)
+                                            .progress(true, 0)
+                                            .show();
+                                    signOutBtn.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if (materialDialog != null) materialDialog.dismiss();
+                                            User.getInstance().setLogin(false);
+                                            Intent intent = new Intent(getActivity(),LoginActivity.class);
+                                            startActivity(intent);
+                                        }
+                                    }, 2000);
+                                }
+                            }
+                        })
                         .show();
-                signOutBtn.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (dialog != null) dialog.dismiss();
-                        User.getInstance().setLogin(false);
-                        Intent intent = new Intent(getActivity(),LoginActivity.class);
-                        startActivity(intent);
-                    }
-                }, 2000);
+
                 break;
             case R.id.settings_layout:
                 startActivityForResult(new Intent(getActivity(),SettingsActivity.class),REQUEST_SETTING);
