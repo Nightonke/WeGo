@@ -1,6 +1,7 @@
 package com.mini_proj.annetao.wego.util.map;
 
 import com.mini_proj.annetao.wego.Exercise;
+import com.mini_proj.annetao.wego.Tag;
 import com.tencent.lbssearch.object.Location;
 import com.tencent.lbssearch.object.result.SuggestionResultObject;
 import com.tencent.tencentmap.mapsdk.maps.model.LatLng;
@@ -28,15 +29,8 @@ public class WeGoLocation {
         location = new Location();
         location.lat(e.getLatitude());
         location.lng(e.getLongitude());
-        title = e.getName();
-        //TODO
-//        List<String> tagNameList = (ArrayList)e.getTagList().values();
-//        String tagStr = "";
-//        for(String tagName:tagNameList){
-//            tagStr+=tagName+" ";
-//        }
- //       disc = tagStr;
-        disc = "标签一 标签二";
+        title = "活动名—"+e.getName();
+        disc = "所属标签—"+Tag.value(e.getTagId()).toString()+"\n"+"点击查看详情";
 
 
     }

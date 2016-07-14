@@ -24,6 +24,7 @@ public class ExerciseDetailActivity extends BaseActivity implements TitleLayout.
     private TextView people;
     private TextView detail;
     private ExpandedListView expandedListView;
+    private String tagId = "-1";
 
     private Exercise exercise;
     private int position = -1;
@@ -34,11 +35,15 @@ public class ExerciseDetailActivity extends BaseActivity implements TitleLayout.
         setContentView(R.layout.activity_exercise_detail);
 
         position = getIntent().getIntExtra("position", -1);
+        tagId = getIntent().getStringExtra("tag_id");
         if (position == -1) {
             finish();
             return;
         }
-        exercise = ExercisePool.getTopicPool().getTestExercises().get(position);
+        if(tagId.equals("-1"))
+            exercise = ExercisePool.getTopicPool().getAllExercise().get(position);
+        else
+            exercise = ExercisePool.getTopicPool().getTagExercise(tagId).get(position);
 
         titleLayout = findView(R.id.title_layout_top);
         titleLayout.setOnTitleActionListener(this);
@@ -83,6 +88,7 @@ public class ExerciseDetailActivity extends BaseActivity implements TitleLayout.
     private void openMap() {
         Intent intent = new Intent(this, TencentMapActivity.class);
         intent.putExtra("map_type", QQMapSupporter.QQ_MAP_TYPE_ONE_EXERCISE);
+        intent.putExtra("tag_id", tagId);
         intent.putExtra("position",position);
         startActivity(intent);
 

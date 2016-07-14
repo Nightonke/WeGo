@@ -62,6 +62,7 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
     private TencentMap tencentMap;
     private Activity activity;
     private DemoLocationSource locationSource;
+    private String tagId = "-1";
     public boolean isMapLoaded=false;
     private ProgressDialog dialog;
     Handler componentEnabledHandler = new Handler(){
@@ -105,6 +106,17 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
         tencentMap.setOnMapLoadedCallback(this);
     }
 
+    public QQMapSupporter(Activity activity, MapView mapView, String type,String tagId) {
+        this.activity = activity;
+        this.mapView = mapView;
+        this.mapType = type;
+        this.tagId = tagId;
+        this.tencentMap = mapView.getMap();
+        markerList = new ArrayList<>();
+        tencentMap.setMapType(TencentMap.MAP_TYPE_NORMAL);
+        tencentMap.setOnMapLoadedCallback(this);
+    }
+
     public void initialMapView(){
 
         Log.e("wego_map","initialMapView");
@@ -127,13 +139,19 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
     }
     public void initialExercisesMap(){
         Log.e("wego_map","initialExercisesMap");
-        setMarkers();
-        moveCameraByMarkers();
+        if(tagId.equals("-1"))
+            setMarkers();
+        else setMarkers(tagId);
+        if(markerList.size()>0) {
+            moveCameraByMarkers();
+        }
+        else Toast.makeText(activity,"目前没有活动",Toast.LENGTH_SHORT).show();
         tencentMap.setOnInfoWindowClickListener(new TencentMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
                 Intent intent = new Intent(activity, ExerciseDetailActivity.class);
                 intent.putExtra("position", markerList.indexOf(marker));
+                intent.putExtra("tag_id", tagId);
                 activity.startActivity(intent);
             }
         });
@@ -141,15 +159,19 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
     }
 
 
+
     public void initialOneExerciseMap(){
-        int position = activity.getIntent().getIntExtra("position",-1);
+        Intent intent =  activity.getIntent();
+        int position =intent.getIntExtra("position",-1);
+        String tagIdStr = intent.getStringExtra("tag_id");
         if(-1 == position){
             activity.finish();
             return;
         }
-
-        //TODO 改为getAllExercises()
-        Exercise e = ExercisePool.getTopicPool().getTestExercises().get(position);
+        Exercise e;
+        if(tagIdStr.equals("-1"))
+            e = ExercisePool.getTopicPool().getAllExercise().get(position);
+        else e = ExercisePool.getTopicPool().getTagExercise(tagIdStr).get(position);
         addExerciseMarker(e);
         if(dialog!=null)dialog.dismiss();
 
@@ -176,7 +198,20 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
         Log.e("wego_map","updateMarkers");
         if(dialog!=null)dialog.dismiss();
         setMarkers();
-        moveCameraByMarkers();
+        if(markerList.size()>0) {
+            moveCameraByMarkers();
+        }
+        else Toast.makeText(activity,"目前没有活动",Toast.LENGTH_SHORT).show();
+    }
+
+    public void updateExerciseMarkers(String tagId){
+        Log.e("wego_map","updateMarkers");
+        if(dialog!=null)dialog.dismiss();
+        setMarkers(tagId);
+        if(markerList.size()>0) {
+            moveCameraByMarkers();
+        }
+        else Toast.makeText(activity,"本标签目前没有活动",Toast.LENGTH_SHORT).show();
     }
 
     public void removeAllMarkers(){
@@ -189,14 +224,43 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
      */
     public void setMarkers(){
         removeAllMarkers();
+        boolean first = true;
+        ArrayList<Exercise> exercisesList = ExercisePool.getTopicPool().getAllExercise();
 
-        for(Exercise e:ExercisePool.getTopicPool().getTestExercises()) {
+        for(Exercise e:exercisesList) {
             WeGoLocation weGoLocation = new WeGoLocation(e);
             Marker marker = tencentMap.addMarker(new MarkerOptions().
                     position(weGoLocation.getLatLng()).//先纬度后经度
                     icon(BitmapDescriptorFactory.defaultMarker()).
                     title(weGoLocation.title).
                     snippet(weGoLocation.disc));
+            if(first) {
+                marker.showInfoWindow();
+                first = false;
+            }
+
+            markerList.add(marker);
+        }
+
+    }
+
+    public void setMarkers(String tagId){
+        removeAllMarkers();
+        boolean first = true;
+        ArrayList<Exercise> exercisesList = ExercisePool.getTopicPool().getTagExercise(tagId);
+
+        for(Exercise e:exercisesList) {
+            WeGoLocation weGoLocation = new WeGoLocation(e);
+            Marker marker = tencentMap.addMarker(new MarkerOptions().
+                    position(weGoLocation.getLatLng()).//先纬度后经度
+                    icon(BitmapDescriptorFactory.defaultMarker()).
+                    title(weGoLocation.title).
+                    snippet(weGoLocation.disc));
+            if(first) {
+                marker.showInfoWindow();
+                first = false;
+            }
+
             markerList.add(marker);
         }
 
