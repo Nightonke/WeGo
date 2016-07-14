@@ -17,6 +17,8 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.regex.Pattern;
+
 import okhttp3.Call;
 
 public class ExerciseSignUpActivity extends BaseActivity
@@ -133,6 +135,7 @@ public class ExerciseSignUpActivity extends BaseActivity
                         }).show();
                 break;
             case R.id.sign_in:
+                //  && Pattern.matches("", phone.getText().toString())
                 if (phone.getText().toString().length() != 11) {
                     Utils.toastImmediately("电话号码不合法");
                 } else {
