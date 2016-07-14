@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 import me.gujun.android.taggroup.TagGroup;
 
 /**
@@ -21,9 +23,11 @@ public class ExerciseAdapter
 
     private OnExerciseSelectListener onExerciseSelectListener;
     private Context context;
+    private ArrayList<Exercise> exercises;
 
-    public ExerciseAdapter(OnExerciseSelectListener onExerciseSelectListener) {
+    public ExerciseAdapter(OnExerciseSelectListener onExerciseSelectListener, ArrayList<Exercise> exercises) {
         this.onExerciseSelectListener = onExerciseSelectListener;
+        this.exercises = exercises;
     }
 
     @Override

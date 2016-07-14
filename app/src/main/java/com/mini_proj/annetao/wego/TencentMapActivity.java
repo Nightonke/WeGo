@@ -27,7 +27,7 @@ public class TencentMapActivity extends BaseActivity implements TitleLayout.OnTi
         titleLayout.setOnTitleActionListener(this);
         mapType = getIntent().getStringExtra("map_type");
         if(mapType.equals(QQMapSupporter.QQ_MAP_TYPE_LOCATION)) {
-            titleLayout.setEdit("确认");
+            titleLayout.setEdit("　确认　");
             titleLayout.setTitle("地图选址");
         }
         if(null==mapType) {finish();return;}

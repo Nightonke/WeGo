@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -34,7 +35,7 @@ import okhttp3.Call;
 /**
  * Created by huangweiping on 16/7/10.
  */
-public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.OnExerciseSelectListener {
+public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.OnExerciseSelectListener, SwipeRefreshLayout.OnRefreshListener {
 
     private WegoRelativeLayout wegoRelativeLayout;
 
@@ -49,6 +50,7 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
     private QQMapSupporter qqMapSupporter;
     private boolean autoSelect = true;
     private String tagId="0";
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,6 +62,10 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
                 startActivity(new Intent(getContext(), FilterActivity.class));
             }
         });
+
+        swipeRefreshLayout = (SwipeRefreshLayout) messageLayout.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
 
         wegoRelativeLayout = (WegoRelativeLayout) messageLayout.findViewById(R.id.base);
         tagGroup = (TagGroup) messageLayout.findViewById(R.id.tag_group);
@@ -108,6 +114,12 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
         intent.putExtra("position", p);
         intent.putExtra("tag_id", tagId);
         startActivity(intent);
+    }
+
+    @Override
+    public void onRefresh() {
+        tagGroup.getChildAt(0).performClick();
+        tagId = "0";
     }
 
     public void toggleView() {
@@ -178,11 +190,13 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
         ExercisePool.getTopicPool().queryPlaceTopicWithTag(-1, -1, tag.v + "", new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
+                swipeRefreshLayout.setRefreshing(false);
                 loadingTip.setText("加载失败，点击标签重试");
             }
 
             @Override
             public void onResponse(String response, int id) {
+                swipeRefreshLayout.setRefreshing(false);
                 loadingTip.setVisibility(View.GONE);
                 Log.d("Wego", response);
                 if(qqMapSupporter.isMapLoaded) qqMapSupporter.updateExerciseMarkers(tagId);
