@@ -90,6 +90,7 @@ public class FragmentHome extends Fragment implements ExerciseAdapter.OnExercise
                         Exercise exercise = new Exercise(data.getJSONObject(i));
                         if (exercise.getTagId() != -1) ExercisePool.getTopicPool().addExerciseToMap(Tag.value(exercise.getTagId()).toString(), exercise);
                     }
+                    //
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
