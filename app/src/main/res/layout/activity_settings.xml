@@ -12,7 +12,7 @@
         android:layout_height="48dp"
         android:layout_gravity="top"
         app:nbTitleText="设置"
-        app:nbEditText="确定"/>
+        app:nbEditText="　确定　"/>
 
     <View style="@style/Divider"/>
 
@@ -23,8 +23,6 @@
         android:layout_gravity="center"
         android:gravity="center_vertical"
         >
-
-        <View style="@style/Divider"/>
 
         <LinearLayout
             android:id="@+id/name_layout"

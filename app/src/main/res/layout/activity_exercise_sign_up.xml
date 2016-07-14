@@ -10,7 +10,7 @@
         android:id="@+id/title_layout_top"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:nbTitleText="报名"
+        app:nbTitleText="　报名　"
         app:nbHasEditText="false"
         />
 

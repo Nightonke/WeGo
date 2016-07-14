@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         app:nbTitleText="详情"
-        app:nbEditText="报名"/>
+        app:nbEditText="　报名　"/>
 
     <ScrollView
         android:id="@+id/scroll_view"
@@ -301,7 +301,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="10dp"
                     android:textColor="@color/black"
-                    android:text="活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情"
+                    android:text=""
                     />
 
             </LinearLayout>

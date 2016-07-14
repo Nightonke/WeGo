@@ -8,6 +8,7 @@
     <com.mini_proj.annetao.wego.TitleLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:nbTitleText="我发布的活动"/>
+        app:nbTitleText="我发布的活动"
+        app:nbHasEditText="false"/>
 
 </LinearLayout>
