@@ -126,6 +126,7 @@ public class FragmentMe extends Fragment implements View.OnClickListener{
                                             User.getInstance().setLogin(false);
                                             Intent intent = new Intent(getActivity(),LoginActivity.class);
                                             startActivity(intent);
+                                            getActivity().finish();
                                         }
                                     }, 2000);
                                 }
