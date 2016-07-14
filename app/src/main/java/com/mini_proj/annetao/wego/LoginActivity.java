@@ -12,9 +12,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.mini_proj.annetao.wego.util.Utils;
 import com.mini_proj.annetao.wego.util.login.QQLoginListener;
 import com.mini_proj.annetao.wego.util.login.QQLoginSupporter;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.common.Constants;
 import com.tencent.tauth.IUiListener;
@@ -55,7 +59,6 @@ public class LoginActivity extends BaseActivity
         else{
             findView(R.id.qq).setOnClickListener(this);
         }
-
     }
 
     @Override
