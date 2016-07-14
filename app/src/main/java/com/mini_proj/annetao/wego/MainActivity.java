@@ -41,6 +41,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private SoftReference<FragmentHome> fragmentHomeSoftReference;
     private SoftReference<FragmentDiscovery> fragmentDiscoverySoftReference;
     private SoftReference<FragmentSubscribe> fragmentSubscribeSoftReference;
+    private SoftReference<FragmentMessage> fragmentMessageSoftReference;
     private SoftReference<FragmentMe> fragmentMeSoftReference;
 
 
@@ -189,7 +190,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 if (viewPager.getCurrentItem() == 0 && fragmentHomeSoftReference != null && fragmentHomeSoftReference.get() != null) fragmentHomeSoftReference.get().setViewPager(viewPager);
                 if (viewPager.getCurrentItem() == 1 && fragmentDiscoverySoftReference != null && fragmentDiscoverySoftReference.get() != null) fragmentDiscoverySoftReference.get().setViewPager(viewPager);
                 if (viewPager.getCurrentItem() == 1 && fragmentDiscoverySoftReference != null && fragmentDiscoverySoftReference.get() != null) fragmentDiscoverySoftReference.get().autoSelect();
-
+                if (viewPager.getCurrentItem() == 3 && fragmentMessageSoftReference != null && fragmentMessageSoftReference.get() != null) fragmentMessageSoftReference.get().autoLoadMessage();
             }
 
             @Override
@@ -222,7 +223,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     case 2:
                         fragmentSubscribeSoftReference = new SoftReference<>(new FragmentSubscribe());
                         return fragmentSubscribeSoftReference.get();
-                    case 3: return new FragmentMessage();
+                    case 3:
+                        fragmentMessageSoftReference = new SoftReference<>(new FragmentMessage());
+                        return fragmentMessageSoftReference.get();
                     case 4:
                         fragmentMeSoftReference = new SoftReference<>(new FragmentMe());
                         return fragmentMeSoftReference.get();

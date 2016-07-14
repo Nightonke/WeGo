@@ -55,6 +55,7 @@ public class FragmentHome extends Fragment implements AllExerciseAdapter.OnExerc
         listView = (SuperRecyclerView) messageLayout.findViewById(R.id.list_view);
         listView.setRefreshListener(this);
         listView.addItemDecoration(new PhoneOrderDecoration(Utils.dp2px(10)));
+        listView.getSwipeToRefresh().setColorSchemeResources(R.color.colorAccent);
         LinearLayoutManager mManager = new LinearLayoutManager(getContext());
         listView.setLayoutManager(mManager);
         allExerciseAdapter = new AllExerciseAdapter(this, ExercisePool.getTopicPool().getAllExercise());

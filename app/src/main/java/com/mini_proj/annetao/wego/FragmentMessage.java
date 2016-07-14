@@ -31,6 +31,7 @@ public class FragmentMessage extends Fragment implements SwipeRefreshLayout.OnRe
     private ArrayList<UserNotice> noticeArrayList = new ArrayList<>();
     private SuperRecyclerView listView;
     private UserNoticeAdapter adapter;
+    private boolean autoLoad = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,8 +53,7 @@ public class FragmentMessage extends Fragment implements SwipeRefreshLayout.OnRe
         listView.setLayoutManager(mManager);
         adapter = new UserNoticeAdapter(FragmentMessage.this, noticeArrayList);
         listView.setAdapter(adapter);
-
-        loadMessage();
+        listView.getSwipeToRefresh().setColorSchemeResources(R.color.colorAccent);
 
         return messageLayout;
     }
@@ -109,5 +109,12 @@ public class FragmentMessage extends Fragment implements SwipeRefreshLayout.OnRe
     @Override
     public void onSelect(int p) {
 
+    }
+
+    public void autoLoadMessage() {
+        if (autoLoad) {
+            autoLoad = false;
+            loadMessage();
+        }
     }
 }
