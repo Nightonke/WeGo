@@ -60,10 +60,8 @@ public class FragmentHome extends Fragment implements AllExerciseAdapter.OnExerc
         allExerciseAdapter = new AllExerciseAdapter(this, ExercisePool.getTopicPool().getAllExercise());
         listView.setAdapter(allExerciseAdapter);
 
-        mapLayout = (LinearLayout) messageLayout.findViewById(R.id.map_view_container);
-        mapView = new MapView(getActivity());
+        mapView = (MapView) messageLayout.findViewById(R.id.map_view);
         qqMapSupporter = new QQMapSupporter(getActivity(),mapView,QQMapSupporter.QQ_MAP_TYPE_EXERCISES);
-        mapLayout.addView(mapView);
         listViewLayout = messageLayout.findViewById(R.id.list_view_layout);
         loadingTip = (TextView) messageLayout.findViewById(R.id.loading_tip);
 
@@ -180,7 +178,7 @@ public class FragmentHome extends Fragment implements AllExerciseAdapter.OnExerc
                         @Override
                         public void onAnimationStart(Animator animation) {
                             super.onAnimationStart(animation);
-                            mapLayout.setVisibility(View.VISIBLE);
+                            mapView.setVisibility(View.VISIBLE);
                         }
 
                         @Override
@@ -205,7 +203,7 @@ public class FragmentHome extends Fragment implements AllExerciseAdapter.OnExerc
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             super.onAnimationEnd(animation);
-                            mapLayout.setVisibility(View.GONE);
+                            mapView.setVisibility(View.GONE);
                         }
                     })
                     .duration(300).playOn(mapView);
