@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +37,7 @@ public class Exercise {
     private String deadline;
     private int attendencyNum;
     private Map<String, String> tagList;
+    private int tagId = -1;
 
     public Exercise()
     {
@@ -62,6 +64,31 @@ public class Exercise {
         setDeadline(deadline_);
         setAttendencyNum(attendencyNum_);
         setTagList(tagList_);
+    }
+
+    public Exercise(JSONObject exerciseJson) throws JSONException {
+        id = exerciseJson.getInt("id");
+        latitude = (float) exerciseJson.getDouble("latitude");
+        longitude = (float) exerciseJson.getDouble("longitude");
+        sponsor_id = exerciseJson.getString("sponsor_id");
+        start_time = getStandardTimeString(exerciseJson.getString("start_time"));
+        end_time = getStandardTimeString(exerciseJson.getString("end_time"));
+        name = exerciseJson.getString("name");
+        description = exerciseJson.getString("description");
+        created_datetime = getStandardTimeString(exerciseJson.getString("created_datetime"));
+        status = exerciseJson.getInt("status") + "";
+        deadline = getStandardTimeString(exerciseJson.getString("deadline"));
+        avg_cost = (float) exerciseJson.getDouble("avg_cost");
+        pic_store = exerciseJson.getString("pic_store");
+
+        JSONArray tagsJson = exerciseJson.getJSONArray("tag");
+        if (tagsJson.length() > 0) tagId = tagsJson.getInt(0);
+    }
+
+    public String getStandardTimeString(String time) {
+        time = time.replace("T", " ");
+        time = time.replace(".000Z", "");
+        return time;
     }
 
     public static Exercise jsonToExercise(JSONObject dataJson) throws JSONException {
@@ -391,5 +418,13 @@ public class Exercise {
 
     public void setCreated_datetime(String created_datetime) {
         this.created_datetime = created_datetime;
+    }
+
+    public int getTagId() {
+        return tagId;
+    }
+
+    public void setTagId(int tagId) {
+        this.tagId = tagId;
     }
 }
