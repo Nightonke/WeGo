@@ -130,4 +130,29 @@ public enum Tag {
         return tagNames;
     }
 
+    public static String getPicUrlById(int tag) {
+        String[] picUrlArray = {
+                "",//NONE(-1),
+                "http://ghy.swufe.edu.cn/images/imageData/life/2009/10/14/%C0%BA%C7%F2.jpg",//BASKETBALL(0),
+                "http://pic23.nipic.com/20120919/10197997_083116891001_2.jpg",//FOOTBALL(1),
+                "http://pic21.nipic.com/20120531/6863287_032401854000_2.jpg",//BADMINTON(2),
+                "http://pic25.nipic.com/20121118/11029734_035104413136_2.jpg",//TABLE_TENNIS(3),
+                "http://img15.3lian.com/2015/f3/07/d/138.jpg",//SWIMMING(4),
+                "http://www.wan-ka.com/upload/image/201501/b28c830c-5b06-48bf-8fd4-9c0a7b63747f.png",//RUNNING(5),
+                "http://img01.taopic.com/140921/318765-1409210H95759.jpg",//BODY_BUILDING(6),
+                "http://s2.nuomi.bdimg.com/upload/deal/2014/3/V_L/730487-1396067910093.jpg",//BOARD_GAME(7),
+                "http://img.taopic.com/uploads/allimg/120410/8881-12041016030559.jpg",//PHOTOGRAPHY(8),
+                "http://www.wxjy.com.cn/UploadFiles/zt/2014/3/201403181616353675.JPG",//TRAVEL(9),
+                "http://jiangsu.china.com.cn/uploadfile/2014/0801/20140801022812757.jpg",//COMMONWEAL(10),
+                "http://img1.gtimg.com/ent/pics/hv1/72/48/1311/85260087.jpg",//CONCERT(11),
+                "http://images.china.cn/attachement/jpg/site1000/20071114/000cf1bdcc9708a514dd03.jpg",//DRAMA(12),
+                "https://d13yacurqjgara.cloudfront.net/users/31752/screenshots/2262418/movie-time_1x.png",//FILM(13),
+                "http://img2.imgtn.bdimg.com/it/u=2312699018,3601099396&fm=21&gp=0.jpg",//READING(14),
+                "http://pic.58pic.com/58pic/15/45/36/31P58PIC37n_1024.jpg",//SHOW(15),
+                "http://files.eduuu.com/img/2013/09/27/153421_524534fd3f87a.png",//FOREIGN_LANGUAGE(16),
+                "http://pic41.nipic.com/20140514/4135003_132354015000_2.jpg",//SNOOKER(17);
+        };
+        return picUrlArray[tag+1];
+    }
+
 }

@@ -49,6 +49,7 @@ public class AllExerciseAdapter
         holder.people.setText(e.getAttendencyNumString());
         Picasso.with(context).load(e.getPic_store()).into(holder.image);
         if (e.getTagId() != -1) holder.tagGroup.setTags(Tag.value(e.getTagId()).toString());
+        holder.date.setText(e.getStart_time());
     }
 
     @Override
@@ -62,6 +63,7 @@ public class AllExerciseAdapter
         public TextView people;
         public KenBurnsView image;
         public TagGroup tagGroup;
+        public TextView date;
 
         public ViewHolder(View v) {
             super(v);
@@ -70,6 +72,7 @@ public class AllExerciseAdapter
             people = (TextView) v.findViewById(R.id.people);
             image = (KenBurnsView) v.findViewById(R.id.image);
             tagGroup = (TagGroup) v.findViewById(R.id.tag_group);
+            date = (TextView) v.findViewById(R.id.date);
         }
     }
 

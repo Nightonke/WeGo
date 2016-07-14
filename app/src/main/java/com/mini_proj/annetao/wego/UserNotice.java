@@ -17,8 +17,14 @@ public class UserNotice {
         this.user_id = user_id;
         this.exercise_id = exercise_id;
         this.notice_content = notice_content;
-        this.time = time;
+        this.time = getStandardTimeString(time);
         this.status = status;
+    }
+
+    public String getStandardTimeString(String time) {
+        time = time.replace("T", " ");
+        time = time.replace(".000Z", "");
+        return time;
     }
 
     public int getId() {

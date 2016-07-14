@@ -80,25 +80,44 @@
 
             <View style="@style/MarginDivider"/>
 
-            <me.gujun.android.taggroup.TagGroup
-                android:id="@+id/tag_group"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@android:color/white"
-                app:atg_isAppendMode="false"
-                app:atg_backgroundColor="@android:color/transparent"
-                app:atg_checkedMarkerColor="@color/tag"
-                app:atg_checkedBorderColor="@color/tag"
-                app:atg_checkedTextColor="@color/white"
-                app:atg_checkedBackgroundColor="@android:color/transparent"
-                app:atg_pressedBackgroundColor="@android:color/transparent"
-                app:atg_borderColor="@color/tag"
-                app:atg_textColor="@color/tag"
-                app:atg_textSize="13sp"
-                app:atg_horizontalPadding="20dp"
-                app:atg_verticalPadding="2dp"
-                />
+                android:orientation="horizontal">
+
+                <me.gujun.android.taggroup.TagGroup
+                    android:id="@+id/tag_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@android:color/white"
+                    app:atg_isAppendMode="false"
+                    app:atg_backgroundColor="@android:color/transparent"
+                    app:atg_checkedMarkerColor="@color/tag"
+                    app:atg_checkedBorderColor="@color/tag"
+                    app:atg_checkedTextColor="@color/white"
+                    app:atg_checkedBackgroundColor="@android:color/transparent"
+                    app:atg_pressedBackgroundColor="@android:color/transparent"
+                    app:atg_borderColor="@color/tag"
+                    app:atg_textColor="@color/tag"
+                    app:atg_textSize="13sp"
+                    app:atg_horizontalPadding="20dp"
+                    app:atg_verticalPadding="2dp"
+                    />
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:gravity="center_vertical|end"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
+                    />
+
+            </LinearLayout>
 
             <View style="@style/Divider"/>
 
