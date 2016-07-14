@@ -72,6 +72,7 @@ public class FragmentMessage extends Fragment implements SwipeRefreshLayout.OnRe
                 Utils.toastImmediately("加载消息成功");
                 listView.getSwipeToRefresh().setRefreshing(false);
                 Log.d("Wego", response + " " + id);
+                noticeArrayList.clear();
                 try {
                     JSONObject object = new JSONObject(response);
                     JSONArray array=object.getJSONArray("data");
