@@ -366,7 +366,7 @@ public class Exercise {
     }
 
     public String getPic_store() {
-        return pic_store;
+        return Tag.getPicUrlById(tagId);
     }
 
     public void setPic_store(String pic_store) {

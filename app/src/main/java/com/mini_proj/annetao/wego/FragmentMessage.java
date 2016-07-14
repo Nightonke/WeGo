@@ -2,32 +2,35 @@ package com.mini_proj.annetao.wego;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
+import com.mini_proj.annetao.wego.util.Utils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import okhttp3.Call;
 
 /**
  * Created by huangweiping on 16/7/10.
  */
-public class FragmentMessage extends Fragment {
+public class FragmentMessage extends Fragment implements SwipeRefreshLayout.OnRefreshListener, UserNoticeAdapter.OnNoticeSelectListener {
 
-    private MaterialDialog dialog;
-    private ArrayList<UserNotice> noticeArrayList;
+    private ArrayList<UserNotice> noticeArrayList = new ArrayList<>();
+    private SuperRecyclerView listView;
+    private UserNoticeAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,14 +44,33 @@ public class FragmentMessage extends Fragment {
                 .cancelable(false)
                 .show();
         */
+
+        listView = (SuperRecyclerView) messageLayout.findViewById(R.id.list_view);
+        listView.setRefreshListener(this);
+        listView.addItemDecoration(new PhoneOrderDecoration(Utils.dp2px(10)));
+        LinearLayoutManager mManager = new LinearLayoutManager(getContext());
+        listView.setLayoutManager(mManager);
+        adapter = new UserNoticeAdapter(FragmentMessage.this, noticeArrayList);
+        listView.setAdapter(adapter);
+
+        loadMessage();
+
+        return messageLayout;
+    }
+
+    public void loadMessage() {
         UserInf.getUserInf().queryMyNotice(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
                 Log.d("Wego", e.toString() + " " + id);
+                Utils.toastImmediately("加载消息失败");
+                listView.getSwipeToRefresh().setRefreshing(false);
             }
 
             @Override
             public void onResponse(String response, int id) {
+                Utils.toastImmediately("加载消息成功");
+                listView.getSwipeToRefresh().setRefreshing(false);
                 Log.d("Wego", response + " " + id);
                 try {
                     JSONObject object = new JSONObject(response);
@@ -65,6 +87,8 @@ public class FragmentMessage extends Fragment {
                         UserNotice notice=new UserNotice(id_,user_id,exercise_id,notice_content,time,status);
                         noticeArrayList.add(notice);
                     }
+                    adapter = new UserNoticeAdapter(FragmentMessage.this, noticeArrayList);
+                    listView.setAdapter(adapter);
                     Log.d("Wego",  "noticeArrayList size: " + noticeArrayList.size());
                 }
                 catch(JSONException e)
@@ -74,20 +98,15 @@ public class FragmentMessage extends Fragment {
 
             }
         });
-
-        ExercisePool.getTopicPool().queryTopicWithSponsor("1",new StringCallback() {
-            @Override
-            public void onError(Call call, Exception e, int id) {
-                Log.d("Wego", e.toString() + " " + id);
-            }
-
-            @Override
-            public void onResponse(String response, int id) {
-                Log.d("Wego", response + " " + id);
-            }
-        });
-
-        return messageLayout;
     }
 
+    @Override
+    public void onRefresh() {
+        loadMessage();
+    }
+
+    @Override
+    public void onSelect(int p) {
+
+    }
 }
