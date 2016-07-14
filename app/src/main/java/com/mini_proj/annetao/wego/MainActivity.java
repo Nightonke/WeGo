@@ -147,11 +147,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         findView(titles[i]).setVisibility(View.VISIBLE);
                     }
                 }
-                for (int i = 0; i < 3 && position < 3; i++) {
-                    if (i != position) findView(buttons[i]).setVisibility(View.GONE);
-                    else {
-                        findView(buttons[i]).bringToFront();
-                        findView(buttons[i]).setVisibility(View.VISIBLE);
+                if (position >= 3) {
+                    for (int i = 0; i < 3; i++) findView(buttons[i]).setVisibility(View.GONE);
+                } else {
+                    for (int i = 0; i < 3; i++) {
+                        if (i != position) findView(buttons[i]).setVisibility(View.GONE);
+                        else {
+                            findView(buttons[i]).bringToFront();
+                            findView(buttons[i]).setVisibility(View.VISIBLE);
+                        }
                     }
                 }
 

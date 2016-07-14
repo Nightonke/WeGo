@@ -87,6 +87,7 @@ public class FragmentSubscribe extends Fragment
         detail = (TextView) messageLayout.findViewById(R.id.detail);
         tagGroup = (TagGroup) messageLayout.findViewById(R.id.tag_group);
         place = (TextView) messageLayout.findViewById(R.id.map);
+        place.setSelected(true);
 
 
         messageLayout.findViewById(R.id.title_layout).setOnClickListener(this);
