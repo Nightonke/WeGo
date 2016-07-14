@@ -39,6 +39,8 @@ public class Exercise {
     private int attendencyNum;
     private Map<String, String> tagList;
     private int tagId = -1;
+    private String address;
+    private int minNum;
 
     public Exercise()
     {
@@ -81,6 +83,8 @@ public class Exercise {
         deadline = getStandardTimeString(exerciseJson.getString("deadline"));
         avg_cost = (float) exerciseJson.getDouble("avg_cost");
         pic_store = exerciseJson.getString("pic_store");
+        address = exerciseJson.getString("address");
+        minNum = exerciseJson.getInt("min_num");
 
         JSONArray tagsJson = exerciseJson.getJSONArray("tag");
         if (tagsJson.length() > 0) tagId = tagsJson.getInt(0);
@@ -431,6 +435,22 @@ public class Exercise {
 
     public String getAttendencyNumString() {
         Random random = new Random();
-        return ((int)(random.nextFloat() * 50 + 50)) + " 人参与";
+        return "至少 " + minNum + " 人参与";
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public int getMinNum() {
+        return minNum;
+    }
+
+    public void setMinNum(int minNum) {
+        this.minNum = minNum;
     }
 }

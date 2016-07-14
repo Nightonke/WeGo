@@ -49,7 +49,7 @@ public class AllExerciseAdapter
         holder.people.setText(e.getAttendencyNumString());
         Picasso.with(context).load(e.getPic_store()).into(holder.image);
         if (e.getTagId() != -1) holder.tagGroup.setTags(Tag.value(e.getTagId()).toString());
-        holder.date.setText(e.getStart_time());
+        holder.date.setText(e.getStart_time().substring(0, 16));
     }
 
     @Override
