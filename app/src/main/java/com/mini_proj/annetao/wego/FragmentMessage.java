@@ -1,7 +1,15 @@
 package com.mini_proj.annetao.wego;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -28,30 +36,21 @@ import okhttp3.Call;
  */
 public class FragmentMessage extends Fragment implements SwipeRefreshLayout.OnRefreshListener, UserNoticeAdapter.OnNoticeSelectListener {
 
-    private ArrayList<UserNotice> noticeArrayList = new ArrayList<>();
     private SuperRecyclerView listView;
     private UserNoticeAdapter adapter;
     private boolean autoLoad = true;
+    private boolean firstLoad = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View messageLayout = inflater.inflate(R.layout.fragment_message, container, false);
-        noticeArrayList=new ArrayList<>();
-        /*
-        dialog = new MaterialDialog.Builder(getActivity())
-                .title("sdfsdf")
-                .content("dsfsdf")
-                .progress(true, 0)
-                .cancelable(false)
-                .show();
-        */
 
         listView = (SuperRecyclerView) messageLayout.findViewById(R.id.list_view);
         listView.setRefreshListener(this);
         listView.addItemDecoration(new PhoneOrderDecoration(Utils.dp2px(10)));
         LinearLayoutManager mManager = new LinearLayoutManager(getContext());
         listView.setLayoutManager(mManager);
-        adapter = new UserNoticeAdapter(FragmentMessage.this, noticeArrayList);
+        adapter = new UserNoticeAdapter(FragmentMessage.this, ExercisePool.notices);
         listView.setAdapter(adapter);
         listView.getSwipeToRefresh().setColorSchemeResources(R.color.colorAccent);
 
@@ -69,10 +68,11 @@ public class FragmentMessage extends Fragment implements SwipeRefreshLayout.OnRe
 
             @Override
             public void onResponse(String response, int id) {
-                Utils.toastImmediately("加载消息成功");
+                if (firstLoad) Utils.toastImmediately("加载消息成功");
+                firstLoad = false;
                 listView.getSwipeToRefresh().setRefreshing(false);
                 Log.d("Wego", response + " " + id);
-                noticeArrayList.clear();
+                ExercisePool.notices.clear();
                 try {
                     JSONObject object = new JSONObject(response);
                     JSONArray array=object.getJSONArray("data");
@@ -86,20 +86,21 @@ public class FragmentMessage extends Fragment implements SwipeRefreshLayout.OnRe
                         String time=jsonMsg.getString("time");
                         int status=jsonMsg.getInt("status");
                         UserNotice notice=new UserNotice(id_,user_id,exercise_id,notice_content,time,status);
-                        noticeArrayList.add(notice);
+                        ExercisePool.notices.add(notice);
                     }
-                    adapter = new UserNoticeAdapter(FragmentMessage.this, noticeArrayList);
+                    notificationHandler.sendEmptyMessage(0);
+                    adapter = new UserNoticeAdapter(FragmentMessage.this, ExercisePool.notices);
                     listView.setAdapter(adapter);
-                    Log.d("Wego",  "noticeArrayList size: " + noticeArrayList.size());
+                    Log.d("Wego",  "noticeArrayList size: " +  ExercisePool.notices.size());
                 }
-                catch(JSONException e)
-                {
+                catch(JSONException e) {
                     Log.e("WeGo",e.toString());
                 }
-
             }
         });
     }
+
+    private Handler notificationHandler = new NotificationHandler();
 
     @Override
     public void onRefresh() {
@@ -115,6 +116,34 @@ public class FragmentMessage extends Fragment implements SwipeRefreshLayout.OnRe
         if (autoLoad) {
             autoLoad = false;
             loadMessage();
+        }
+    }
+
+    private class NotificationHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg){
+            if (ExercisePool.notices.size() == 0) {
+                ((NotificationManager) MyApplication.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE)).cancel(100);
+                return;
+            }
+
+            NotificationManager mNotificationManager
+                    = (NotificationManager)MyApplication.getAppContext().getSystemService(MyApplication.NOTIFICATION_SERVICE);
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(MyApplication.getAppContext());
+            mBuilder.build().defaults = Notification.DEFAULT_ALL;
+
+            mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
+            mBuilder.setDefaults(Notification.DEFAULT_SOUND);
+            mBuilder.setOngoing(true);
+
+            mBuilder.setPriority(Notification.PRIORITY_HIGH);
+            mBuilder.setContentTitle("Wego");
+            mBuilder.setContentText("您有 " + ExercisePool.notices.size() + " 条消息，请打开Wego查看。");
+            mBuilder.setWhen(System.currentTimeMillis());
+            mBuilder.setTicker("Wego");
+            mBuilder.setSmallIcon(R.drawable.icon_launcher);
+            android.app.Notification notification = mBuilder.build();
+            mNotificationManager.notify(100, notification);
         }
     }
 }

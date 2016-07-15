@@ -19,7 +19,7 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
@@ -64,7 +64,8 @@
         <activity android:name=".MySubscribeActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".MyExerciseDetailActivity" />
-        <activity android:name=".MySignUpActivity"></activity>
+        <activity android:name=".MySignUpActivity" />
+        <activity android:name=".MySignUpDetailActivity"></activity>
     </application>
 
 </manifest>

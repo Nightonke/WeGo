@@ -6,6 +6,13 @@
     android:orientation="vertical"
     android:background="@android:color/white">
 
+    <com.mini_proj.annetao.wego.TitleLayout
+        android:id="@+id/title_layout_top"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:nbTitleText="详情"
+        app:nbEditText="取消报名"/>
+
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
@@ -17,11 +24,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="30dp">
+            android:orientation="vertical">
 
-
-
+            <com.flaviofaria.kenburnsview.KenBurnsView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
 
             <View style="@style/Divider"/>
 
@@ -47,6 +55,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:text=""
                     android:layout_marginRight="10dp"
                     android:layout_marginEnd="10dp"
                     android:gravity="center_vertical|end"
@@ -123,8 +132,6 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text=""
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginEnd="10dp"
                     android:gravity="center_vertical|end"
@@ -156,7 +163,7 @@
             <View style="@style/MarginDivider"/>
 
             <LinearLayout
-                android:id="@+id/place_layout"
+                android:id="@+id/average_layout"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:orientation="horizontal"
@@ -166,14 +173,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="报名截止日期"
+                    android:text="人均消费"
                     android:textColor="@color/black"
                     android:gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"/>
 
                 <TextView
-                    android:id="@+id/place"
+                    android:id="@+id/average"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -194,173 +201,43 @@
             <View style="@style/MarginDivider"/>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:orientation="horizontal"
-                android:clickable="true">
-
-                <LinearLayout
-                    android:id="@+id/min_people_layout"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    style="@style/WhiteRippleBackgroundStyle"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="最少人数"
-                        android:textColor="@color/black"
-                        android:gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginStart="10dp"/>
-
-                    <TextView
-                        android:id="@+id/min_people"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text=""
-                        android:layout_marginRight="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:gravity="center_vertical|end"
-                        android:singleLine="true"
-                        android:ellipsize="marquee"
-                        android:marqueeRepeatLimit="marquee_forever"
-                        android:scrollHorizontally="true"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:freezesText="true"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/max_people_layout"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    style="@style/WhiteRippleBackgroundStyle"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="最多人数"
-                        android:textColor="@color/black"
-                        android:gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginStart="10dp"/>
-
-                    <TextView
-                        android:id="@+id/max_people"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text=""
-                        android:layout_marginRight="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:gravity="center_vertical|end"
-                        android:singleLine="true"
-                        android:ellipsize="marquee"
-                        android:marqueeRepeatLimit="marquee_forever"
-                        android:scrollHorizontally="true"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:freezesText="true"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <View style="@style/MarginDivider"/>
-
-            <LinearLayout
+                android:id="@+id/people_layout"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:orientation="horizontal"
                 style="@style/WhiteRippleBackgroundStyle"
                 android:clickable="true">
 
-                <LinearLayout
-                    android:id="@+id/credit_layout"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="已有人数／所需人数"
+                    android:textColor="@color/black"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"/>
+
+                <TextView
+                    android:id="@+id/people"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="horizontal"
-                    style="@style/WhiteRippleBackgroundStyle"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="信用要求"
-                        android:textColor="@color/black"
-                        android:gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginStart="10dp"/>
-
-                    <TextView
-                        android:id="@+id/credit"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text=""
-                        android:layout_marginRight="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:gravity="center_vertical|end"
-                        android:singleLine="true"
-                        android:ellipsize="marquee"
-                        android:marqueeRepeatLimit="marquee_forever"
-                        android:scrollHorizontally="true"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:freezesText="true"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/average_layout"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    style="@style/WhiteRippleBackgroundStyle"
-                    >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="人均消费"
-                        android:textColor="@color/black"
-                        android:gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginStart="10dp"/>
-
-                    <TextView
-                        android:id="@+id/average"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text=""
-                        android:layout_marginRight="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:gravity="center_vertical|end"
-                        android:singleLine="true"
-                        android:ellipsize="marquee"
-                        android:marqueeRepeatLimit="marquee_forever"
-                        android:scrollHorizontally="true"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:freezesText="true"/>
-
-                </LinearLayout>
+                    android:text=""
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center_vertical|end"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:scrollHorizontally="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:freezesText="true"/>
 
             </LinearLayout>
 
             <View style="@style/MarginDivider"/>
+
 
             <LinearLayout
                 android:id="@+id/detail_layout"
@@ -394,48 +271,6 @@
 
             <View style="@style/MarginDivider"/>
 
-            <LinearLayout
-                android:id="@+id/tags_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                style="@style/WhiteRippleBackgroundStyle"
-                android:clickable="true">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="48dp"
-                    android:text="标签"
-                    android:textColor="@color/black"
-                    android:gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"/>
-
-                <me.gujun.android.taggroup.TagGroup
-                    android:id="@+id/tag_group"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_gravity="center_vertical"
-                    android:clickable="false"
-                    app:atg_isAppendMode="false"
-                    app:atg_backgroundColor="@color/tag"
-                    app:atg_checkedBorderColor="@color/tag"
-                    app:atg_checkedMarkerColor="@color/tag"
-                    app:atg_checkedTextColor="@color/white"
-                    app:atg_checkedBackgroundColor="@color/tag"
-                    app:atg_pressedBackgroundColor="@color/tag"
-                    app:atg_borderColor="@color/tag"
-                    app:atg_textColor="@color/white"
-                    app:atg_textSize="13sp"
-                    app:atg_horizontalPadding="20dp"
-                    app:atg_verticalPadding="2dp"
-                    />
-
-            </LinearLayout>
-
-            <View style="@style/Divider"/>
 
         </LinearLayout>
 

@@ -245,7 +245,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onResume() {
         super.onResume();
 
-
+        subscribeButton.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if ("OPEN_MESSAGE".equals(getIntent().getStringExtra("ACTION"))) {
+                    viewPager.setCurrentItem(3, true);
+                }
+            }
+        }, 500);
     }
 
     @Override

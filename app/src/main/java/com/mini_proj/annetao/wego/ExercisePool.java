@@ -13,8 +13,9 @@ import java.util.Map;
 public class ExercisePool {
     private static Map<String, ArrayList<Exercise>> exerciseMap;
     private static ArrayList<Exercise> mySubscribeExercises;
-    private static ArrayList<Exercise> mySignUpExercises;
+    private static ArrayList<Exercise> mySignUpExercises = new ArrayList<>();
     private static ExercisePool exercisePool = null;
+    public static ArrayList<UserNotice> notices = new ArrayList<>();
 
     private ExercisePool() {
         exerciseMap = new HashMap<>();
@@ -47,7 +48,9 @@ public class ExercisePool {
         mySignUpExercises.addAll(exercises);
     }
 
-
+    public void deleteMySignUpExercises(Exercise exercise) {
+        mySignUpExercises.remove(exercise);
+    }
 
     public ArrayList<Exercise> getExerciseList(String tag) {
         return exerciseMap.get(tag);

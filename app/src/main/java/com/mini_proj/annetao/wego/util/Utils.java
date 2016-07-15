@@ -132,6 +132,10 @@ public class Utils {
         );
     }
 
+    public static boolean notNull(String text) {
+        return text != null && !"null".equals(text);
+    }
+
     private static Utils ourInstance = new Utils();
 
     public static Utils getInstance() {

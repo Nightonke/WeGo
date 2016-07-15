@@ -4,6 +4,7 @@ package com.mini_proj.annetao.wego;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.mini_proj.annetao.wego.util.Utils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.BitmapCallback;
 import com.zhy.http.okhttp.callback.Callback;
@@ -482,7 +483,8 @@ public class Exercise {
     }
 
     public String getAddress() {
-        return address;
+        if (Utils.notNull(address)) return address;
+        else return "";
     }
 
     public void setAddress(String address) {
