@@ -134,7 +134,6 @@ public class FragmentMessage extends Fragment implements SwipeRefreshLayout.OnRe
 
             mBuilder.setDefaults(Notification.DEFAULT_VIBRATE);
             mBuilder.setDefaults(Notification.DEFAULT_SOUND);
-            mBuilder.setOngoing(true);
 
             mBuilder.setPriority(Notification.PRIORITY_HIGH);
             mBuilder.setContentTitle("Wego");
