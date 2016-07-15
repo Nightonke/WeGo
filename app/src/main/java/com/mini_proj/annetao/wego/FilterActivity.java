@@ -37,6 +37,8 @@ public class FilterActivity extends BaseActivity
     private Calendar startCalendar = Calendar.getInstance();
     private Calendar endCalendar = Calendar.getInstance();
 
+    private MaterialDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,7 +120,30 @@ public class FilterActivity extends BaseActivity
                 return;
             }
         }
-        finish();
+        dialog = new MaterialDialog.Builder(mContext)
+                .title("筛选中")
+                .content("请稍候...")
+                .cancelable(false)
+                .progress(true, 0)
+                .show();
+        titleLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (dialog != null) dialog.dismiss();
+                dialog = new MaterialDialog.Builder(mContext)
+                        .title("筛选成功")
+                        .content("筛选成功！")
+                        .cancelable(false)
+                        .positiveText("确定")
+                        .onAny(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                finish();
+                            }
+                        })
+                        .show();
+            }
+        }, 2000);
     }
 
     @Override
