@@ -210,6 +210,7 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
 
     public void updateExerciseMarkers(String tagId){
         Log.e("wego_map","updateMarkers");
+        this.tagId = tagId;
         if(dialog!=null)dialog.dismiss();
         setMarkers(tagId);
         if(markerList.size()>0) {
@@ -291,7 +292,7 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
         LatLngBounds bounds = new LatLngBounds.Builder().include(new LatLng(maxLatitude,minLongitude))
                 .include(new LatLng(minLatitude,maxLongitude)).build();
 
-        tencentMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,300));
+        tencentMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,10));
     }
 
 
