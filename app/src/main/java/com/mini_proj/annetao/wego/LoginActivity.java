@@ -188,6 +188,7 @@ public class LoginActivity extends BaseActivity
     }
     private void goToRegistry(){
         startActivity(new Intent(mContext, UserInformationActivity.class));
+        finish();
     }
     private void weGoLogin() {
         UserInf.getUserInf().doLogin(User.getInstance().getOpenId(),new StringCallback() {

@@ -210,6 +210,7 @@ public class UserInformationActivity extends BaseActivity
                                     Utils.toastImmediately("提交信息成功，欢迎你，" + name.getText().toString());
                                     Intent intent = new Intent(UserInformationActivity.this,MainActivity.class);
                                     startActivity(intent);
+                                    finish();
                                 } else {
                                     dialog = new MaterialDialog.Builder(mContext)
                                             .title("提交失败")
