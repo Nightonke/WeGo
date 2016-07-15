@@ -28,6 +28,7 @@ import me.iwf.photopicker.PhotoPicker;
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     // Ready for 0.9.9
+    // Ready for 1.0.1
 
     private static final int REQUEST_LOGIN = 837;
     private ViewPager viewPager;
