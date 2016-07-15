@@ -34,8 +34,8 @@ public class WeGoLocation {
             name = name.substring(0,4)+"..";
         }
         title = "活动名—"+name;
-        disc = "所属标签—"+Tag.value(e.getTagId()).toString()+"\n"+" 点击查看详情";
-
+        if (Tag.value(e.getTagId()) != null) disc = "所属标签—"+Tag.value(e.getTagId()).toString()+"\n"+" 点击查看详情";
+        else disc = "";
 
     }
 

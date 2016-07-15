@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flaviofaria.kenburnsview.KenBurnsView;
+import com.mini_proj.annetao.wego.util.Utils;
 import com.mini_proj.annetao.wego.util.map.QQMapSupporter;
 import com.squareup.picasso.Picasso;
 import com.tencent.tauth.Tencent;
@@ -90,7 +91,7 @@ public class ExerciseDetailActivity extends BaseActivity implements TitleLayout.
     @Override
     public void clickTitleEdit() {
         if(exercise.getAttendencyNum()>=exercise.getMaxNum()){
-            Toast.makeText(this,"抱歉，活动参与人数已达上限",Toast.LENGTH_SHORT).show();
+            Utils.toastImmediately("抱歉，活动参与人数已达上限");
         }
         else {
             Intent intent = new Intent(this, ExerciseSignUpActivity.class);
