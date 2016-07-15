@@ -15,6 +15,7 @@ public class ExercisePool {
     private static ArrayList<Exercise> mySubscribeExercises;
     private static ArrayList<Exercise> mySignUpExercises = new ArrayList<>();
     private static ExercisePool exercisePool = null;
+    public static ArrayList<UserNotice> notices = new ArrayList<>();
 
     private ExercisePool() {
         exerciseMap = new HashMap<>();

@@ -29,8 +29,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@android:color/white">
+                android:layout_height="40dp">
 
                 <TextView
                     android:id="@+id/name"
@@ -90,7 +89,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:background="@android:color/white"
                     app:atg_isAppendMode="false"
                     app:atg_backgroundColor="@android:color/transparent"
                     app:atg_checkedMarkerColor="@color/tag"
