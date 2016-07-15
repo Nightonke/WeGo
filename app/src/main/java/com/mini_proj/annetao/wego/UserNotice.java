@@ -1,5 +1,12 @@
 package com.mini_proj.annetao.wego;
 
+import com.mini_proj.annetao.wego.util.Utils;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 /**
  * Created by bran on 2016/7/11.
  */
@@ -60,7 +67,7 @@ public class UserNotice {
     }
 
     public String getTime() {
-        return time;
+        return Utils.addEightTime(time);
     }
 
     public void setTime(String time) {
