@@ -269,8 +269,7 @@
 
             </LinearLayout>
 
-            <View style="@style/MarginDivider"/>
-
+            <View style="@style/Divider"/>
 
         </LinearLayout>
 
