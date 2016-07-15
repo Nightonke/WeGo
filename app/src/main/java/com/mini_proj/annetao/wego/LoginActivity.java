@@ -59,6 +59,13 @@ public class LoginActivity extends BaseActivity
         else{
             findView(R.id.qq).setOnClickListener(this);
         }
+
+        btn.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                YoYo.with(Techniques.Tada).duration(700).playOn(findView(R.id.wego));
+            }
+        }, 1000);
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.mini_proj.annetao.wego.util.map.QQMapSupporter;
@@ -58,6 +59,7 @@ public class ExerciseDetailActivity extends BaseActivity implements TitleLayout.
         time.setText(exercise.getStart_time() + " ~ " + exercise.getEnd_time());
         map = findView(R.id.map);
         map.setText(exercise.getAddress());
+        map.setSelected(true);
         mapButton = findView(R.id.map_button);
         mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,9 +89,14 @@ public class ExerciseDetailActivity extends BaseActivity implements TitleLayout.
 
     @Override
     public void clickTitleEdit() {
-        Intent intent = new Intent(this, ExerciseSignUpActivity.class);
-        intent.putExtra("exercise_id", exercise.getId());
-        startActivity(intent);
+        if(exercise.getAttendencyNum()>=exercise.getMaxNum()){
+            Toast.makeText(this,"抱歉，活动参与人数已达上限",Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Intent intent = new Intent(this, ExerciseSignUpActivity.class);
+            intent.putExtra("exercise_id", exercise.getId());
+            startActivity(intent);
+        }
     }
 
     private void openMap() {

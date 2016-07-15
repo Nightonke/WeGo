@@ -2,7 +2,9 @@ package com.mini_proj.annetao.wego;
 
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
+import com.mini_proj.annetao.wego.util.Utils;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.BitmapCallback;
 import com.zhy.http.okhttp.callback.Callback;
@@ -44,6 +46,7 @@ public class Exercise {
     private int tagId = -1;
     private String address;
     private int minNum;
+    private int maxNum;
 
     // 以下变量是用于获取参与活动的时候，获取报名时的用户名和电话
     private String nickName;
@@ -92,6 +95,9 @@ public class Exercise {
         pic_store = exerciseJson.getString("pic_store");
         address = exerciseJson.getString("address");
         minNum = exerciseJson.getInt("min_num");
+        maxNum = exerciseJson.getInt("max_num");
+        if(exerciseJson.has("att_num"));
+            attendencyNum = exerciseJson.getInt("att_num")+1;
 
         JSONArray tagsJson = exerciseJson.getJSONArray("tag");
         if (tagsJson.length() > 0) tagId = tagsJson.getInt(0);
@@ -122,8 +128,19 @@ public class Exercise {
                     JSONArray tagsJson = exerciseJson.getJSONArray("tag");
                     if (tagsJson.length() > 0) tagId = tagsJson.getInt(0);
                 }
+                if (exerciseJson.has("tag_id")) {
+                    tagId = exerciseJson.getInt("tag_id");
+                }
                 break;
         }
+    }
+
+    public int getMaxNum() {
+        return maxNum;
+    }
+
+    public void setMaxNum(int maxNum) {
+        this.maxNum = maxNum;
     }
 
     public String getStandardTimeString(String time) {
@@ -194,6 +211,7 @@ public class Exercise {
         JSONArray jsonArray = new JSONArray();
         jsonArray.put(tag.v);
         map.put("tag", jsonArray.toString());
+        Log.d("Wego",map.toString());
         NetworkTools.getNetworkTools().doRequest(NetworkTools.URL_EXERCISE + "/add_exercise"
                 , map, callback);
     }
@@ -477,7 +495,8 @@ public class Exercise {
     }
 
     public String getAddress() {
-        return address;
+        if (Utils.notNull(address)) return address;
+        else return "";
     }
 
     public void setAddress(String address) {

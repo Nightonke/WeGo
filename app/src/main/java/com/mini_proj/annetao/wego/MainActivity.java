@@ -27,6 +27,8 @@ import me.iwf.photopicker.PhotoPicker;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
+    // Ready for 0.9.9
+
     private static final int REQUEST_LOGIN = 837;
     private ViewPager viewPager;
     private int[] titles = new int[]{R.id.home_title, R.id.discovery_title, R.id.subscribe_title, R.id.message_title, R.id.me_title};
@@ -147,11 +149,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         findView(titles[i]).setVisibility(View.VISIBLE);
                     }
                 }
-                for (int i = 0; i < 3 && position < 3; i++) {
-                    if (i != position) findView(buttons[i]).setVisibility(View.GONE);
-                    else {
-                        findView(buttons[i]).bringToFront();
-                        findView(buttons[i]).setVisibility(View.VISIBLE);
+                if (position >= 3) {
+                    for (int i = 0; i < 3; i++) findView(buttons[i]).setVisibility(View.GONE);
+                } else {
+                    for (int i = 0; i < 3; i++) {
+                        if (i != position) findView(buttons[i]).setVisibility(View.GONE);
+                        else {
+                            findView(buttons[i]).bringToFront();
+                            findView(buttons[i]).setVisibility(View.VISIBLE);
+                        }
                     }
                 }
 
@@ -241,7 +247,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onResume() {
         super.onResume();
 
-
+        subscribeButton.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if ("OPEN_MESSAGE".equals(getIntent().getStringExtra("ACTION"))) {
+                    viewPager.setCurrentItem(3, true);
+                }
+            }
+        }, 500);
     }
 
     @Override

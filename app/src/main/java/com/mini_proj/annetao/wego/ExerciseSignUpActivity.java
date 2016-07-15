@@ -17,6 +17,8 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.regex.Pattern;
+
 import okhttp3.Call;
 
 public class ExerciseSignUpActivity extends BaseActivity
@@ -85,7 +87,7 @@ public class ExerciseSignUpActivity extends BaseActivity
                                 name.setText(dialog.getInputEditText().getText().toString());
                             }
                         })
-                        .input("您的姓名", name.getText().toString(), new MaterialDialog.InputCallback() {
+                        .input("请输入姓名", name.getText().toString(), new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
 
@@ -133,7 +135,7 @@ public class ExerciseSignUpActivity extends BaseActivity
                         }).show();
                 break;
             case R.id.sign_in:
-                if (phone.getText().toString().length() != 11) {
+                if (phone.getText().toString().length() != 11 || phone.getText().toString().charAt(0) != '1') {
                     Utils.toastImmediately("电话号码不合法");
                 } else {
                     dialog = new MaterialDialog.Builder(mContext)

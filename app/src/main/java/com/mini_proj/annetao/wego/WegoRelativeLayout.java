@@ -39,7 +39,7 @@ public class WegoRelativeLayout extends RelativeLayout {
         }
         return super.onTouchEvent(event);
     }
-
+//
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         switch (ev.getAction()) {
