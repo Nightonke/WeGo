@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         app:nbTitleText="详情"
-        app:nbEditText="取消活动"/>
+        app:nbHasEditText="false"/>
 
     <ScrollView
         android:id="@+id/scroll_view"

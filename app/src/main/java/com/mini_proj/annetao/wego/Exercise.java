@@ -121,6 +121,9 @@ public class Exercise {
                 if (exerciseJson.has("pic_store")) pic_store = exerciseJson.getString("pic_store");
                 if (exerciseJson.has("address")) address = exerciseJson.getString("address");
                 minNum = exerciseJson.getInt("minNum");
+                maxNum = exerciseJson.getInt("maxNum");
+                if(exerciseJson.has("att_num"));
+                attendencyNum = exerciseJson.getInt("att_num")+1;
                 nickName = exerciseJson.getString("nickname");
                 userPhone = exerciseJson.getString("phone");
 

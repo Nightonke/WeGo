@@ -14,14 +14,14 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.mini_proj.annetao.wego.R;
+import com.mini_proj.annetao.wego.util.Utils;
 import com.tencent.lbssearch.TencentSearch;
 import com.tencent.lbssearch.httpresponse.BaseObject;
 import com.tencent.lbssearch.httpresponse.HttpResponseListener;
 import com.tencent.lbssearch.object.param.SuggestionParam;
 import com.tencent.lbssearch.object.result.SuggestionResultObject;
-import com.mini_proj.annetao.wego.R;
 
 import org.apache.http.Header;
 
@@ -145,7 +145,7 @@ public class SearchAddrForMapActivity extends AppCompatActivity {
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                Toast.makeText(SearchAddrForMapActivity.this,result, Toast.LENGTH_SHORT).show();
+                Utils.toastImmediately(result);
             }
         });
     }
