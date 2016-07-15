@@ -27,6 +27,8 @@ import me.iwf.photopicker.PhotoPicker;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
+    // Ready for 0.9.9
+
     private static final int REQUEST_LOGIN = 837;
     private ViewPager viewPager;
     private int[] titles = new int[]{R.id.home_title, R.id.discovery_title, R.id.subscribe_title, R.id.message_title, R.id.me_title};
