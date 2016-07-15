@@ -157,6 +157,7 @@ public class ExerciseSignUpActivity extends BaseActivity
 
                         @Override
                         public void onResponse(String response, int id) {
+                            Log.d("Wego", response);
                             if (dialog != null) dialog.dismiss();
                             try {
                                 JSONObject object = new JSONObject(response);
