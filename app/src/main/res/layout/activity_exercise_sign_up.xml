@@ -29,6 +29,17 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="请留下您的姓名和联系方式\n您的信息仅提供给活动发起者"
+                android:textColor="@color/button_subscribe"
+                android:gravity="center"
+                android:textSize="10dp"
+
+                />
+            <View style="@style/MarginDivider"/>
+
             <LinearLayout
                 android:id="@+id/name_layout"
                 android:layout_width="match_parent"

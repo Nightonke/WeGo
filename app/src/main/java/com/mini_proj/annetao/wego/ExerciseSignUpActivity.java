@@ -87,7 +87,7 @@ public class ExerciseSignUpActivity extends BaseActivity
                                 name.setText(dialog.getInputEditText().getText().toString());
                             }
                         })
-                        .input("您的姓名", name.getText().toString(), new MaterialDialog.InputCallback() {
+                        .input("请输入姓名", name.getText().toString(), new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
 

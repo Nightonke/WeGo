@@ -53,6 +53,7 @@ public class FragmentSubscribe extends Fragment
     private TextView title;
     private TextView time;
     private TextView place;
+    private TextView addAddr;
     private TextView minPeople;
     private TextView maxPeople;
     private TextView credit;
@@ -87,6 +88,7 @@ public class FragmentSubscribe extends Fragment
         detail = (TextView) messageLayout.findViewById(R.id.detail);
         tagGroup = (TagGroup) messageLayout.findViewById(R.id.tag_group);
         place = (TextView) messageLayout.findViewById(R.id.map);
+        addAddr = (TextView) messageLayout.findViewById(R.id.add_addr);
         place.setSelected(true);
 
 
@@ -100,6 +102,7 @@ public class FragmentSubscribe extends Fragment
         messageLayout.findViewById(R.id.average_layout).setOnClickListener(this);
         messageLayout.findViewById(R.id.detail_layout).setOnClickListener(this);
         messageLayout.findViewById(R.id.tags_layout).setOnClickListener(this);
+        messageLayout.findViewById(R.id.add_addr_layout).setOnClickListener(this);
 
         return messageLayout;
     }
@@ -122,6 +125,27 @@ public class FragmentSubscribe extends Fragment
                             }
                         })
                         .input("活动标题", title.getText().toString(), new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(MaterialDialog dialog, CharSequence input) {
+
+                            }
+                        }).show();
+                break;
+            case R.id.add_addr_layout:
+                new MaterialDialog.Builder(getActivity())
+                        .title("楼层/房间号")
+                        .content("")
+                        .inputType(InputType.TYPE_CLASS_TEXT)
+                        .positiveText("确认")
+                        .negativeText("取消")
+                        .inputRange(1, 20, Color.RED)
+                        .onAny(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                addAddr.setText(dialog.getInputEditText().getText().toString());
+                            }
+                        })
+                        .input("请输入楼层/门牌号等补充详细地址信息，无需补充可不输", addAddr.getText().toString(), new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
 
@@ -399,7 +423,7 @@ public class FragmentSubscribe extends Fragment
             return;
         }
         if ("".equals(place.getText().toString())) {
-            Utils.toastImmediately("尚未选择详细地址");
+            Utils.toastImmediately("尚未选择地址");
             return;
         }
         if ("".equals(deadline.getText().toString())) {
@@ -464,7 +488,7 @@ public class FragmentSubscribe extends Fragment
                 Integer.valueOf(maxPeople.getText().toString()),
                 tag,
                 "http://p1.ifengimg.com/a/2016_26/39593b05420.jpg",
-                place.getText().toString(),
+                place.getText().toString()+" "+addAddr.getText().toString(),
                 new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
