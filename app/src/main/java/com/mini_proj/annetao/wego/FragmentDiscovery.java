@@ -199,7 +199,6 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
                 swipeRefreshLayout.setRefreshing(false);
                 loadingTip.setVisibility(View.GONE);
                 Log.d("Wego", response);
-                if(qqMapSupporter.isMapLoaded) qqMapSupporter.updateExerciseMarkers(tagId);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONArray data = jsonObject.getJSONArray("data");
@@ -222,6 +221,7 @@ public class FragmentDiscovery extends Fragment implements ExerciseInTagAdapter.
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                if(qqMapSupporter.isMapLoaded) qqMapSupporter.updateExerciseMarkers(tagId);
             }
         });
 

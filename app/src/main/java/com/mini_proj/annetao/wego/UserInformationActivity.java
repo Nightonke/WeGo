@@ -70,8 +70,7 @@ public class UserInformationActivity extends BaseActivity
         findView(R.id.tags_layout).setOnClickListener(this);
         findView(R.id.next).setOnClickListener(this);
 
-        if(User.getInstance().getGender()==1) sex.check(R.id.female);
-        else if(User.getInstance().getGender()==0) sex.check(R.id.male);
+
 
         sex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -89,6 +88,9 @@ public class UserInformationActivity extends BaseActivity
                 }
             }
         });
+
+        if(User.getInstance().getGender()==1) sex.check(R.id.female);
+        else if(User.getInstance().getGender()==0) sex.check(R.id.male);
     }
 
     @Override
