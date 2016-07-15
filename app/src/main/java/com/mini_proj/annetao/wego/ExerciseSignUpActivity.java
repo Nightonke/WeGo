@@ -135,8 +135,7 @@ public class ExerciseSignUpActivity extends BaseActivity
                         }).show();
                 break;
             case R.id.sign_in:
-                //  && Pattern.matches("", phone.getText().toString())
-                if (phone.getText().toString().length() != 11) {
+                if (phone.getText().toString().length() != 11 || !Pattern.matches("/^1\\d+$/", phone.getText().toString())) {
                     Utils.toastImmediately("电话号码不合法");
                 } else {
                     dialog = new MaterialDialog.Builder(mContext)
