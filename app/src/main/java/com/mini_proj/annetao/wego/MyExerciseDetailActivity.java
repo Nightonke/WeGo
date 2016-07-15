@@ -67,6 +67,7 @@ public class MyExerciseDetailActivity extends BaseActivity implements TitleLayou
         time.setText(exercise.getStart_time() + " ~ " + exercise.getEnd_time());
         map = findView(R.id.map);
         map.setText(exercise.getAddress());
+        map.setSelected(true);
         mapButton = findView(R.id.map_button);
         mapButton.setOnClickListener(new View.OnClickListener() {
             @Override

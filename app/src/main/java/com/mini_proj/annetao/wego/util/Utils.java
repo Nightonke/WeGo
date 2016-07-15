@@ -21,6 +21,10 @@ import com.mini_proj.annetao.wego.MyApplication;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * 工具单例类
@@ -134,6 +138,20 @@ public class Utils {
 
     public static boolean notNull(String text) {
         return text != null && !"null".equals(text);
+    }
+
+    public static String addEightTime(String time) {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        try {
+            cal.setTime(sdf.parse(time));
+            cal.add(Calendar.HOUR_OF_DAY, 8);
+            sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+            return sdf.format(cal.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return time;
     }
 
     private static Utils ourInstance = new Utils();
