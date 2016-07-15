@@ -38,7 +38,7 @@ public class MySignUpDetailActivity extends BaseActivity implements TitleLayout.
     private TextView map;
     private ExpandedListView expandedListView;
     private LinearLayout peopleLayout;
-    private String tagId = "-1";
+    private String tagId = "-3";
     private MaterialDialog dialog;
 
     private Exercise exercise;
@@ -50,7 +50,6 @@ public class MySignUpDetailActivity extends BaseActivity implements TitleLayout.
         setContentView(R.layout.activity_my_sign_up_detail);
 
         position = getIntent().getIntExtra("position", -1);
-        tagId = getIntent().getStringExtra("tag_id");
         if (position == -1) {
             finish();
             return;
@@ -81,7 +80,6 @@ public class MySignUpDetailActivity extends BaseActivity implements TitleLayout.
         people = findView(R.id.people);
         people.setText(exercise.getAttendencyNum()+"/"+exercise.getMinNum());
         peopleLayout = findView(R.id.people_layout);
-        peopleLayout.setOnClickListener(this);
         detail = findView(R.id.detail);
         detail.setText(exercise.getDescription());
         location=findView(R.id.map);
