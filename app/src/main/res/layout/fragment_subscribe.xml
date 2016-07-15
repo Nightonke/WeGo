@@ -140,7 +140,7 @@
                     android:id="@+id/map_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="　地图　"
+                    android:text="地图选址"
                     android:textColor="@color/action_bar_text"
                     android:background="@drawable/button_toggle_view"
                     android:paddingLeft="10dp"
@@ -154,6 +154,45 @@
             </LinearLayout>
 
             <View style="@style/MarginDivider"/>
+
+            <LinearLayout
+                android:id="@+id/add_addr_layout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:orientation="horizontal"
+                style="@style/WhiteRippleBackgroundStyle"
+                android:clickable="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="楼层/房间号"
+                    android:textColor="@color/black"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"/>
+
+                <TextView
+                    android:id="@+id/add_addr"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center_vertical|end"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:scrollHorizontally="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:freezesText="true"
+                    android:text=""/>
+
+            </LinearLayout>
+
+            <View style="@style/MarginDivider"/>
+
 
             <LinearLayout
                 android:id="@+id/place_layout"

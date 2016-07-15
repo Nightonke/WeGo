@@ -46,6 +46,7 @@ public class Exercise {
     private int tagId = -1;
     private String address;
     private int minNum;
+    private int maxNum;
 
     // 以下变量是用于获取参与活动的时候，获取报名时的用户名和电话
     private String nickName;
@@ -94,6 +95,9 @@ public class Exercise {
         pic_store = exerciseJson.getString("pic_store");
         address = exerciseJson.getString("address");
         minNum = exerciseJson.getInt("min_num");
+        maxNum = exerciseJson.getInt("max_num");
+        if(exerciseJson.has("att_num"));
+            attendencyNum = exerciseJson.getInt("att_num")+1;
 
         JSONArray tagsJson = exerciseJson.getJSONArray("tag");
         if (tagsJson.length() > 0) tagId = tagsJson.getInt(0);
@@ -129,6 +133,14 @@ public class Exercise {
                 }
                 break;
         }
+    }
+
+    public int getMaxNum() {
+        return maxNum;
+    }
+
+    public void setMaxNum(int maxNum) {
+        this.maxNum = maxNum;
     }
 
     public String getStandardTimeString(String time) {

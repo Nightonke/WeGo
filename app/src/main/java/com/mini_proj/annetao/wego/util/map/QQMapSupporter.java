@@ -169,8 +169,13 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
             return;
         }
         Exercise e;
+        Log.e("wego_tagid",tagIdStr+"");
         if(tagIdStr.equals("-1"))
             e = ExercisePool.getTopicPool().getAllExercise().get(position);
+        else if(tagIdStr.equals("-2"))
+            e = ExercisePool.getTopicPool().getMySubscribeExercises().get(position);
+        else if(tagIdStr.equals("-3"))
+            e = ExercisePool.getTopicPool().getMySignUpExercises().get(position);
         else e = ExercisePool.getTopicPool().getTagExercise(tagIdStr).get(position);
         addExerciseMarker(e);
         if(dialog!=null)dialog.dismiss();

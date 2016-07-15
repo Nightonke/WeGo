@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         app:nbTitleText="详情"
-        app:nbEditText="　报名　"/>
+        app:nbEditText="取消活动"/>
 
     <ScrollView
         android:id="@+id/scroll_view"
@@ -225,6 +225,44 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text=""
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center_vertical|end"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:scrollHorizontally="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:freezesText="true"/>
+
+            </LinearLayout>
+
+            <View style="@style/MarginDivider"/>
+
+            <LinearLayout
+                android:id="@+id/people_detail_layout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:orientation="horizontal"
+                style="@style/WhiteRippleBackgroundStyle"
+                android:clickable="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="参与人信息"
+                    android:textColor="@color/black"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"/>
+
+                <TextView
+                    android:id="@+id/people_detail"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="点击查看"
                     android:layout_marginRight="10dp"
                     android:layout_marginEnd="10dp"
                     android:gravity="center_vertical|end"
