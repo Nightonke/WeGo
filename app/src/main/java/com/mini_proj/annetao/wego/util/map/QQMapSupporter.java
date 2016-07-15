@@ -8,12 +8,11 @@ import android.location.Location;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.mini_proj.annetao.wego.Exercise;
 import com.mini_proj.annetao.wego.ExerciseDetailActivity;
 import com.mini_proj.annetao.wego.ExercisePool;
+import com.mini_proj.annetao.wego.util.Utils;
 import com.tencent.lbssearch.TencentSearch;
 import com.tencent.lbssearch.httpresponse.BaseObject;
 import com.tencent.lbssearch.httpresponse.HttpResponseListener;
@@ -145,7 +144,7 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
         if(markerList.size()>0) {
             moveCameraByMarkers();
         }
-        else Toast.makeText(activity,"目前没有活动",Toast.LENGTH_SHORT).show();
+        else Utils.toastImmediately("目前没有活动");
         tencentMap.setOnInfoWindowClickListener(new TencentMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
@@ -206,7 +205,7 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
         if(markerList.size()>0) {
             moveCameraByMarkers();
         }
-        else Toast.makeText(activity,"目前没有活动",Toast.LENGTH_SHORT).show();
+        else Utils.toastImmediately("目前没有活动");
     }
 
     public void updateExerciseMarkers(String tagId){
@@ -216,7 +215,7 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
         if(markerList.size()>0) {
             moveCameraByMarkers();
         }
-        else Toast.makeText(activity,"本标签目前没有活动",Toast.LENGTH_SHORT).show();
+        else Utils.toastImmediately("目前没有活动");
     }
 
     public void removeAllMarkers(){
@@ -418,7 +417,7 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
             @Override
             public void onFailure(int arg0, Header[] arg1, String arg2, Throwable arg3) {
                 // TODO Auto-generated method stub
-                Toast.makeText(activity,arg2, Toast.LENGTH_SHORT).show();
+                Utils.toastImmediately(arg2);
             }
         });
         WeGoLocation weGoLocation = new WeGoLocation(latLng);
@@ -471,13 +470,13 @@ public class QQMapSupporter implements TencentLocationListener,TencentMap.OnMapL
             int err = locationManager.requestLocationUpdates(locationRequest, this);
             switch (err) {
                 case 1:
-                    Toast.makeText(activity,"设备缺少使用腾讯定位服务需要的基本条件", Toast.LENGTH_SHORT).show();
+                    Utils.toastImmediately("设备缺少使用腾讯定位服务需要的基本条件");
                     break;
                 case 2:
-                    Toast.makeText(activity,"manifest 中配置的 key 不正确", Toast.LENGTH_SHORT).show();
+                    Utils.toastImmediately("Manifest 中配置的 key 不正确");
                     break;
                 case 3:
-                    Toast.makeText(activity,"自动加载libtencentloc.so失败", Toast.LENGTH_SHORT).show();
+                    Utils.toastImmediately("自动加载libtencentloc.so失败");
                     break;
 
                 default:
